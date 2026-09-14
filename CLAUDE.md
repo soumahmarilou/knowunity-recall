@@ -27,6 +27,7 @@ Static mobile prototype (Next.js) of Knowunity's voice-based active-recall featu
 - Never trap the student — every required step needs a way out (skip, text fallback, cancel-and-re-record). See design-brief.md § Hard constraints.
 - Never auto-detect when the student is done talking — push-to-talk with an explicit send only, no auto-endpointing. See design-brief.md § Hard constraints and voice-ux.md § Principle 2.
 - Never edit AGENTS.md.
+- Never edit `build/css/tokens.css` by hand — it's generated; edit [tokens/tokens.json](tokens/tokens.json) and run `npm run tokens`.
 
 ## File map
 
