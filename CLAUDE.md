@@ -29,6 +29,14 @@ Static mobile prototype (Next.js) of Knowunity's voice-based active-recall featu
 - Never edit AGENTS.md.
 - Never edit `build/css/tokens.css` by hand — it's generated; edit [tokens/tokens.json](tokens/tokens.json) and run `npm run tokens`.
 
+## Storybook
+
+When working on UI, use the storybook tools to read the component
+library before answering or writing anything. Never assume a
+component prop exists. Query the documentation, and use only props
+that are documented or shown in a story. If a prop isn't there,
+stop and ask me.
+
 ## File map
 
 - [AGENTS.md](AGENTS.md) — Next.js version rules; read before any Next.js code. Do not edit.

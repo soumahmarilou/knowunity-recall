@@ -200,12 +200,12 @@
   --typography-line-height-5xl: 88px; /** 88px line height, used by Display M. */
   --typography-font-family-default: 'Greed Standard-TRIAL'; /** Used by every text style except Display L. */
   --typography-font-family-display: 'Greed Standard-TRIAL'; /** Intended for Display L, but Display L is currently bound to fontFamily.default instead; unused. */
-  --typography-font-weight-regular: regular; /** Used by body copy and the Regular variants of Headline XS and XXS. */
-  --typography-font-weight-semibold: semi-bold; /** Used by the Bold-labeled variants of Headline XS and XXS, Body and Caption. */
+  --typography-font-weight-regular: normal; /** Used by body copy and the Regular variants of Headline XS and XXS. */
+  --typography-font-weight-semibold: bold; /** Used by the Bold-labeled variants of Headline XS and XXS, Body and Caption. */
   --typography-font-weight-bold: bold; /** Used by Display M and S, and Headline XL through S. */
-  --typography-font-weight-heavy: heavy; /** Used by Display L only, paired with fontFamily.display. */
+  --typography-font-weight-heavy: bolder; /** Used by Display L only, paired with fontFamily.display. */
   --typography-scale-display-l-font-family: 'Greed Standard-TRIAL'; /** Font family for Display L. */
-  --typography-scale-display-l-font-weight: heavy; /** Font weight for Display L. */
+  --typography-scale-display-l-font-weight: bolder; /** Font weight for Display L. */
   --typography-scale-display-l-font-size: 103px; /** Font size for Display L. */
   --typography-scale-display-l-line-height: 104px; /** Line height for Display L. */
   --typography-scale-display-m-font-family: 'Greed Standard-TRIAL'; /** Font family for Display M. */
@@ -233,51 +233,51 @@
   --typography-scale-headline-s-font-size: 21px; /** Font size for Headline S. */
   --typography-scale-headline-s-line-height: 24px; /** Line height for Headline S. */
   --typography-scale-headline-xs-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline XS Bold. */
-  --typography-scale-headline-xs-bold-font-weight: semi-bold; /** Font weight for Headline XS Bold. */
+  --typography-scale-headline-xs-bold-font-weight: bold; /** Font weight for Headline XS Bold. */
   --typography-scale-headline-xs-bold-font-size: 18px; /** Font size for Headline XS Bold. */
   --typography-scale-headline-xs-bold-line-height: 20px; /** Line height for Headline XS Bold. */
   --typography-scale-headline-xs-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline XS Regular. */
-  --typography-scale-headline-xs-regular-font-weight: regular; /** Font weight for Headline XS Regular. */
+  --typography-scale-headline-xs-regular-font-weight: normal; /** Font weight for Headline XS Regular. */
   --typography-scale-headline-xs-regular-font-size: 18px; /** Font size for Headline XS Regular. */
   --typography-scale-headline-xs-regular-line-height: 20px; /** Line height for Headline XS Regular. */
   --typography-scale-headline-xxs-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline XXS Bold. */
-  --typography-scale-headline-xxs-bold-font-weight: semi-bold; /** Font weight for Headline XXS Bold. */
+  --typography-scale-headline-xxs-bold-font-weight: bold; /** Font weight for Headline XXS Bold. */
   --typography-scale-headline-xxs-bold-font-size: 15px; /** Font size for Headline XXS Bold. */
   --typography-scale-headline-xxs-bold-line-height: 16px; /** Line height for Headline XXS Bold. */
   --typography-scale-headline-xxs-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline XXS Regular. */
-  --typography-scale-headline-xxs-regular-font-weight: regular; /** Font weight for Headline XXS Regular. */
+  --typography-scale-headline-xxs-regular-font-weight: normal; /** Font weight for Headline XXS Regular. */
   --typography-scale-headline-xxs-regular-font-size: 15px; /** Font size for Headline XXS Regular. */
   --typography-scale-headline-xxs-regular-line-height: 16px; /** Line height for Headline XXS Regular. */
   --typography-scale-body-m-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Body M Bold. */
-  --typography-scale-body-m-bold-font-weight: semi-bold; /** Font weight for Body M Bold. */
+  --typography-scale-body-m-bold-font-weight: bold; /** Font weight for Body M Bold. */
   --typography-scale-body-m-bold-font-size: 18px; /** Font size for Body M Bold. */
   --typography-scale-body-m-bold-line-height: 24px; /** Line height for Body M Bold. */
   --typography-scale-body-m-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Body M Regular. */
-  --typography-scale-body-m-regular-font-weight: regular; /** Font weight for Body M Regular. */
+  --typography-scale-body-m-regular-font-weight: normal; /** Font weight for Body M Regular. */
   --typography-scale-body-m-regular-font-size: 18px; /** Font size for Body M Regular. */
   --typography-scale-body-m-regular-line-height: 24px; /** Line height for Body M Regular. */
   --typography-scale-body-s-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Body S Bold. */
-  --typography-scale-body-s-bold-font-weight: semi-bold; /** Font weight for Body S Bold. */
+  --typography-scale-body-s-bold-font-weight: bold; /** Font weight for Body S Bold. */
   --typography-scale-body-s-bold-font-size: 15px; /** Font size for Body S Bold. */
   --typography-scale-body-s-bold-line-height: 20px; /** Line height for Body S Bold. */
   --typography-scale-body-s-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Body S Regular. */
-  --typography-scale-body-s-regular-font-weight: regular; /** Font weight for Body S Regular. */
+  --typography-scale-body-s-regular-font-weight: normal; /** Font weight for Body S Regular. */
   --typography-scale-body-s-regular-font-size: 15px; /** Font size for Body S Regular. */
   --typography-scale-body-s-regular-line-height: 20px; /** Line height for Body S Regular. */
   --typography-scale-caption-m-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Caption M Bold. */
-  --typography-scale-caption-m-bold-font-weight: semi-bold; /** Font weight for Caption M Bold. */
+  --typography-scale-caption-m-bold-font-weight: bold; /** Font weight for Caption M Bold. */
   --typography-scale-caption-m-bold-font-size: 12px; /** Font size for Caption M Bold. */
   --typography-scale-caption-m-bold-line-height: 16px; /** Line height for Caption M Bold. */
   --typography-scale-caption-m-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Caption M Regular. */
-  --typography-scale-caption-m-regular-font-weight: regular; /** Font weight for Caption M Regular. */
+  --typography-scale-caption-m-regular-font-weight: normal; /** Font weight for Caption M Regular. */
   --typography-scale-caption-m-regular-font-size: 12px; /** Font size for Caption M Regular. */
   --typography-scale-caption-m-regular-line-height: 16px; /** Line height for Caption M Regular. */
   --typography-scale-caption-s-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Caption S Bold. */
-  --typography-scale-caption-s-bold-font-weight: semi-bold; /** Font weight for Caption S Bold. */
+  --typography-scale-caption-s-bold-font-weight: bold; /** Font weight for Caption S Bold. */
   --typography-scale-caption-s-bold-font-size: 9px; /** Font size for Caption S Bold. */
   --typography-scale-caption-s-bold-line-height: 12px; /** Line height for Caption S Bold. */
   --typography-scale-caption-s-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Caption S Regular. */
-  --typography-scale-caption-s-regular-font-weight: regular; /** Font weight for Caption S Regular. */
+  --typography-scale-caption-s-regular-font-weight: normal; /** Font weight for Caption S Regular. */
   --typography-scale-caption-s-regular-font-size: 9px; /** Font size for Caption S Regular. */
   --typography-scale-caption-s-regular-line-height: 12px; /** Line height for Caption S Regular. */
 }
