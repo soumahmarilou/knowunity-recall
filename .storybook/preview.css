@@ -1,0 +1,16 @@
+/**
+ * Storybook-only stylesheet. Pulls in the real app's global styles
+ * (which already load the design tokens from build/css/tokens.css),
+ * then locks the canvas to dark mode regardless of the viewer's OS
+ * or browser theme setting — this prototype is dark mode only.
+ */
+@import '../src/app/globals.css';
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-background-page);
+  color: var(--color-text-primary);
+}
