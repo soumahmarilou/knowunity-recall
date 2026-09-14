@@ -18,7 +18,12 @@
 /out/
 
 # production
-/build
+/build/*
+# ...except the generated design tokens CSS, which must be tracked so the
+# project still builds right after a fresh clone. (A fully-excluded parent
+# directory can't be re-included by a child pattern, hence /build/* here
+# instead of /build.)
+!/build/css/
 
 # misc
 .DS_Store

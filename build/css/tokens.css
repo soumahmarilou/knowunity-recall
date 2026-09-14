@@ -1,0 +1,283 @@
+/**
+ * GENERATED FILE — do not edit by hand.
+ * Source of truth: tokens/tokens.json
+ * To change a value, edit that file and run `npm run tokens`.
+ */
+
+:root {
+  --color-navy-800: #22242f;
+  --color-navy-900: #1a1c26;
+  --color-navy-950: #090c18;
+  --color-neutral-0: #ffffff;
+  --color-neutral-950: #0a0a0a;
+  --color-violet-50: #f4f2ff;
+  --color-violet-100: #e4e0ff;
+  --color-violet-200: #d2ccfa;
+  --color-violet-300: #a78bfa;
+  --color-violet-400: #7b65e0;
+  --color-violet-500: #9178e6;
+  --color-violet-900: #15103a;
+  --color-violet-950: #0e0a18;
+  --color-green-300: #4ae5b0;
+  --color-green-500: #00c386;
+  --color-green-900: #0a2e22;
+  --color-green-950: #0a1f18;
+  --color-red-200: #fca5a5;
+  --color-red-300: #ff8585;
+  --color-red-400: #ff6b6b;
+  --color-red-500: #e85555;
+  --color-red-900: #532831;
+  --color-red-950: #2a0808;
+  --color-coral-200: #ffb59b;
+  --color-coral-400: #fb7e5b;
+  --color-coral-900: #512e2c;
+  --color-coral-950: #2e0f06;
+  --color-blue-300: #7ba8f2;
+  --color-blue-400: #5fa0fc;
+  --color-blue-900: #0a1635;
+  --color-blue-950: #06173b;
+  --color-magenta-200: #f7b5de;
+  --color-magenta-400: #e879c0;
+  --color-magenta-900: #380d29;
+  --color-magenta-950: #2c0a20;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #f5b53d;
+  --color-gold-900: #3a2d0b;
+  --color-gold-950: #2a1d04;
+  --color-alpha-light-10: rgba(255, 255, 255, 0.102);
+  --color-alpha-light-18: rgba(255, 255, 255, 0.1804);
+  --color-alpha-light-24: rgba(255, 255, 255, 0.2392);
+  --color-alpha-light-25: rgba(255, 255, 255, 0.251);
+  --color-alpha-light-40: rgba(255, 255, 255, 0.4);
+  --color-alpha-light-48: rgba(245, 243, 255, 0.4784);
+  --color-alpha-light-68: rgba(245, 243, 255, 0.6784);
+  --color-alpha-dark-10: rgba(10, 10, 10, 0.102);
+  --color-alpha-dark-50: rgba(10, 10, 10, 0.502);
+  --color-alpha-glass-60: rgba(61, 61, 61, 0.6);
+  --color-alpha-light-6: rgba(255, 255, 255, 0.0588);
+  --color-homie-inkwell: #9178e6;
+  --color-homie-eyes: #0a0a0a;
+  --color-background-page: #090c18; /** The root screen canvas, use as every screen's base background, not for cards, sheets or modals. */
+  --color-background-surface: #22242f; /** Elevated container fill, use for cards, bottom sheets, modals, dropdowns and chat bubbles, not page-level background. */
+  --color-background-inverse: #f4f2ff; /** Dark block on a light screen, use for tooltips, toasts and snackbars sitting on light backgrounds. */
+  --color-background-scrim: rgba(10, 10, 10, 0.502); /** Semi-transparent overlay dimming content behind a modal, use behind modals, dialogs and bottom sheets. */
+  --color-background-floating: rgba(61, 61, 61, 0.6); /** Elevated floating surface with translucency, use for dropdown menus, tooltips and popovers with a frosted-glass effect. */
+  --color-background-stacking: rgba(255, 255, 255, 0.102); /** Additive white layer for stacking elevation on dark surfaces, use for toasts and floating notifications needing subtle lift. */
+  --color-background-input: #1a1c26; /** Fill of an editable field, use for text inputs, textareas and search fields at rest, not for read-only surfaces. */
+  --color-text-primary: #f4f2ff; /** Highest-contrast text, use for headlines, body copy and titles, the default when unsure which text token to pick. */
+  --color-text-secondary: rgba(245, 243, 255, 0.6784); /** Reduced-emphasis text, use for subtitles, captions, timestamps and helper text. */
+  --color-text-inverse: #090c18; /** Dark text on light or vivid surfaces, use on background.inverse and bright accent fills. */
+  --color-text-link: #9178e6; /** Inline hyperlink text only, not for buttons or nav items. */
+  --color-text-link-hover: #a78bfa; /** Hover state of text.link, for pointer hover on inline hyperlinks. */
+  --color-text-disabled: rgba(255, 255, 255, 0.4); /** Low-contrast text signaling unavailable or not-yet-filled, use on disabled controls and empty-field placeholders. */
+  --color-text-tertiary: rgba(245, 243, 255, 0.4784); /** Lowest-emphasis readable text, use for timestamps, counts and inline hints, never for anything a student must read to proceed. */
+  --color-text-success: #4ae5b0; /** Confirmation text, use for messages like 'Correct', not as a fill. */
+  --color-text-error: #fca5a5; /** Validation message text, use on the line under a failed field. */
+  --color-text-warning: #fcd34d; /** Caution text, use for limits and expiry notices like 'one attempt left'. */
+  --color-text-on-accent: #0e0a18; /** Text sitting on any accent.*.bold fill, must contrast at least 4.5:1 against it. */
+  --color-border-default: rgba(255, 255, 255, 0.102); /** Standard container edge, use for card outlines, dividers and input borders at rest, not for selected elements. */
+  --color-border-strong: rgba(255, 255, 255, 0.251); /** Higher contrast container edge, use for dividers that must read at a glance and rules on busy surfaces. */
+  --color-border-focus: #a78bfa; /** The visible keyboard focus ring on any focusable element, never remove without a replacement. */
+  --color-border-error: #ff6b6b; /** Invalid input edge, use for text fields and selects that failed validation. */
+  --color-border-success: #00c386; /** Validated input edge, use for fields confirmed correct. */
+  --color-border-selected: #9178e6; /** Edge of a chosen element, use for selected cards, active tabs and chosen answer options. */
+  --color-interactive-primary: #f4f2ff; /** The main call-to-action fill, use for the one primary button per screen, not for selected cards or links. */
+  --color-interactive-secondary: rgba(255, 255, 255, 0.102); /** Supporting-action fill, use for skip, cancel, filter chips and outlined buttons, not the primary CTA. */
+  --color-interactive-destructive: #ff6b6b; /** Irreversible harmful-action fill, use for delete, remove and block buttons, not validation errors. */
+  --color-interactive-disabled: rgba(255, 255, 255, 0.0588); /** Non-interactive control fill signaling unavailable, use for disabled buttons, toggles and sliders. */
+  --color-interactive-on-primary: #090c18; /** Text and icon color on interactive.primary fills, must contrast at least 4.5:1. */
+  --color-interactive-on-secondary: #f4f2ff; /** Text and icon color inside secondary buttons, toggles and filter chips. */
+  --color-interactive-on-destructive: #2a0808; /** Text and icon color on interactive.destructive fills, must contrast at least 4.5:1. */
+  --color-interactive-pressed: rgba(255, 255, 255, 0.102); /** Press overlay for tap feedback on light or vivid surfaces, applied over the resting fill. */
+  --color-interactive-pressed-inverse: rgba(10, 10, 10, 0.102); /** Press overlay for tap feedback on dark surfaces like cards on the page background, applied over the resting fill. */
+  --color-interactive-primary-hover: #e4e0ff; /** Hover state of interactive.primary, for pointer hover on primary buttons. */
+  --color-interactive-primary-active: #d2ccfa; /** Pressed state of interactive.primary, the moment of click or tap. */
+  --color-interactive-secondary-hover: rgba(255, 255, 255, 0.1804); /** Hover state of interactive.secondary, for pointer hover on secondary buttons, chips and toggles. */
+  --color-interactive-secondary-active: rgba(255, 255, 255, 0.2392); /** Pressed state of interactive.secondary. */
+  --color-interactive-destructive-hover: #ff8585; /** Hover state of interactive.destructive, for pointer hover on delete and remove buttons. */
+  --color-interactive-destructive-active: #e85555; /** Pressed state of interactive.destructive. */
+  --color-feedback-success-bold: #00c386; /** Solid success fill, use for correct-answer banners and completion states, not decorative green. */
+  --color-feedback-success-on-bold: #0a1f18; /** Text and icon color on top of feedback.success.bold. */
+  --color-feedback-success-subtle: #0a2e22; /** Tinted success background, use for the panel behind a correct result. */
+  --color-feedback-success-on-subtle: #4ae5b0; /** Text and icon color on top of feedback.success.subtle. */
+  --color-feedback-error-bold: #ff6b6b; /** Solid error fill, use for incorrect-answer banners and failed validation summaries, not destructive buttons. */
+  --color-feedback-error-on-bold: #2a0808; /** Text and icon color on top of feedback.error.bold. */
+  --color-feedback-error-subtle: #532831; /** Tinted error background, use for the panel behind a wrong result. */
+  --color-feedback-error-on-subtle: #fca5a5; /** Text and icon color on top of feedback.error.subtle. */
+  --color-feedback-info-bold: #5fa0fc; /** Solid informational fill, use for neutral banners and hint callouts, not decorative blue. */
+  --color-feedback-info-on-bold: #06173b; /** Text and icon color on top of feedback.info.bold. */
+  --color-feedback-info-subtle: #0a1635; /** Tinted informational background, use for the panel behind an informational message. */
+  --color-feedback-info-on-subtle: #7ba8f2; /** Text and icon color on top of feedback.info.subtle. */
+  --color-accent-1-bold: #00c386; /** Solid decorative accent fill, no fixed meaning (confirmed with Marilou), for illustration and visual variety only. */
+  --color-accent-1-on-bold: #0a1f18; /** Text and icon color on top of accent.1.bold. */
+  --color-accent-1-subtle: #0a2e22; /** Tinted decorative accent background, no fixed meaning (confirmed with Marilou). */
+  --color-accent-1-on-subtle: #4ae5b0; /** Text and icon color on top of accent.1.subtle. */
+  --color-accent-2-bold: #fb7e5b; /** Solid decorative accent fill, no fixed meaning (confirmed with Marilou), for illustration and visual variety only. */
+  --color-accent-2-on-bold: #2e0f06; /** Text and icon color on top of accent.2.bold. */
+  --color-accent-2-subtle: #512e2c; /** Tinted decorative accent background, no fixed meaning (confirmed with Marilou). */
+  --color-accent-2-on-subtle: #ffb59b; /** Text and icon color on top of accent.2.subtle. */
+  --color-accent-3-bold: #5fa0fc; /** Solid decorative accent fill, no fixed meaning (confirmed with Marilou), for illustration and visual variety only. */
+  --color-accent-3-on-bold: #06173b; /** Text and icon color on top of accent.3.bold. */
+  --color-accent-3-subtle: #0a1635; /** Tinted decorative accent background, no fixed meaning (confirmed with Marilou). */
+  --color-accent-3-on-subtle: #7ba8f2; /** Text and icon color on top of accent.3.subtle. */
+  --color-accent-4-bold: #e879c0; /** Solid decorative accent fill, no fixed meaning (confirmed with Marilou), for illustration and visual variety only. */
+  --color-accent-4-on-bold: #2c0a20; /** Text and icon color on top of accent.4.bold. */
+  --color-accent-4-subtle: #380d29; /** Tinted decorative accent background, no fixed meaning (confirmed with Marilou). */
+  --color-accent-4-on-subtle: #f7b5de; /** Text and icon color on top of accent.4.subtle. */
+  --color-accent-brand-bold: #9178e6; /** Solid brand violet fill, use for brand moments like onboarding hero panels, not primary CTAs. */
+  --color-accent-brand-on-bold: #0e0a18; /** Text and icon color on top of accent.brand.bold. */
+  --color-accent-brand-subtle: #15103a; /** Low-emphasis brand fill, use for tinted brand panels. */
+  --color-accent-brand-on-subtle: #7b65e0; /** Text and icon color on top of accent.brand.subtle. */
+  --color-pro-bold: #f5b53d; /** Solid PRO fill, use for PRO badges and upgrade banners, not warnings. */
+  --color-pro-on-bold: #2a1d04; /** Text and icon color on top of pro.bold. */
+  --color-pro-subtle: #3a2d0b; /** Low-emphasis PRO fill for softer paid-tier callouts. */
+  --color-pro-on-subtle: #fcd34d; /** Text and icon color on top of pro.subtle. */
+  --color-mascot-primary: #9178e6; /** Homie's signature violet, use for the mascot illustration and full-screen mascot-hero moments like onboarding, not for buttons or PRO badges. */
+  --color-mascot-eyes: #ffffff; /** Homie's eye-white color, mascot illustration only. */
+  --color-mascot-pupils: #0a0a0a; /** Homie's pupil color, mascot illustration only. */
+  --spacing-0: 0px; /** 0px spacing step, use for gaps and padding in auto layout. */
+  --spacing-100: 4px; /** 4px spacing step, use for gaps and padding in auto layout. */
+  --spacing-150: 6px; /** 6px spacing step, use for gaps and padding in auto layout. */
+  --spacing-200: 8px; /** 8px spacing step, use for gaps and padding in auto layout. */
+  --spacing-300: 12px; /** 12px spacing step, use for gaps and padding in auto layout. */
+  --spacing-400: 16px; /** 16px spacing step, use for gaps and padding in auto layout. */
+  --spacing-600: 24px; /** 24px spacing step, use for gaps and padding in auto layout. */
+  --spacing-700: 28px; /** 28px spacing step, use for gaps and padding in auto layout. */
+  --spacing-800: 32px; /** 32px spacing step, use for gaps and padding in auto layout. */
+  --spacing-1200: 48px; /** 48px spacing step, use for gaps and padding in auto layout. */
+  --spacing-1600: 64px; /** 64px spacing step, use for gaps and padding in auto layout. */
+  --spacing-2400: 96px; /** 96px spacing step, use for gaps and padding in auto layout. */
+  --spacing-4000: 160px; /** 160px spacing step, use for gaps and padding in auto layout. */
+  --spacing-050: 2px; /** 2px spacing step, use for gaps and padding in auto layout. */
+  --spacing-negative-100: -4px; /** -4px spacing step, use for gaps and padding in auto layout. */
+  --spacing-negative-200: -8px; /** -8px spacing step, use for gaps and padding in auto layout. */
+  --spacing-negative-300: -12px; /** -12px spacing step, use for gaps and padding in auto layout. */
+  --spacing-negative-400: -16px; /** -16px spacing step, use for gaps and padding in auto layout. */
+  --spacing-negative-600: -24px; /** -24px spacing step, use for gaps and padding in auto layout. */
+  --radius-100: 4px; /** 4px corner radius. */
+  --radius-150: 6px; /** 6px corner radius. */
+  --radius-200: 8px; /** 8px corner radius. */
+  --radius-400: 16px; /** 16px corner radius. */
+  --radius-600: 24px; /** 24px corner radius. */
+  --radius-800: 32px; /** 32px corner radius. */
+  --radius-900: 36px; /** 36px corner radius. */
+  --radius-full: 9999px; /** Fully rounded corner radius. */
+  --stroke-border: 1px; /** 1px stroke weight. */
+  --stroke-heavy-border: 2px; /** 2px stroke weight. */
+  --icon-100: 8px; /** 8px icon box, use for the width and height of an icon frame. */
+  --icon-150: 12px; /** 12px icon box, use for the width and height of an icon frame. */
+  --icon-200: 16px; /** 16px icon box, use for the width and height of an icon frame. */
+  --icon-250: 20px; /** 20px icon box, use for the width and height of an icon frame. */
+  --icon-300: 24px; /** 24px icon box, use for the width and height of an icon frame. */
+  --icon-400: 32px; /** 32px icon box, use for the width and height of an icon frame. */
+  --illustration-500: 40px; /** 40px illustration box, use for mascot and spot illustration sizing. */
+  --illustration-800: 64px; /** 64px illustration box, use for mascot and spot illustration sizing. */
+  --illustration-1500: 120px; /** 120px illustration box, use for mascot and spot illustration sizing. */
+  --illustration-2500: 200px; /** 200px illustration box, use for mascot and spot illustration sizing. */
+  --illustration-4000: 320px; /** 320px illustration box, use for mascot and spot illustration sizing. */
+  --typography-font-size-2xs: 9px; /** 9px, used by Caption S Bold and Caption S Regular. */
+  --typography-font-size-xs: 12px; /** 12px, used by Caption M Bold and Caption M Regular. */
+  --typography-font-size-sm: 15px; /** 15px, used by Headline XXS and Body S, both weights. */
+  --typography-font-size-md: 18px; /** 18px, used by Headline XS and Body M, both weights. */
+  --typography-font-size-lg: 21px; /** 21px, used by Headline S. */
+  --typography-font-size-xl: 28px; /** 28px, used by Headline M. */
+  --typography-font-size-2xl: 33px; /** 33px, used by Headline L. */
+  --typography-font-size-3xl: 44px; /** 44px, used by Headline XL. */
+  --typography-font-size-4xl: 59px; /** 59px, used by Display S. */
+  --typography-font-size-5xl: 76px; /** 76px, used by Display M. */
+  --typography-font-size-6xl: 103px; /** 103px, used by Display L (Condensed Heavy only). */
+  --typography-font-size-root: 16px; /** 16px browser root size, unused by any text style in this file. */
+  --typography-line-height-2xs: 12px; /** 12px line height. */
+  --typography-line-height-xs: 16px; /** 16px line height. */
+  --typography-line-height-sm: 20px; /** 20px line height. */
+  --typography-line-height-md: 24px; /** 24px line height. */
+  --typography-line-height-lg: 28px; /** 28px line height. */
+  --typography-line-height-xl: 36px; /** 36px line height. */
+  --typography-line-height-2xl: 44px; /** 44px line height. */
+  --typography-line-height-3xl: 60px; /** 60px line height. */
+  --typography-line-height-6xl: 104px; /** 104px line height. */
+  --typography-line-height-4xl: 76px; /** 76px line height. Not currently used by any text style (Display M was reassigned to lineHeight.5xl). */
+  --typography-line-height-5xl: 88px; /** 88px line height, used by Display M. */
+  --typography-font-family-default: 'Greed Standard-TRIAL'; /** Used by every text style except Display L. */
+  --typography-font-family-display: 'Greed Standard-TRIAL'; /** Intended for Display L, but Display L is currently bound to fontFamily.default instead; unused. */
+  --typography-font-weight-regular: regular; /** Used by body copy and the Regular variants of Headline XS and XXS. */
+  --typography-font-weight-semibold: semi-bold; /** Used by the Bold-labeled variants of Headline XS and XXS, Body and Caption. */
+  --typography-font-weight-bold: bold; /** Used by Display M and S, and Headline XL through S. */
+  --typography-font-weight-heavy: heavy; /** Used by Display L only, paired with fontFamily.display. */
+  --typography-scale-display-l-font-family: 'Greed Standard-TRIAL'; /** Font family for Display L. */
+  --typography-scale-display-l-font-weight: heavy; /** Font weight for Display L. */
+  --typography-scale-display-l-font-size: 103px; /** Font size for Display L. */
+  --typography-scale-display-l-line-height: 104px; /** Line height for Display L. */
+  --typography-scale-display-m-font-family: 'Greed Standard-TRIAL'; /** Font family for Display M. */
+  --typography-scale-display-m-font-weight: bold; /** Font weight for Display M. */
+  --typography-scale-display-m-font-size: 76px; /** Font size for Display M. */
+  --typography-scale-display-m-line-height: 88px; /** Line height for Display M. */
+  --typography-scale-display-s-font-family: 'Greed Standard-TRIAL'; /** Font family for Display S. */
+  --typography-scale-display-s-font-weight: bold; /** Font weight for Display S. */
+  --typography-scale-display-s-font-size: 59px; /** Font size for Display S. */
+  --typography-scale-display-s-line-height: 60px; /** Line height for Display S. */
+  --typography-scale-headline-xl-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline XL. */
+  --typography-scale-headline-xl-font-weight: bold; /** Font weight for Headline XL. */
+  --typography-scale-headline-xl-font-size: 44px; /** Font size for Headline XL. */
+  --typography-scale-headline-xl-line-height: 44px; /** Line height for Headline XL. */
+  --typography-scale-headline-l-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline L. */
+  --typography-scale-headline-l-font-weight: bold; /** Font weight for Headline L. */
+  --typography-scale-headline-l-font-size: 33px; /** Font size for Headline L. */
+  --typography-scale-headline-l-line-height: 36px; /** Line height for Headline L. */
+  --typography-scale-headline-m-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline M. */
+  --typography-scale-headline-m-font-weight: bold; /** Font weight for Headline M. */
+  --typography-scale-headline-m-font-size: 28px; /** Font size for Headline M. */
+  --typography-scale-headline-m-line-height: 28px; /** Line height for Headline M. */
+  --typography-scale-headline-s-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline S. */
+  --typography-scale-headline-s-font-weight: bold; /** Font weight for Headline S. */
+  --typography-scale-headline-s-font-size: 21px; /** Font size for Headline S. */
+  --typography-scale-headline-s-line-height: 24px; /** Line height for Headline S. */
+  --typography-scale-headline-xs-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline XS Bold. */
+  --typography-scale-headline-xs-bold-font-weight: semi-bold; /** Font weight for Headline XS Bold. */
+  --typography-scale-headline-xs-bold-font-size: 18px; /** Font size for Headline XS Bold. */
+  --typography-scale-headline-xs-bold-line-height: 20px; /** Line height for Headline XS Bold. */
+  --typography-scale-headline-xs-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline XS Regular. */
+  --typography-scale-headline-xs-regular-font-weight: regular; /** Font weight for Headline XS Regular. */
+  --typography-scale-headline-xs-regular-font-size: 18px; /** Font size for Headline XS Regular. */
+  --typography-scale-headline-xs-regular-line-height: 20px; /** Line height for Headline XS Regular. */
+  --typography-scale-headline-xxs-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline XXS Bold. */
+  --typography-scale-headline-xxs-bold-font-weight: semi-bold; /** Font weight for Headline XXS Bold. */
+  --typography-scale-headline-xxs-bold-font-size: 15px; /** Font size for Headline XXS Bold. */
+  --typography-scale-headline-xxs-bold-line-height: 16px; /** Line height for Headline XXS Bold. */
+  --typography-scale-headline-xxs-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Headline XXS Regular. */
+  --typography-scale-headline-xxs-regular-font-weight: regular; /** Font weight for Headline XXS Regular. */
+  --typography-scale-headline-xxs-regular-font-size: 15px; /** Font size for Headline XXS Regular. */
+  --typography-scale-headline-xxs-regular-line-height: 16px; /** Line height for Headline XXS Regular. */
+  --typography-scale-body-m-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Body M Bold. */
+  --typography-scale-body-m-bold-font-weight: semi-bold; /** Font weight for Body M Bold. */
+  --typography-scale-body-m-bold-font-size: 18px; /** Font size for Body M Bold. */
+  --typography-scale-body-m-bold-line-height: 24px; /** Line height for Body M Bold. */
+  --typography-scale-body-m-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Body M Regular. */
+  --typography-scale-body-m-regular-font-weight: regular; /** Font weight for Body M Regular. */
+  --typography-scale-body-m-regular-font-size: 18px; /** Font size for Body M Regular. */
+  --typography-scale-body-m-regular-line-height: 24px; /** Line height for Body M Regular. */
+  --typography-scale-body-s-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Body S Bold. */
+  --typography-scale-body-s-bold-font-weight: semi-bold; /** Font weight for Body S Bold. */
+  --typography-scale-body-s-bold-font-size: 15px; /** Font size for Body S Bold. */
+  --typography-scale-body-s-bold-line-height: 20px; /** Line height for Body S Bold. */
+  --typography-scale-body-s-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Body S Regular. */
+  --typography-scale-body-s-regular-font-weight: regular; /** Font weight for Body S Regular. */
+  --typography-scale-body-s-regular-font-size: 15px; /** Font size for Body S Regular. */
+  --typography-scale-body-s-regular-line-height: 20px; /** Line height for Body S Regular. */
+  --typography-scale-caption-m-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Caption M Bold. */
+  --typography-scale-caption-m-bold-font-weight: semi-bold; /** Font weight for Caption M Bold. */
+  --typography-scale-caption-m-bold-font-size: 12px; /** Font size for Caption M Bold. */
+  --typography-scale-caption-m-bold-line-height: 16px; /** Line height for Caption M Bold. */
+  --typography-scale-caption-m-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Caption M Regular. */
+  --typography-scale-caption-m-regular-font-weight: regular; /** Font weight for Caption M Regular. */
+  --typography-scale-caption-m-regular-font-size: 12px; /** Font size for Caption M Regular. */
+  --typography-scale-caption-m-regular-line-height: 16px; /** Line height for Caption M Regular. */
+  --typography-scale-caption-s-bold-font-family: 'Greed Standard-TRIAL'; /** Font family for Caption S Bold. */
+  --typography-scale-caption-s-bold-font-weight: semi-bold; /** Font weight for Caption S Bold. */
+  --typography-scale-caption-s-bold-font-size: 9px; /** Font size for Caption S Bold. */
+  --typography-scale-caption-s-bold-line-height: 12px; /** Line height for Caption S Bold. */
+  --typography-scale-caption-s-regular-font-family: 'Greed Standard-TRIAL'; /** Font family for Caption S Regular. */
+  --typography-scale-caption-s-regular-font-weight: regular; /** Font weight for Caption S Regular. */
+  --typography-scale-caption-s-regular-font-size: 9px; /** Font size for Caption S Regular. */
+  --typography-scale-caption-s-regular-line-height: 12px; /** Line height for Caption S Regular. */
+}
