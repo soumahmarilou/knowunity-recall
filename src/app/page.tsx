@@ -64,7 +64,7 @@ export default function HomePage() {
           <h1 className={styles.greeting}>
             Evening study session,
             <br />
-            Harry?
+            Maria?
           </h1>
         </div>
 
