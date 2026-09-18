@@ -1,0 +1,29 @@
+.middleContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  /* 48px between the heading, the gauge, and the mascot bubble, per
+     direct instruction (revised once already from an initial 32px). */
+  gap: var(--spacing-1200);
+  padding: var(--spacing-600) var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.heading {
+  margin: 0;
+  color: var(--color-text-primary);
+  text-align: center;
+  font-family: var(--typography-scale-headline-l-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-l-font-weight);
+  font-size: var(--typography-scale-headline-l-font-size);
+  line-height: var(--typography-scale-headline-l-line-height);
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+}

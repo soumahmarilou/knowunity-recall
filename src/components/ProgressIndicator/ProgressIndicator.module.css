@@ -1,0 +1,71 @@
+.root {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: var(--radius-400);
+  background: var(--color-background-stacking);
+}
+
+.thickness24 {
+  height: var(--spacing-600);
+}
+
+.thickness16 {
+  height: var(--spacing-400);
+}
+
+/* Figma: thickness=24 insets its fill track by 2px on every side (a
+   visible border between the track and the pill fill); thickness=16 has
+   no inset at all, confirmed directly against both live components. */
+.track {
+  position: absolute;
+  display: flex;
+  align-items: center;
+}
+
+.thickness24 .track {
+  inset: var(--spacing-050);
+}
+
+.thickness16 .track {
+  inset: 0;
+}
+
+.fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: none;
+}
+
+/* Even at progress=0 the fill stays visible as a small pill rather than
+   disappearing to zero width — confirmed directly against the live
+   component (0% still renders a fill exactly as wide as the track is
+   tall). Reproduced via min-width instead of hardcoding a pixel figure. */
+.thickness24 .fill {
+  min-width: var(--spacing-500);
+}
+
+.thickness16 .fill {
+  min-width: var(--spacing-400);
+}
+
+.fillPrimary {
+  background: var(--color-accent-1-bold);
+}
+
+.fillCoral {
+  background: var(--color-accent-2-bold);
+}
+
+.text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-interactive-on-secondary);
+  font-family: var(--typography-scale-caption-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-s-bold-font-weight);
+  font-size: var(--typography-scale-caption-s-bold-font-size);
+  line-height: var(--typography-scale-caption-s-bold-line-height);
+}

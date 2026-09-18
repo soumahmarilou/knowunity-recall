@@ -1,0 +1,136 @@
+/* Per direct instruction: the whole box (label + content together) is
+   what should size/grow to fit its content, not just an inner piece —
+   the border wraps this outer element, not .content, so it always
+   outlines the box as a whole. A fixed stroke-heavy-border (2px) — not
+   previously built at all, despite every other bordered element in this
+   app using one of the two stroke tokens — stays that literal 2px
+   regardless of how wide the value text inside gets.
+   border-color is set per variant below, not here: --color-border-default
+   (a ~10%-white overlay meant for dark surfaces, per its own token
+   comment) is essentially invisible against this box's own bright
+   accent-bold fill — each variant's own "on-bold" color (already used for
+   its label/value text, so it's already a proven-visible color on that
+   same fill) doubles as the border color instead. */
+.statBox {
+  display: inline-flex;
+  flex-direction: column;
+  /* Stretch (not center) so .label and .content always span the box's
+     own full width — including when a consuming screen widens the whole
+     box past its content's natural size (e.g. two StatBoxes filling a
+     row via `flex: 1`, see Free Recall Challenge's Final Summary). With
+     `center`, the inner .content pill stayed at its own fit-content
+     width and just sat centered, leaving a large empty gap between it
+     and the box's real left/right border instead of the tight ~2px
+     relationship a border implies — per direct correction. */
+  align-items: stretch;
+  width: fit-content;
+  border-style: solid;
+  border-width: var(--stroke-heavy-border);
+  border-radius: var(--radius-400);
+  box-sizing: border-box;
+  /* .content's own dark background sat flush against this border on the
+     sides and bottom (top is fine — .label has no background of its own,
+     so the bold fill shows right up to the border there already) — with
+     no gap between two dark colors, the border read as barely there.
+     This padding lets a sliver of the box's own bold accent color show
+     between .content and the border on those three sides, per direct
+     correction ("see the colored borders slightly more, ~2px, on the
+     sides and bottom"). */
+  padding: 0 var(--spacing-050) var(--spacing-050);
+}
+
+.color1 {
+  background: var(--color-accent-1-bold);
+  border-color: var(--color-accent-1-on-bold);
+}
+.color2 {
+  background: var(--color-accent-2-bold);
+  border-color: var(--color-accent-2-on-bold);
+}
+.color3 {
+  background: var(--color-accent-3-bold);
+  border-color: var(--color-accent-3-on-bold);
+}
+.color4 {
+  background: var(--color-accent-4-bold);
+  border-color: var(--color-accent-4-on-bold);
+}
+.colorBrand {
+  background: var(--color-accent-brand-bold);
+  border-color: var(--color-accent-brand-on-bold);
+}
+
+.label {
+  display: inline-flex;
+  align-items: var(--layout-align-center);
+  justify-content: var(--layout-align-center);
+  padding-left: var(--spacing-200);
+  padding-right: var(--spacing-200);
+  border-radius: var(--radius-100);
+  white-space: nowrap;
+  font-family: var(--typography-scale-body-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-bold-font-weight);
+  font-size: var(--typography-scale-body-s-bold-font-size);
+  line-height: var(--typography-scale-body-s-bold-line-height);
+}
+
+.label1 {
+  color: var(--color-accent-1-on-bold);
+}
+.label2 {
+  color: var(--color-accent-2-on-bold);
+}
+.label3 {
+  color: var(--color-accent-3-on-bold);
+}
+.label4 {
+  color: var(--color-accent-4-on-bold);
+}
+.labelBrand {
+  color: var(--color-accent-brand-on-bold);
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: var(--layout-align-center);
+  /* Centers the icon+value pair now that .content itself stretches to
+     the box's full width instead of shrinking to fit them — without
+     this they'd hug the left edge once there's extra width to fill. */
+  justify-content: var(--layout-align-center);
+  gap: var(--spacing-150);
+  box-sizing: border-box;
+  padding: var(--spacing-300);
+  border-radius: var(--radius-400);
+  background: var(--color-background-page);
+}
+
+.value {
+  white-space: nowrap;
+  /* Figma's real value is 24px/Greed Condensed-TRIAL/Heavy — no token
+     matches any part of that (no 24px step, no Condensed family token
+     anywhere in tokens.json — even Display L's own family token points to
+     Greed Standard, flagged there as unused — and the Heavy weight token
+     only ever pairs with Display L's 103px). Using the closest existing
+     token, Headline S, per direction. */
+  font-family: var(--typography-scale-headline-s-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-s-font-weight);
+  font-size: var(--typography-scale-headline-s-font-size);
+  line-height: var(--typography-scale-headline-s-line-height);
+}
+
+.value1 {
+  color: var(--color-accent-1-bold);
+}
+.value2 {
+  color: var(--color-accent-2-bold);
+}
+.value3 {
+  color: var(--color-accent-3-bold);
+}
+.value4 {
+  color: var(--color-accent-4-bold);
+}
+.valueBrand {
+  color: var(--color-accent-brand-bold);
+}

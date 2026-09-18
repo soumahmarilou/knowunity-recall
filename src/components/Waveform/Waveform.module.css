@@ -1,0 +1,17 @@
+.waveform {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-125);
+  height: var(--spacing-1000);
+}
+
+.bar {
+  flex-shrink: 0;
+  width: var(--spacing-075);
+  border-radius: var(--radius-full);
+  background: var(--color-accent-1-bold);
+  /* Smooths the per-frame jumps from useMicLevel's real-time amplitude
+     sampling without visibly lagging behind the actual voice input. */
+  transition: height 90ms linear;
+}

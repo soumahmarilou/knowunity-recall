@@ -1,0 +1,102 @@
+.badges {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+
+/* Figma nests the real content one level deeper than this (inside
+   topNavigation's own middleContent, alongside the AppBar, rather than
+   the screen's own dedicated middleContent slot — which sits empty
+   except for a decorative Scrim). Treated as an authoring artifact, not
+   reproduced — this is the screen's real content area regardless of
+   which named slot Figma technically put it in. */
+.middleContent {
+  display: flex;
+  flex-direction: column;
+  /* flex:1 + space-between: the greeting stays under the AppBar, and the
+     activity-card row gets pushed down to sit directly above
+     .bottomContent — per direct request, so the whole activity-cards /
+     chat-input / nav-bar cluster reads as pinned to the bottom of the
+     screen instead of stacking right under the greeting with empty space
+     below the nav bar. */
+  flex: 1;
+  justify-content: space-between;
+  gap: var(--spacing-800);
+  padding: var(--spacing-600) var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Figma's own gap here is an odd unbound 10.88px — nearest real token,
+     spacing-200 (8px), used instead of inventing a fractional value. */
+  gap: var(--spacing-200);
+}
+
+/* Same headline-l situation as every other hero heading built so far —
+   see component-gaps.md. */
+.greeting {
+  margin: 0;
+  color: var(--color-text-primary);
+  text-align: center;
+  font-family: var(--typography-scale-headline-l-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-l-font-weight);
+  font-size: var(--typography-scale-headline-l-font-size);
+  line-height: var(--typography-scale-headline-l-line-height);
+}
+
+/* 4 fixed 120px-wide cards + 12px gaps = 516px, wider than the 358px
+   content area — Figma's own row is a FIXED, not HUG, box at that width,
+   so this scrolls horizontally rather than wrapping. */
+.activityRow {
+  display: flex;
+  gap: var(--spacing-300);
+  overflow-x: auto;
+  cursor: grab;
+  /* Scrolls by mouse-drag now (useDragScroll), same gesture a touchscreen
+     already gives for free — the native scrollbar reads as desktop chrome
+     on top of that, so it's hidden rather than left showing alongside it. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.activityRow::-webkit-scrollbar {
+  display: none;
+}
+.activityRow > * {
+  flex-shrink: 0;
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-0) var(--spacing-400) var(--spacing-400);
+  box-sizing: border-box;
+}
+
+/* Same overflow situation as .activityRow — 4 labeled buttons don't fit
+   358px either. */
+.quickActionsRow {
+  display: flex;
+  gap: var(--spacing-200);
+  overflow-x: auto;
+  cursor: grab;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.quickActionsRow::-webkit-scrollbar {
+  display: none;
+}
+.quickActionsRow > * {
+  flex-shrink: 0;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-100) var(--spacing-0);
+  gap: var(--spacing-800);
+}

@@ -1,0 +1,183 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--typography-font-family-default), sans-serif;
+  min-height: var(--spacing-1200);
+  padding-top: var(--spacing-150);
+  padding-bottom: var(--spacing-150);
+  cursor: pointer;
+}
+
+/* Figma's real button height also includes a small, unbound raw padding on
+   an inner "Content" frame (2px at S/M, 4px at L) that has no matching
+   token anywhere in tokens.json. It's intentionally omitted here rather
+   than hardcoded as a raw pixel value — the S/M sizes render identically
+   to Figma either way (content already sits within the 48px minimum), and
+   L renders at 48px instead of Figma's 56px. Known, disclosed gap. */
+
+.button:disabled {
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.sizeS {
+  gap: var(--spacing-150);
+  padding-left: var(--spacing-300);
+  padding-right: var(--spacing-300);
+}
+
+.sizeM {
+  gap: var(--spacing-150);
+  padding-left: var(--spacing-400);
+  padding-right: var(--spacing-400);
+}
+
+.sizeL {
+  gap: var(--spacing-200);
+  padding-left: var(--spacing-600);
+  padding-right: var(--spacing-600);
+}
+
+.sizeS .label,
+.sizeM .label {
+  font-family: var(--typography-scale-body-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-bold-font-weight);
+  font-size: var(--typography-scale-body-s-bold-font-size);
+  line-height: var(--typography-scale-body-s-bold-line-height);
+}
+
+.sizeL .label {
+  font-family: var(--typography-scale-headline-s-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-s-font-weight);
+  font-size: var(--typography-scale-headline-s-font-size);
+  line-height: var(--typography-scale-headline-s-line-height);
+}
+
+.sizeS .icon,
+.sizeM .icon {
+  width: var(--icon-200);
+  height: var(--icon-200);
+}
+
+.sizeL .icon {
+  width: var(--icon-300);
+  height: var(--icon-300);
+}
+
+/* Variants */
+.variantPrimary {
+  background: var(--color-interactive-primary);
+  color: var(--color-interactive-on-primary);
+}
+/* Pressed carries no distinct fill in Figma for Primary — same as Default.
+   `.pressed` is a real, explicit state (Storybook has a story for it) —
+   `:active` is what actually fires it during a real tap/click, which
+   nothing wired up before this fix; the class stays too, for anything
+   that ever needs to force the state statically (e.g. a story). */
+.variantPrimary.pressed,
+.variantPrimary:active:not(:disabled) {
+  background: var(--color-interactive-primary);
+}
+
+.variantSecondary {
+  background: var(--color-background-surface);
+  color: var(--color-interactive-on-secondary);
+}
+.variantSecondary.pressed,
+.variantSecondary:active:not(:disabled) {
+  background: var(--color-interactive-pressed);
+}
+
+.variantTertiary {
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+  color: var(--color-text-primary);
+}
+/* No distinct Pressed treatment for Tertiary in Figma either (confirmed
+   directly — same "no distinct fill" situation as Primary above), so
+   there's deliberately no :active rule here to match. */
+
+/* Inner shadow: Primary + Secondary only, every state except Pressed
+   (Figma has no fill to inset it onto for Tertiary, and Pressed swaps it
+   out entirely). S/M and L use different offsets. */
+.variantPrimary:not(.pressed):not(:active),
+.variantSecondary:not(.pressed):not(:active) {
+  box-shadow: inset 0 var(--spacing-negative-050) 0 0 var(--color-alpha-shadow-15);
+}
+.sizeL.variantPrimary:not(.pressed):not(:active),
+.sizeL.variantSecondary:not(.pressed):not(:active) {
+  box-shadow: inset 0 var(--spacing-negative-100) 0 0 var(--color-alpha-shadow-15);
+}
+
+/* Disabled overrides the fill/color for every variant identically. */
+.button:disabled {
+  color: var(--color-text-disabled);
+}
+.variantPrimary:disabled,
+.variantSecondary:disabled {
+  background: var(--color-background-surface);
+}
+.variantTertiary:disabled {
+  background: transparent;
+}
+
+.label {
+  white-space: nowrap;
+}
+
+/* Keeps the CTA text available to screen readers during Loading (so the
+   button still announces what it's for) while showing only the spinner
+   visually. Standard visually-hidden pattern. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.spinner {
+  display: inline-block;
+  width: var(--icon-200);
+  height: var(--icon-200);
+  border-radius: var(--radius-full);
+  border: var(--stroke-heavy-border) solid currentColor;
+  border-top-color: transparent;
+  /* No motion/timing tokens exist anywhere in tokens.json (no group for
+     duration or easing) — this 0.6s is hardcoded with nothing to trace it
+     to, a known gap rather than a derived value. */
+  animation: button-spin 0.6s linear infinite;
+}
+
+.sizeL .spinner {
+  width: var(--icon-300);
+  height: var(--icon-300);
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.5s;
+  }
+}

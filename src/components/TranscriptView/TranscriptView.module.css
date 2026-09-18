@@ -1,0 +1,31 @@
+.transcript {
+  /* A compact, fixed-height "lyrics window" (~4 lines of body-m text) —
+     not flex:1 filling the whole remaining screen, which left so much
+     room that the growing transcript never actually overflowed it, so
+     the fade/scroll effect this fix is about never had anything to do. */
+  height: var(--spacing-2400);
+  flex-shrink: 0;
+  min-width: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* The "song lyrics" fade: content overflowing top/bottom dissolves out
+     instead of being cut off sharply. A mask-image opacity gradient reads
+     the same as a real blur here, without the performance cost of
+     blurring live-updating text. */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 60%, transparent 100%);
+}
+.transcript::-webkit-scrollbar {
+  display: none;
+}
+
+.text {
+  margin: 0;
+  padding: var(--spacing-400) 0;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-regular-font-weight);
+  font-size: var(--typography-scale-body-m-regular-font-size);
+  line-height: var(--typography-scale-body-m-regular-line-height);
+}

@@ -1,0 +1,54 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: var(--layout-align-center);
+  gap: var(--spacing-200);
+  box-sizing: border-box;
+  width: 100%;
+  padding-left: var(--spacing-400);
+  padding-right: var(--spacing-400);
+  padding-top: var(--spacing-200);
+  padding-bottom: var(--spacing-200);
+  border-radius: var(--radius-400);
+  background: var(--color-background-surface);
+}
+
+.title {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-body-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-bold-font-weight);
+  font-size: var(--typography-scale-body-s-bold-font-size);
+  line-height: var(--typography-scale-body-s-bold-line-height);
+}
+
+.xpIndicator {
+  display: inline-flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  align-items: var(--layout-align-center);
+  gap: var(--spacing-075);
+}
+
+.lightningIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.lightningIcon svg {
+  display: block;
+  width: var(--icon-150);
+  height: auto;
+}
+
+.xpValue {
+  margin: 0;
+  white-space: nowrap;
+  color: var(--color-accent-3-bold);
+  font-family: var(--typography-scale-body-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-bold-font-weight);
+  font-size: var(--typography-scale-body-s-bold-font-size);
+  line-height: var(--typography-scale-body-s-bold-line-height);
+}

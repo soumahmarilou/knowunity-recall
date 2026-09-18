@@ -1,0 +1,18 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  /* Not a design token — the project's fixed mobile-only width constraint
+     (CLAUDE.md), same situation as 100dvh below. Centralized here so it's
+     one value in one place instead of six duplicated page rules. */
+  width: 390px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--color-background-page);
+  box-sizing: border-box;
+  /* Universal top/bottom inset (CLAUDE.md) — every screen's top and
+     bottom nav bar was sitting flush against the true edge of the frame.
+     One rule here instead of per-screen padding, so it can't be missed on
+     a new screen or drift out of sync between them. */
+  padding-top: var(--spacing-400);
+  padding-bottom: var(--spacing-400);
+}

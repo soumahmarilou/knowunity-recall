@@ -1,0 +1,25 @@
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  background: var(--color-interactive-secondary);
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-caption-m-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-bold-font-weight);
+  font-size: var(--typography-scale-caption-m-bold-font-size);
+  line-height: var(--typography-scale-caption-m-bold-line-height);
+}
+
+/* Not a confirmed Figma value — see the component doc's fidelity note.
+   32px picked to match icon-400's own size, a reasonable "Large" avatar
+   next to 24px nav icons in the same bar. */
+.sizeLarge {
+  width: var(--spacing-800);
+  height: var(--spacing-800);
+}
+
+.shapeCircle {
+  border-radius: var(--radius-full);
+}

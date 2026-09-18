@@ -1,0 +1,38 @@
+.slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* Transparent sizing box — no fill, stroke, or radius in Figma. It's a
+     slot, not an icon itself. */
+}
+
+.size100 {
+  width: var(--icon-100);
+  height: var(--icon-100);
+}
+.size150 {
+  width: var(--icon-150);
+  height: var(--icon-150);
+}
+.size200 {
+  width: var(--icon-200);
+  height: var(--icon-200);
+}
+.size250 {
+  width: var(--icon-250);
+  height: var(--icon-250);
+}
+.size300 {
+  width: var(--icon-300);
+  height: var(--icon-300);
+}
+.size400 {
+  width: var(--icon-400);
+  height: var(--icon-400);
+}
+
+.slot > :global(svg) {
+  width: 100%;
+  height: 100%;
+}

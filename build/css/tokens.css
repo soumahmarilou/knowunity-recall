@@ -54,6 +54,7 @@
   --color-alpha-dark-10: rgba(10, 10, 10, 0.102);
   --color-alpha-dark-50: rgba(10, 10, 10, 0.502);
   --color-alpha-glass-60: rgba(61, 61, 61, 0.6);
+  --color-alpha-shadow-15: rgba(0, 0, 0, 0.15); /** Pure black at 15% opacity, use for inset/drop shadows only, not as a surface overlay (that's what the dark-* family is for). */
   --color-alpha-light-6: rgba(255, 255, 255, 0.0588);
   --color-homie-inkwell: #9178e6;
   --color-homie-eyes: #0a0a0a;
@@ -137,23 +138,35 @@
   --color-mascot-pupils: #0a0a0a; /** Homie's pupil color, mascot illustration only. */
   --spacing-0: 0px; /** 0px spacing step, use for gaps and padding in auto layout. */
   --spacing-100: 4px; /** 4px spacing step, use for gaps and padding in auto layout. */
+  --spacing-125: 5px; /** 5px spacing step, use for gaps and padding in auto layout. */
   --spacing-150: 6px; /** 6px spacing step, use for gaps and padding in auto layout. */
   --spacing-200: 8px; /** 8px spacing step, use for gaps and padding in auto layout. */
   --spacing-300: 12px; /** 12px spacing step, use for gaps and padding in auto layout. */
   --spacing-400: 16px; /** 16px spacing step, use for gaps and padding in auto layout. */
+  --spacing-500: 20px; /** 20px spacing step, use for gaps and padding in auto layout. */
   --spacing-600: 24px; /** 24px spacing step, use for gaps and padding in auto layout. */
   --spacing-700: 28px; /** 28px spacing step, use for gaps and padding in auto layout. */
   --spacing-800: 32px; /** 32px spacing step, use for gaps and padding in auto layout. */
+  --spacing-1000: 40px; /** 40px spacing step, use for gaps and padding in auto layout. */
   --spacing-1200: 48px; /** 48px spacing step, use for gaps and padding in auto layout. */
+  --spacing-1400: 56px; /** 56px spacing step, use for gaps and padding in auto layout. */
   --spacing-1600: 64px; /** 64px spacing step, use for gaps and padding in auto layout. */
+  --spacing-2200: 88px; /** 88px spacing step, use for gaps and padding in auto layout. */
   --spacing-2400: 96px; /** 96px spacing step, use for gaps and padding in auto layout. */
+  --spacing-2750: 110px; /** 110px spacing step, use for gaps and padding in auto layout. */
+  --spacing-3000: 120px; /** 120px spacing step, use for gaps and padding in auto layout. */
   --spacing-4000: 160px; /** 160px spacing step, use for gaps and padding in auto layout. */
+  --spacing-5000: 200px; /** 200px spacing step, use for gaps and padding in auto layout. */
+  --spacing-8000: 320px; /** 320px spacing step, use for gaps and padding in auto layout. */
   --spacing-050: 2px; /** 2px spacing step, use for gaps and padding in auto layout. */
+  --spacing-075: 3px; /** 3px spacing step, use for gaps and padding in auto layout. */
   --spacing-negative-100: -4px; /** -4px spacing step, use for gaps and padding in auto layout. */
+  --spacing-negative-150: -6px; /** -6px spacing step, use for gaps and padding in auto layout. */
   --spacing-negative-200: -8px; /** -8px spacing step, use for gaps and padding in auto layout. */
   --spacing-negative-300: -12px; /** -12px spacing step, use for gaps and padding in auto layout. */
   --spacing-negative-400: -16px; /** -16px spacing step, use for gaps and padding in auto layout. */
   --spacing-negative-600: -24px; /** -24px spacing step, use for gaps and padding in auto layout. */
+  --spacing-negative-050: -2px; /** -2px spacing step, use for gaps and padding in auto layout. */
   --radius-100: 4px; /** 4px corner radius. */
   --radius-150: 6px; /** 6px corner radius. */
   --radius-200: 8px; /** 8px corner radius. */
@@ -170,6 +183,7 @@
   --icon-250: 20px; /** 20px icon box, use for the width and height of an icon frame. */
   --icon-300: 24px; /** 24px icon box, use for the width and height of an icon frame. */
   --icon-400: 32px; /** 32px icon box, use for the width and height of an icon frame. */
+  --icon-450: 36px; /** 36px icon box, use for the width and height of an icon frame. */
   --illustration-500: 40px; /** 40px illustration box, use for mascot and spot illustration sizing. */
   --illustration-800: 64px; /** 64px illustration box, use for mascot and spot illustration sizing. */
   --illustration-1500: 120px; /** 120px illustration box, use for mascot and spot illustration sizing. */
@@ -280,4 +294,6 @@
   --typography-scale-caption-s-regular-font-weight: normal; /** Font weight for Caption S Regular. */
   --typography-scale-caption-s-regular-font-size: 9px; /** Font size for Caption S Regular. */
   --typography-scale-caption-s-regular-line-height: 12px; /** Line height for Caption S Regular. */
+  --layout-align-center: center; /** Flexbox/grid alignment keyword for centering content on an axis, both align-items and justify-content. */
+  --layout-align-end: flex-end; /** Flexbox alignment keyword for aligning content to the end of the cross axis, for align-items. */
 }

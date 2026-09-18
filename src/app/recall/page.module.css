@@ -1,0 +1,56 @@
+/* Layered onto <Screen className={styles.screenGap}> — the width/height/
+   background shell itself now lives in the shared Screen component. Only
+   `gap` is set here now — top/bottom inset comes from Screen's own base
+   rule (CLAUDE.md: set once there, never re-added per screen). An
+   earlier version of this file zeroed that inset locally (misreading the
+   rule as "extra safe-area for a bottomContent button" rather than the
+   universal base inset); checked side by side against the shared 16px
+   default — the AppBar's close button sat flush against the true top
+   edge with the override, normal with it removed — so the override's
+   gone. */
+.screenGap {
+  /* Figma's root instance has an unbound 10px gap (not tied to any
+     token) between topNavigation/middleContent — nearest real step is
+     spacing-200 (8px), used here instead of inventing a 10px value. Same
+     substitution as Guided Reflection – Intro. */
+  gap: var(--spacing-200);
+}
+
+.middleContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--spacing-800);
+  padding: var(--spacing-200) var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+
+.explanationGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-600);
+}
+
+.explanation {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-regular-font-weight);
+  font-size: var(--typography-scale-body-m-regular-font-size);
+  line-height: var(--typography-scale-body-m-regular-line-height);
+}
+
+.modeCards {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--spacing-300);
+}

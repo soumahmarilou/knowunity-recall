@@ -1,0 +1,52 @@
+.superlistItem {
+  display: flex;
+  flex-direction: row;
+  align-items: var(--layout-align-center);
+  gap: var(--spacing-300);
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-400);
+  border: none;
+  border-radius: var(--radius-600);
+  background: var(--color-background-surface);
+  box-shadow: inset 0 var(--spacing-negative-100) 0 0 var(--color-alpha-shadow-15);
+  text-align: left;
+}
+
+button.superlistItem {
+  cursor: pointer;
+}
+
+.headline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-headline-xs-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-xs-bold-font-weight);
+  font-size: var(--typography-scale-headline-xs-bold-font-size);
+  line-height: var(--typography-scale-headline-xs-bold-line-height);
+}
+
+.descriptor {
+  margin: 0;
+  color: var(--color-text-secondary);
+  /* Figma's real value is 14px/16px line-height — no token matches 14px
+     anywhere (closest are Caption M at 12px and Body S at 15px). Using
+     the closest existing token, Body S Regular, per direction. */
+  font-family: var(--typography-scale-body-s-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-regular-font-weight);
+  font-size: var(--typography-scale-body-s-regular-font-size);
+  line-height: var(--typography-scale-body-s-regular-line-height);
+}
+
+.chevron {
+  flex-shrink: 0;
+  display: inline-flex;
+}

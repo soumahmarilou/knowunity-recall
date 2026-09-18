@@ -1,0 +1,39 @@
+.appBar {
+  display: flex;
+  align-items: var(--layout-align-center);
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--spacing-1400);
+  /* Was top:0 / bottom:spacing-200(8px) — the 48px AppBarButtonIcon then
+     exactly filled the top of the 56px bar with all the slack below it,
+     reading as "stuck to the top." True center of a 48px button in a 56px
+     bar is 4px on each side (spacing-100), used here per direct request. */
+  padding-top: var(--spacing-100);
+  padding-bottom: var(--spacing-100);
+  /* Was spacing-400 (16px) on both sides, then spacing-300 (12px) — nudged
+     one more step to spacing-200 (8px) per direct request, so the left
+     icon (always the close "x" in every screen built so far) sits closer
+     to the edge still. Right stays at spacing-400: no screen has ever used
+     the right slot for an "x", so it's untouched. */
+  padding-left: var(--spacing-200);
+  padding-right: var(--spacing-400);
+  gap: var(--spacing-100);
+  /* Figma: a linear gradient from background/page (opaque) at the top to
+     fully transparent at the bottom, confirmed against the live gradient
+     stops — a scroll-fade so content behind the bar dims as it approaches
+     the fixed nav rather than cutting off sharply. */
+  background: linear-gradient(to bottom, var(--color-background-page), transparent);
+}
+
+.slot {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: var(--layout-align-center);
+}
+
+.rightButtons {
+  display: flex;
+  align-items: var(--layout-align-center);
+  gap: var(--spacing-0);
+}

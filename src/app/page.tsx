@@ -1,69 +1,129 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Screen } from "@/components/Screen/Screen";
+import { AppBar } from "@/components/AppBar/AppBar";
+import { BadgeChip } from "@/components/BadgeChip/BadgeChip";
+import { MascotSlot } from "@/components/MascotSlot/MascotSlot";
+import { ActivityCard } from "@/components/ActivityCard/ActivityCard";
+import { Button } from "@/components/Button/Button";
+import { ChatInput } from "@/components/ChatInput/ChatInput";
+import { NavigationButton } from "@/components/NavigationButton/NavigationButton";
+import { Avatar } from "@/components/Avatar/Avatar";
+import { useDragScroll } from "@/lib/dragScroll";
+import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
+import {
+  Menu01,
+  Notification01,
+  FlashcardStack01,
+  QuizQuestion01,
+  ClipboardCheck01,
+  StackSparkle01,
+  Lightning01,
+  Flask01,
+  Lightbulb01,
+  MyaiChat,
+  SearchMd,
+  Target01,
+  Trophy02,
+} from "@/components/Icons/Icons";
+import styles from "./page.module.css";
+
+/**
+ * Home chat – Default. SPEC.md screen 4 (src/app/page.tsx).
+ * Figma frame: "Home chat - Default" (node 13822:8296, Design
+ * Deliverables page) — static, single state, no failure paths to build.
+ */
+export default function HomePage() {
+  const router = useRouter();
+  const [message, setMessage] = useState("");
+  const activityRowRef = useDragScroll<HTMLDivElement>();
+  const quickActionsRowRef = useDragScroll<HTMLDivElement>();
+  usePrefetchRoutes(["/recall-exercice", "/study-plan"]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <Screen>
+      <AppBar
+        variant="leftAndRightIconButton"
+        leftIcon={<Menu01 />}
+        leftAriaLabel="Menu"
+        rightIcon={<Notification01 />}
+        rightAriaLabel="Notifications"
+      >
+        <div className={styles.badges}>
+          <BadgeChip type="pro" label="Upgrade" />
+          <BadgeChip type="xp" label="2" />
+          <BadgeChip type="streak" label="3" />
+        </div>
+      </AppBar>
+
+      <div className={styles.middleContent}>
+        <div className={styles.hero}>
+          <MascotSlot size="2XL" expression="excited" />
+          <h1 className={styles.greeting}>
+            Evening study session,
+            <br />
+            Harry?
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className={styles.activityRow} ref={activityRowRef}>
+          {/* Flask01 per direct instruction — matches "Write an essay"'s
+             own icon below, and the Recall exercice chip on
+             /recall-exercice (see that page for the same swap). */}
+          <ActivityCard
+            icon={<Flask01 />}
+            label="Recall exercice"
+            onClick={() => router.push("/recall-exercice")}
+          />
+          <ActivityCard icon={<FlashcardStack01 />} label="Flashcards" />
+          <ActivityCard icon={<QuizQuestion01 />} label="Quizz" />
+          <ActivityCard icon={<ClipboardCheck01 />} label="Practice exam" />
         </div>
-      </main>
-    </div>
+      </div>
+
+      <div className={styles.bottomContent}>
+        <div className={styles.quickActionsRow} ref={quickActionsRowRef}>
+          <Button variant="Secondary" size="M" cta="Summarize" showLeftIcon leftIcon={<StackSparkle01 />} />
+          <Button
+            variant="Secondary"
+            size="M"
+            cta="Find study notes"
+            showLeftIcon
+            leftIcon={<Lightning01 />}
+          />
+          <Button variant="Secondary" size="M" cta="Write an essay" showLeftIcon leftIcon={<Flask01 />} />
+          <Button variant="Secondary" size="M" cta="Explain" showLeftIcon leftIcon={<Lightbulb01 />} />
+        </div>
+
+        <ChatInput
+          state="Default"
+          value={message}
+          onChange={setMessage}
+          onMicClick={() => router.push("/recall-exercice")}
+          onSend={() => {
+            const trimmed = message.trim();
+            router.push(trimmed ? `/recall-exercice?subject=${encodeURIComponent(trimmed)}` : "/recall-exercice");
+          }}
+        />
+
+        <div className={styles.navbar}>
+          {/* Figma marks all four nav buttons State=Active at once — read as
+           * an authoring artifact (a real nav bar has exactly one current
+           * tab), not reproduced. Only myai-chat (this screen) is Active. */}
+          <NavigationButton icon={<MyaiChat />} hasLabel={false} state="Active" />
+          <NavigationButton icon={<SearchMd />} hasLabel={false} state="Inactive" />
+          <NavigationButton
+            icon={<Target01 />}
+            hasLabel={false}
+            state="Inactive"
+            onClick={() => router.push("/study-plan")}
+          />
+          <NavigationButton icon={<Trophy02 />} hasLabel={false} state="Inactive" />
+          <Avatar size="Large" shape="Circle" initials="H" />
+        </div>
+      </div>
+    </Screen>
   );
 }

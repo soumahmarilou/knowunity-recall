@@ -1,0 +1,32 @@
+.primerCard {
+  position: absolute;
+  bottom: calc(100% + var(--spacing-300));
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  /* Not a design token — see component-gaps.md, flagged rather than
+     rounded to a nearby spacing step. */
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-400);
+  border-radius: var(--radius-400);
+  background: var(--color-background-surface);
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.primerText {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-body-s-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-regular-font-weight);
+  font-size: var(--typography-scale-body-s-regular-font-size);
+  line-height: var(--typography-scale-body-s-regular-line-height);
+}
+
+.primerActions {
+  display: flex;
+  gap: var(--spacing-200);
+}

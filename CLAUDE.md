@@ -8,7 +8,8 @@ Static mobile prototype (Next.js) of Knowunity's voice-based active-recall featu
 
 - Committed concept: three student-selectable modes — Guided Reflection, Concept Questions, Free Recall Challenge — not one fixed-term hint-ladder loop.
 - Mobile only, 390px width, dark mode only.
-- Student can reply by voice or by text. Recall is mocked: no backend on the voice recording yet — no speech-to-text, no model calls.
+- Every screen keeps a 16px top and bottom inset (`Screen`'s own `padding-top`/`padding-bottom`) — the top and bottom nav bars never sit flush against the true edge of the frame. Set once on `src/components/Screen/Screen.tsx`'s shell; don't re-add it per screen.
+- Student can reply by voice or by text. Recall is mocked: no backend on the voice recording — no judging/scoring backend, no model calls. **One explicit, disclosed exception**: the live transcript shown during recording (`src/lib/speechTranscript.ts`) uses the browser's native Web Speech API for real speech-to-text, per direct instruction — a browser capability the app itself calls, not a backend or model call this app makes, same category as the already-real `getUserMedia` used for mic permission. Falls back to a scripted mock (`src/lib/mockTranscript.ts`) on browsers without support. This exception covers the transcript display only — the actual judging/pass-fail/hint logic everywhere else stays fully mocked.
 - Knowie responds in text only, never speaks.
 - Sentence case on every label, button, and heading; capitals only for proper nouns.
 - Build from the components that already exist in [design-system_1.md](design-system_1.md); stop and flag before creating a new one.
@@ -44,6 +45,7 @@ stop and ask me.
 - [voice-ux.md](voice-ux.md) — voice-input UX principles and the States-to-design checklist (must/if-time/out-of-scope); read before designing any recording, processing, error, or permission state.
 - [sprint-context.md](sprint-context.md) — concept + decision log; read before designing or building any screen or flow.
 - [design-system_1.md](design-system_1.md) — which component to use, scaffold structure, naming, description format; read before styling or building any component.
+- `component-gaps.md` — a running list of things built inline (from tokens, not a cataloged component) during a screen build, and which screen each was for; read it before building a new screen.
 - [tokens/tokens.json](tokens/tokens.json) — actual color/spacing/type/radius values (DTCG format); read whenever a design value is needed.
 - `build/css/tokens.css` — generated CSS variables from `tokens/tokens.json`; never hand-edit, run `npm run tokens` to regenerate.
 - [reference/](reference/) — real screenshots + recordings of every screen being rebuilt; check before building or reviewing a matching screen.

@@ -1,0 +1,45 @@
+.group {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  /* Figma's own examples are fixed at 319px — a leftover from that specific
+     canvas frame, not a deliberate token-backed width (no spacing/radius/
+     icon token matches 319 anywhere in tokens.json). 100% is the real,
+     sensible behavior for a wrapper meant to sit in a bottom sheet. */
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+/* Figma: every child in the Vertical examples is stretched to full width
+   (STRETCH/FILL on both slots) — replicated generically here rather than
+   only for specific child types, since buttonGroup "doesn't create new
+   buttons itself." */
+.vertical > * {
+  width: 100%;
+}
+
+.horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Figma's Horizontal examples pair a fixed-size buttonIcon with a button
+   set to grow (layoutGrow: 1) — but that growth is an override on that
+   specific child instance in Figma, not a structural property of
+   buttonGroup itself. Left to the consumer to apply per-child (e.g. a
+   `style={{ flex: 1 }}` wrapper), matching how Figma actually models it. */
+
+.sizeM.vertical {
+  gap: var(--spacing-0);
+}
+.sizeM.horizontal {
+  gap: var(--spacing-100);
+}
+.sizeL.vertical {
+  gap: var(--spacing-200);
+}
+.sizeL.horizontal {
+  gap: var(--spacing-200);
+}

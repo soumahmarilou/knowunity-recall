@@ -1,0 +1,129 @@
+/* No coverage bar here anymore — per direct instruction it moved into
+   middleContent, below the mascot (see .coverageRow/.coverageBar).
+   AppBar's own row is just the countdown and XP now, pushed to the row's
+   two ends. */
+.progressRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.countdown {
+  flex-shrink: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-caption-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-s-bold-font-weight);
+  font-size: var(--typography-scale-caption-s-bold-font-size);
+  line-height: var(--typography-scale-caption-s-bold-line-height);
+}
+
+.middleContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--spacing-600);
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+}
+
+/* The coverage gauge, moved below the mascot's own bubble per direct
+   instruction — "Coverage" on the left, the live percentage on the
+   right, directly above the bar itself. */
+.coverageRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.coverageLabel {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-body-s-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-regular-font-weight);
+  font-size: var(--typography-scale-body-s-regular-font-size);
+  line-height: var(--typography-scale-body-s-regular-line-height);
+}
+
+.coveragePercent {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-body-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-bold-font-weight);
+  font-size: var(--typography-scale-body-s-bold-font-size);
+  line-height: var(--typography-scale-body-s-bold-line-height);
+}
+
+.coverageBar {
+  margin-top: var(--spacing-100);
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-300);
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.waveformRow {
+  display: flex;
+  justify-content: center;
+  /* A bit more room below the waveform than the parent's own 12px gap
+     gives every other sibling pair, per direct instruction. */
+  margin-bottom: var(--spacing-200);
+}
+
+.controlsRow {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-600);
+}
+
+.controlColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 12px between the recording button and its "Send"/"Sent" label, per
+     direct instruction — this stylesheet is shared with Processing (see
+     that screen's own comment), so it covers "Sent" too. */
+  gap: var(--spacing-300);
+}
+
+.controlLabel {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  /* Extra 12px margin on top of the parent bottomContent's own 12px
+     gap, so the divider specifically gets 24px total above and below it,
+     per direct instruction -- everything else keeps the 12px gap. */
+  margin: var(--spacing-300) 0;
+}
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-default);
+}
+.dividerText {
+  margin: 0;
+  color: var(--color-text-tertiary);
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+
+.chatInputRow {
+  display: flex;
+  align-items: center;
+}

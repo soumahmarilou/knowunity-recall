@@ -1,0 +1,75 @@
+.button {
+  display: inline-flex;
+  align-items: var(--layout-align-center);
+  justify-content: var(--layout-align-center);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  padding: 0;
+  height: var(--spacing-1000);
+  gap: var(--spacing-150);
+  cursor: pointer;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-body-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-bold-font-weight);
+  font-size: var(--typography-scale-body-s-bold-font-size);
+  line-height: var(--typography-scale-body-s-bold-line-height);
+  white-space: nowrap;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  color: var(--color-text-disabled);
+}
+
+/* Pressed genuinely dims the label here (confirmed directly in Figma),
+   unlike Button's Tertiary variant which keeps the same color when
+   pressed. `:active` is what fires it on a real tap/click. */
+.button.pressed,
+.button:active:not(:disabled) {
+  color: var(--color-text-secondary);
+}
+
+/* Figma's real Loading state swaps to the same orphaned "loading-01" icon
+   asset already found unexportable for AppBarButtonIcon (see that
+   component's CSS for the full explanation) — reusing the same CSS
+   spinner pattern already established for Button/ButtonIcon/
+   AppBarButtonIcon's Loading state instead. */
+.spinner {
+  display: inline-block;
+  width: var(--spacing-500);
+  height: var(--spacing-500);
+  border-radius: var(--radius-full);
+  border: var(--stroke-heavy-border) solid currentColor;
+  border-top-color: transparent;
+  animation: app-bar-button-spin 0.6s linear infinite;
+}
+
+@keyframes app-bar-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.5s;
+  }
+}
+
+/* Keeps the CTA text available to screen readers during Loading (so the
+   button still announces what it's for) while showing only the spinner
+   visually. Standard visually-hidden pattern, same as Button's. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

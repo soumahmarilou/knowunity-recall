@@ -1,0 +1,228 @@
+/* Overrides Screen's own `min-height: 100dvh` with a hard `height`. This
+   is the first screen in the app whose content (hero + tabs + a 4-step
+   lesson list) can exceed one viewport — every earlier screen's content
+   happened to fit, so this scroll-the-middle/pin-the-nav pattern never
+   came up before. Without this, .middleContent's `flex: 1` has no fixed
+   parent height to shrink against, so the whole page grows past 844px
+   instead and pushes the bottom nav bar off-screen. */
+.screen {
+  height: 100dvh;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  width: 100%;
+}
+
+.middleContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  gap: var(--spacing-600);
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+
+.examBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-1600);
+  height: var(--spacing-1600);
+  border: var(--stroke-heavy-border) solid var(--color-accent-1-bold);
+  border-radius: var(--radius-400);
+  box-sizing: border-box;
+}
+.examBadge svg {
+  width: var(--icon-300);
+  height: var(--icon-300);
+}
+
+.planTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-headline-l-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-l-font-weight);
+  font-size: var(--typography-scale-headline-l-font-size);
+  line-height: var(--typography-scale-headline-l-line-height);
+}
+.chevronDown {
+  width: var(--icon-200);
+  height: var(--icon-200);
+  transform: rotate(90deg);
+}
+
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-600);
+}
+.stat {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-body-s-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-regular-font-weight);
+  font-size: var(--typography-scale-body-s-regular-font-size);
+  line-height: var(--typography-scale-body-s-regular-line-height);
+}
+.stat svg {
+  width: var(--icon-200);
+  height: var(--icon-200);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--spacing-600);
+  border-bottom: var(--stroke-border) solid var(--color-border-default);
+}
+.tab {
+  border: none;
+  background: transparent;
+  padding: var(--spacing-200) 0;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  border-bottom: var(--stroke-heavy-border) solid transparent;
+  margin-bottom: calc(-1 * var(--stroke-border));
+  font-family: var(--typography-scale-body-m-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-bold-font-weight);
+  font-size: var(--typography-scale-body-m-bold-font-size);
+  line-height: var(--typography-scale-body-m-bold-line-height);
+}
+.tabActive {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-accent-1-bold);
+}
+
+.lessonHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  padding: var(--spacing-400);
+  border: var(--stroke-border) solid var(--color-border-default);
+  border-radius: var(--radius-600);
+  box-sizing: border-box;
+}
+.lessonHeaderTitle {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-body-m-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-bold-font-weight);
+  font-size: var(--typography-scale-body-m-bold-font-size);
+  line-height: var(--typography-scale-body-m-bold-line-height);
+}
+
+.stepsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-800);
+  padding: var(--spacing-400) 0;
+}
+
+/* Used for both the "current" step (a real <button>, see page.tsx) and
+   the three "locked" steps (plain <div>s) — the button-reset properties
+   are no-ops on a div, so one rule covers both instead of splitting it. */
+.step {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--spacing-1600);
+  height: var(--spacing-1600);
+  border-radius: var(--radius-full);
+  box-sizing: border-box;
+}
+.node svg {
+  width: var(--icon-250);
+  height: var(--icon-250);
+}
+.nodeIconLarge svg {
+  width: var(--icon-300);
+  height: var(--icon-300);
+}
+
+.nodeCurrent {
+  background: var(--color-accent-1-subtle);
+  border: var(--stroke-heavy-border) solid var(--color-accent-1-bold);
+  color: var(--color-accent-1-bold);
+}
+/* Solid fill, not just an outlined ring like .nodeCurrent — a completed
+   step should read as more settled/confident than the one still being
+   worked on. */
+.nodeDone {
+  background: var(--color-accent-1-bold);
+  color: var(--color-accent-1-on-bold);
+}
+.nodeLocked {
+  background: var(--color-background-surface);
+  color: var(--color-text-disabled);
+}
+
+.stepLabel {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-regular-font-weight);
+  font-size: var(--typography-scale-body-m-regular-font-size);
+  line-height: var(--typography-scale-body-m-regular-line-height);
+}
+.stepLabelCurrent {
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-body-m-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-bold-font-weight);
+  font-size: var(--typography-scale-body-m-bold-font-size);
+  line-height: var(--typography-scale-body-m-bold-line-height);
+}
+
+.materialsPlaceholder {
+  margin: 0;
+  text-align: center;
+  color: var(--color-text-tertiary);
+  padding: var(--spacing-800) 0;
+  font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-regular-font-weight);
+  font-size: var(--typography-scale-body-m-regular-font-size);
+  line-height: var(--typography-scale-body-m-regular-line-height);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-300) var(--spacing-400) var(--spacing-400);
+  gap: var(--spacing-800);
+  box-sizing: border-box;
+}

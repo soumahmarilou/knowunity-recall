@@ -1,0 +1,136 @@
+.mascotBubble {
+  display: flex;
+  flex-direction: row;
+  align-items: var(--layout-align-center);
+  justify-content: var(--layout-align-center);
+  gap: var(--spacing-200);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.positionRight {
+  flex-direction: row-reverse;
+}
+
+.mascot {
+  display: block;
+  flex-shrink: 0;
+  width: var(--spacing-1200);
+  height: auto;
+}
+
+.bubbleGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: var(--layout-align-center);
+  /* Figma: the tail and card sit -6px apart (a negative gap) so the tail's
+     point tucks flush against the card edge instead of leaving a visible
+     seam. Confirmed directly against the live component. */
+  gap: var(--spacing-negative-150);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.positionRight .bubbleGroup {
+  flex-direction: row-reverse;
+}
+
+.tail {
+  display: block;
+  flex-shrink: 0;
+}
+
+.positionRight .tail {
+  transform: scaleX(-1);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--spacing-400);
+  border-radius: var(--radius-400);
+  background: var(--color-background-surface);
+}
+
+/* Remounts (via `key`) and fades in whenever the chip/body/button content
+   actually changes — same gap .card itself used to carry directly, moved
+   here since this is now the flex parent of the chip + .bodyGroup.
+   Deliberately opacity-only, no transform, and short (150ms) — per direct
+   instruction, a first version with a translateY slide and a longer
+   duration read as "the page changed," not "this element's own content
+   updated." Any perceptible motion or distance here reads as a page-level
+   transition on a screen this small; the goal is a state update that's
+   smooth but doesn't call attention to itself as an animation at all. */
+.cardContentFade {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  animation: mascot-bubble-fade-in 0.15s ease-out both;
+}
+
+/* Without this, the chip stretched to the card's full width — a flex
+   column's default align-items:stretch applying to it like any other
+   child, even though Chips itself is sized to hug its own text. Per
+   direct instruction, it should hug its text like every other chip usage
+   in the app already does. */
+.chipWrap {
+  display: flex;
+  align-self: flex-start;
+}
+
+/* Same fade treatment for the mascot image itself, so a change of
+   expression reads as a smooth update too, not a hard image swap — same
+   "as subtle as possible" reasoning as .cardContentFade above. */
+.mascotFade {
+  display: block;
+  flex-shrink: 0;
+  animation: mascot-bubble-fade-in 0.15s ease-out both;
+}
+
+@keyframes mascot-bubble-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardContentFade,
+  .mascotFade {
+    animation: none;
+  }
+}
+
+.bodyGroup {
+  display: flex;
+  flex-direction: column;
+  /* 14px per direct instruction — no exact token match (spacing-300 is
+     12px, spacing-500 is 20px), so this is a disclosed raw value rather
+     than a rounded-off token, same precedent as this file's sibling
+     components' known-gap raw values. */
+  gap: 14px;
+}
+
+.bodyText {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-headline-xs-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-xs-bold-font-weight);
+  font-size: var(--typography-scale-headline-xs-bold-font-size);
+  line-height: var(--typography-scale-headline-xs-bold-line-height);
+}
+
+/* Reset only — Chips itself carries all real styling (fill, radius,
+   type). This just makes the wrapping <button> disappear visually. */
+.revealAnswer {
+  display: inline-flex;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}

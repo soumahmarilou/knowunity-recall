@@ -1,0 +1,99 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: var(--radius-full);
+  font-family: var(--typography-font-family-default), sans-serif;
+  white-space: nowrap;
+}
+
+/* Sizes. Height has no bound variable in Figma at all (not just an
+   unbound-but-matching raw number, like Button's radius/full) and no
+   spacing step covered 20px/40px before — spacing/500 and spacing/1000
+   were added to fill those, following the scale's own existing step
+   numbering (400/16 -> 600/24 already skips 500; 800/32 -> 1200/48
+   already skips 1000). */
+.sizeXXS {
+  height: var(--spacing-500);
+  padding-left: var(--spacing-150);
+  padding-right: var(--spacing-150);
+  gap: var(--spacing-050);
+}
+.sizeXS {
+  height: var(--spacing-600);
+  padding-left: var(--spacing-200);
+  padding-right: var(--spacing-200);
+  gap: var(--spacing-100);
+}
+.sizeS {
+  height: var(--spacing-800);
+  padding-left: var(--spacing-300);
+  padding-right: var(--spacing-300);
+  gap: var(--spacing-100);
+}
+.sizeM {
+  height: var(--spacing-1000);
+  padding-left: var(--spacing-400);
+  padding-right: var(--spacing-400);
+  gap: var(--spacing-150);
+}
+
+.sizeXXS .label,
+.sizeXS .label {
+  font-family: var(--typography-scale-caption-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-s-bold-font-weight);
+  font-size: var(--typography-scale-caption-s-bold-font-size);
+  line-height: var(--typography-scale-caption-s-bold-line-height);
+}
+.sizeS .label {
+  font-family: var(--typography-scale-caption-m-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-bold-font-weight);
+  font-size: var(--typography-scale-caption-m-bold-font-size);
+  line-height: var(--typography-scale-caption-m-bold-line-height);
+}
+.sizeM .label {
+  font-family: var(--typography-scale-body-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-bold-font-weight);
+  font-size: var(--typography-scale-body-s-bold-font-size);
+  line-height: var(--typography-scale-body-s-bold-line-height);
+}
+
+/* Colors. Inactive looks identical regardless of color — only active=True
+   reveals the color identity, confirmed directly in Figma (Primary and
+   pro's inactive variants are pixel-identical). */
+.inactive {
+  background: var(--color-background-surface);
+  color: var(--color-text-primary);
+}
+
+/* Reverted: a previous fix made this blue to match the "Almost there"
+   status chip, but that chip is the wrong thing to have changed this
+   rule for — this same color also drives MascotBubble's "Reveal answer"/
+   "Next question" button-chip, which needs to stay white like every
+   other button, per direct instruction not to hardcode a color onto a
+   shared axis value for one caller's sake. The real fix is at the call
+   site: MascotBubble's status chip now uses color="info" (the existing,
+   purpose-built blue treatment) instead of "Primary". */
+.colorPrimary.active {
+  background: var(--color-interactive-primary);
+  color: var(--color-interactive-on-primary);
+}
+.colorPro.active {
+  background: var(--color-pro-bold);
+  color: var(--color-pro-on-bold);
+}
+/* success/info/error only ever exist as size=S, active=True in Figma —
+   no inactive state was designed for them. */
+.colorSuccess {
+  background: var(--color-feedback-success-subtle);
+  color: var(--color-feedback-success-bold);
+}
+.colorInfo {
+  background: var(--color-feedback-info-subtle);
+  color: var(--color-feedback-info-bold);
+}
+.colorError {
+  background: var(--color-feedback-error-subtle);
+  color: var(--color-feedback-error-on-subtle);
+}

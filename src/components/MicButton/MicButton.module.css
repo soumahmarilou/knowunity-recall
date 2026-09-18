@@ -1,0 +1,57 @@
+.button {
+  display: inline-flex;
+  align-items: var(--layout-align-center);
+  justify-content: var(--layout-align-center);
+  box-sizing: border-box;
+  border: none;
+  border-radius: var(--radius-full);
+  width: var(--spacing-2200);
+  height: var(--spacing-2200);
+  cursor: pointer;
+  background: var(--color-interactive-primary);
+  color: var(--color-interactive-on-primary);
+}
+
+/* Reuses button/buttonIcon's own Disabled tokens, per the component's own
+   Figma description. */
+.button:disabled {
+  cursor: not-allowed;
+  background: var(--color-background-surface);
+  color: var(--color-text-disabled);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: var(--layout-align-center);
+  justify-content: var(--layout-align-center);
+  width: var(--icon-450);
+  height: var(--icon-450);
+}
+
+/* CSS always wins over an SVG presentation attribute like a plain
+   fill="...", so re-tinting each hardcoded-fill icon via currentColor here
+   is a real, reliable override (same pattern as AppBarButtonIcon and
+   NavigationButton), following .button's `color` per state. */
+.icon :global(svg *) {
+  fill: currentColor;
+}
+
+/* Figma's real "loading-01" asset for this state IS reachable (unlike the
+   orphaned main component that blocked earlier components' loading icons —
+   see Icons.tsx's Loading01 for the full explanation). It's a static
+   asymmetric glyph, not a self-animating one, so the spin is CSS here. */
+.spinning {
+  animation: mic-button-spin 0.6s linear infinite;
+}
+
+@keyframes mic-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinning {
+    animation-duration: 1.5s;
+  }
+}

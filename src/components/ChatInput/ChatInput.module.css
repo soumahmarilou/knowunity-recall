@@ -1,0 +1,217 @@
+.root {
+  display: flex;
+  align-items: var(--layout-align-center);
+  gap: var(--spacing-200);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Figma: counterAxisAlignItems is MAX (not CENTER) specifically on the
+   Chip attached variant — the leading + button bottom-aligns against the
+   taller content column instead of centering on it. */
+.root.chipAttached {
+  align-items: var(--layout-align-end);
+}
+
+.contentColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* The "Camera / Gallery / Files" attachment row. Not mentioned anywhere in
+   Chat Input's own Figma description (only the chip is) and sitting in an
+   auto-named, unrenamed frame there — flagged to you as likely stray
+   content, and included here per your direction. Figma's own icon choices
+   are reused as-is rather than "corrected": Camera and Gallery both use
+   camera-01, and Files uses stack-sparkle-01 (not a files icon) — a real
+   mismatch in the source, reproduced faithfully rather than guessed at. */
+.attachmentRow {
+  display: flex;
+  flex-direction: row;
+  align-items: var(--layout-align-center);
+  gap: var(--spacing-200);
+  overflow-x: auto;
+  cursor: grab;
+  /* Scrolls by mouse-drag (useDragScroll) instead — same touch-like
+     pattern as Home's own horizontally-overflowing rows. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.attachmentRow::-webkit-scrollbar {
+  display: none;
+}
+
+.inputPill {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-200);
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-400);
+  border-radius: var(--radius-600);
+  background: var(--color-background-surface);
+}
+
+/* Figma: paddingTop drops to Space/200 specifically when a chip sits above
+   the text row (8px vs the Default state's uniform 16px) — the chip's own
+   spacing above it does the rest of the visual work. */
+.inputPill.chipAttached {
+  padding-top: var(--spacing-200);
+}
+
+.textRow {
+  display: flex;
+  flex-direction: row;
+  align-items: var(--layout-align-center);
+  gap: var(--spacing-200);
+}
+
+.textInput {
+  flex: 1 1 auto;
+  min-width: 0;
+  resize: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-regular-font-weight);
+  font-size: var(--typography-scale-body-m-regular-font-size);
+  line-height: var(--typography-scale-body-m-regular-line-height);
+}
+
+.textInput::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.textInput:focus {
+  outline: none;
+}
+
+/* Figma models this as a bare Icon Slot instance, not a buttonIcon — no
+   Pressed/Disabled treatment defined anywhere for it. Made tappable here
+   as a practical, disclosed judgment call (a trailing mic icon in a chat
+   input is a standard "switch to voice" affordance), not an invented
+   Figma variant. */
+.micButton {
+  display: inline-flex;
+  align-items: var(--layout-align-center);
+  justify-content: var(--layout-align-center);
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.micButton :global(svg *) {
+  fill: currentColor;
+}
+
+/* Answer state: a standalone pill, no leading + button. Figma's own frame
+   is a fixed 56px height for its one-line example. No fixed/min height
+   here at all — same approach as the other two states' own .inputPill
+   (padding + content, nothing forcing a height) — so the box sits at its
+   natural single-line size (16px padding + one line = the same 56px as
+   before) and only grows for a wrapped/multi-line answer, instead of a
+   min-height fighting the box back up to 56px every time it should
+   shrink down again. align-items:flex-end keeps the send button
+   bottom-anchored once it does grow. radius-600 instead of the original
+   radius-full: a fully circular end-cap distorts into an "egg" once the
+   box is taller than it is wide, the same reasoning the other two
+   states' own .inputPill already uses. */
+.answerBar {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: var(--spacing-200);
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-400);
+  border-radius: var(--radius-600);
+  background: var(--color-background-surface);
+}
+
+.answerInput {
+  flex: 1 1 auto;
+  min-width: 0;
+  resize: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-regular-font-weight);
+  font-size: var(--typography-scale-body-m-regular-font-size);
+  line-height: var(--typography-scale-body-m-regular-line-height);
+}
+
+.answerInput::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.answerInput:focus {
+  outline: none;
+}
+
+/* Answer's send button — same plain-icon treatment as .micButton above
+   (Home chat's own trailing send/mic icon), not a filled ButtonIcon
+   circle. IconSlot 300 is no taller than one text line, so unlike the
+   ButtonIcon this replaced, it never overshoots .answerBar's own natural
+   height — no wrapper/negative-margin trick needed to cancel anything. */
+.answerSendButton {
+  display: inline-flex;
+  align-items: var(--layout-align-center);
+  justify-content: var(--layout-align-center);
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.answerSendButton:disabled {
+  cursor: not-allowed;
+}
+
+.answerSendButton :global(svg *) {
+  fill: currentColor;
+}
+
+/* Same spin treatment as MicButton's own "processing" state — see that
+   component for why this is a CSS rotate rather than a self-animating
+   asset. */
+.answerSendButton[aria-busy="true"] {
+  animation: answer-send-spin 0.6s linear infinite;
+}
+
+@keyframes answer-send-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .answerSendButton[aria-busy="true"] {
+    animation-duration: 1.5s;
+  }
+}
+
+/* Wraps the whole chips instance so it's removable — Chips itself exposes
+   no click/remove handler (it's a display atom elsewhere in this design
+   system), so the composite interaction lives here instead of inside
+   Chips. */
+.chipRemove {
+  display: inline-flex;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  align-self: flex-start;
+}

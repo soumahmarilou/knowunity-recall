@@ -1,0 +1,62 @@
+/* Layered onto <Screen className={styles.screenGap}> — the width/height/
+   background shell itself now lives in the shared Screen component. Only
+   `gap` is set here now — top/bottom inset comes from Screen's own base
+   rule (CLAUDE.md: set once there, never re-added per screen). An
+   earlier version of this file zeroed/bumped that inset locally; checked
+   side by side against the shared 16px default and the override wasn't
+   actually needed, so it's gone. */
+.screenGap {
+  /* Figma's root instance has an unbound 10px gap between topNavigation /
+     middleContent / bottomContent (not tied to any token) — nearest real
+     step is spacing-200 (8px), used here instead of inventing a 10px
+     value. See component-gaps.md / the build report for this screen. */
+  gap: var(--spacing-200);
+}
+
+.middleContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--spacing-600);
+  padding: var(--spacing-200) var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Figma: 16px gap here isn't bound to a token either, but it matches
+     spacing-400 (16px) exactly, unlike the two gaps flagged above. */
+  gap: var(--spacing-400);
+}
+
+
+.benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+
+.benefitRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-300);
+}
+
+.benefitLabel {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-regular-font-weight);
+  font-size: var(--typography-scale-body-m-regular-font-size);
+  line-height: var(--typography-scale-body-m-regular-line-height);
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+}

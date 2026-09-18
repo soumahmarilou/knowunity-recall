@@ -1,0 +1,44 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  /* No background in Figma — that's the whole point vs. chips. */
+  background: transparent;
+  padding: var(--spacing-100);
+  gap: var(--spacing-100);
+  font-family: var(--typography-scale-body-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-bold-font-weight);
+  font-size: var(--typography-scale-body-s-bold-font-size);
+  line-height: var(--typography-scale-body-s-bold-line-height);
+  /* Figma's real label text isn't tokenized at all here (Inter 16px,
+     AUTO line-height, unbound) — substituted with the real type scale's
+     closest match (Body S Bold) per instruction, not the literal Figma
+     values. */
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  /* Figma renders each icon at its own odd, non-square native size
+     (e.g. 38x20, ~17.5x22 — fractional, no matching icon/* token).
+     Reusing icon/250 as a shared target height and letting width follow
+     the SVG's own aspect ratio is the closest real-token equivalent,
+     rather than hardcoding those fractional pixel values. */
+  height: var(--icon-250);
+  width: auto;
+  flex-shrink: 0;
+}
+.icon > :global(svg) {
+  height: 100%;
+  width: auto;
+}
+
+.typePro .label {
+  color: var(--color-pro-bold);
+}
+.typeStreak .label {
+  color: var(--color-accent-2-bold);
+}
+.typeXp .label {
+  color: var(--color-accent-3-on-subtle);
+}

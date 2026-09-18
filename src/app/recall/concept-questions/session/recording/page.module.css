@@ -1,0 +1,102 @@
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Same flexbox min-width fix as the Launched screen's page.module.css. */
+.progressBar {
+  flex: 1;
+  min-width: 0;
+}
+
+/* "1/3"-style term counter, to the right of the gauge — per direct
+   instruction. Same typography as FRC's own countdown text. */
+.termCount {
+  flex-shrink: 0;
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-caption-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-s-bold-font-weight);
+  font-size: var(--typography-scale-caption-s-bold-font-size);
+  line-height: var(--typography-scale-caption-s-bold-line-height);
+}
+
+.middleContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-300);
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.waveformRow {
+  display: flex;
+  justify-content: center;
+  /* A bit more room below the waveform than the parent's own 12px gap
+     gives every other sibling pair, per direct instruction. */
+  margin-bottom: var(--spacing-200);
+}
+
+.controlsRow {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-600);
+}
+
+.controlColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 12px between the recording button and its "Send"/"Sent" label, per
+     direct instruction — this stylesheet is shared with Processing (see
+     that screen's own comment), so it covers "Sent" too. */
+  gap: var(--spacing-300);
+}
+
+.controlLabel {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  /* Extra 12px margin on top of the parent bottomContent's own 12px
+     gap, so the divider specifically gets 24px total above and below it,
+     per direct instruction -- everything else keeps the 12px gap. */
+  margin: var(--spacing-300) 0;
+}
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-default);
+}
+.dividerText {
+  margin: 0;
+  color: var(--color-text-tertiary);
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+
+.chatInputRow {
+  display: flex;
+  align-items: center;
+}

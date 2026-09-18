@@ -1,0 +1,92 @@
+/* Pushes Finish to the right edge of AppBar's own flexible Slot, so it
+   lands just left of the dots-vertical icon instead of hugging the close
+   (x) icon on the left, per direct request. */
+.finishWrap {
+  margin-left: auto;
+}
+
+.middleContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-300);
+  padding: var(--spacing-400);
+  box-sizing: border-box;
+}
+
+.micRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 12px between the mic button and its "Tap to answer" label, per direct
+     instruction. */
+  gap: var(--spacing-300);
+  position: relative;
+}
+
+.micLabel {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  /* Extra 12px margin on top of the parent bottomContent's own 12px
+     gap, so the divider specifically gets 24px total above and below it,
+     per direct instruction -- everything else keeps the 12px gap. */
+  margin: var(--spacing-300) 0;
+}
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-default);
+}
+.dividerText {
+  margin: 0;
+  color: var(--color-text-tertiary);
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+
+.chatInputRow {
+  display: flex;
+  align-items: center;
+}
+
+/* The in-context mic-permission primer card — no Figma frame, no cataloged
+   component (see component-gaps.md / the build report). Anchored above the
+   mic button via absolute positioning within .micRow's relative box. */
+.micDisabledNote {
+  margin: 0;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+.micDisabledNote button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-text-link);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}

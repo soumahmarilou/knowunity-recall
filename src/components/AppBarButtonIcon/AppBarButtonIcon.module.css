@@ -1,0 +1,80 @@
+.button {
+  display: inline-flex;
+  align-items: var(--layout-align-center);
+  justify-content: var(--layout-align-center);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  /* Figma nests an inner 40x40 "Button" frame inside this 48x48 tap
+     target, but that inner frame has no fill/stroke/effects of its own
+     in any state — identical to a bare 48x48 box visually. Collapsed to
+     one element rather than reproducing an invisible nested frame. */
+  width: var(--spacing-1200);
+  height: var(--spacing-1200);
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  color: var(--color-text-disabled);
+}
+
+/* Pressed genuinely dims the icon here (unlike ButtonIcon's Tertiary,
+   which has no Pressed treatment at all) — confirmed directly in Figma.
+   `:active` is what fires it on a real tap/click. */
+.button.pressed,
+.button:active:not(:disabled) {
+  color: var(--color-text-secondary);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: var(--layout-align-center);
+  justify-content: var(--layout-align-center);
+  width: var(--icon-300);
+  height: var(--icon-300);
+}
+
+/* This project's Icons set bakes a fixed token color into each icon's
+   fill attribute (correct for their normal, single-color usage
+   elsewhere). Figma's real App Bar Button Icon needs the SAME icon to
+   re-tint per state instead, so this overrides that fill to follow
+   .button's `color` here specifically. CSS always wins over an SVG
+   presentation attribute like a plain fill="...", so this is a real,
+   reliable override, not a hack. */
+.icon :global(svg *) {
+  fill: currentColor;
+}
+
+/* Figma's real Loading state swaps to a dedicated "loading-01" icon
+   asset, but that node has no parent in the file's page tree and Figma's
+   own export fails on it (not a permissions issue, tried directly) — an
+   orphaned/external reference, not something derivable from this file.
+   Reusing the same CSS spinner already built for Button/ButtonIcon's
+   Loading state instead, per instruction. */
+.spinner {
+  display: inline-block;
+  width: var(--icon-300);
+  height: var(--icon-300);
+  border-radius: var(--radius-full);
+  border: var(--stroke-heavy-border) solid currentColor;
+  border-top-color: transparent;
+  /* No motion/timing tokens exist anywhere in tokens.json — same known,
+     disclosed gap as every other spinner in this project. */
+  animation: appbar-button-icon-spin 0.6s linear infinite;
+}
+
+@keyframes appbar-button-icon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.5s;
+  }
+}

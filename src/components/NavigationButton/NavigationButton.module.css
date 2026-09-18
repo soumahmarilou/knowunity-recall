@@ -1,0 +1,51 @@
+.button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: var(--layout-align-center);
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  padding: var(--spacing-200);
+  gap: var(--spacing-050);
+  cursor: pointer;
+}
+
+/* Icon color/opacity genuinely differs per state in Figma (confirmed via
+   rendered screenshots of both states, not just raw property values) —
+   interactive/secondary is a pre-composed low-opacity white, so Inactive
+   icons render nearly ghosted; interactive/primary is solid near-white for
+   Active. CSS always wins over an SVG presentation attribute like a plain
+   fill="...", so re-tinting a fixed-fill icon via currentColor here is a
+   real, reliable override, not a hack (same pattern as AppBarButtonIcon). */
+.icon {
+  color: var(--color-interactive-secondary);
+}
+.icon :global(svg *) {
+  fill: currentColor;
+}
+
+.button.active .icon {
+  color: var(--color-interactive-primary);
+}
+
+.label {
+  color: var(--color-text-secondary);
+  text-align: var(--layout-align-center);
+  font-family: var(--typography-scale-caption-s-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-s-regular-font-weight);
+  font-size: var(--typography-scale-caption-s-regular-font-size);
+  line-height: var(--typography-scale-caption-s-regular-line-height);
+}
+
+/* Figma's real label uses a raw (not token-bound) "Inter Variable" 11px
+   text style with no matching typography token in tokens.json — closest
+   token is Caption S (Greed Standard-TRIAL, 9px), used here per your
+   direction rather than inventing an 11px/Inter token. Known, disclosed
+   gap. */
+.button.active .label {
+  color: var(--color-text-primary);
+  font-family: var(--typography-scale-caption-s-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-s-bold-font-weight);
+  font-size: var(--typography-scale-caption-s-bold-font-size);
+  line-height: var(--typography-scale-caption-s-bold-line-height);
+}

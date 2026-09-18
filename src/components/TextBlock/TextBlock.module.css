@@ -1,0 +1,87 @@
+.textBlock {
+  display: inline-flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  text-align: var(--layout-align-center);
+}
+
+.caption {
+  margin: 0;
+  color: var(--color-text-secondary);
+  text-align: var(--layout-align-center);
+}
+
+.variantXL {
+  gap: var(--spacing-100);
+}
+.variantXL .title {
+  font-family: var(--typography-scale-display-m-font-family), sans-serif;
+  font-weight: var(--typography-scale-display-m-font-weight);
+  font-size: var(--typography-scale-display-m-font-size);
+  line-height: var(--typography-scale-display-m-line-height);
+}
+.variantXL .caption {
+  font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-regular-font-weight);
+  font-size: var(--typography-scale-body-m-regular-font-size);
+  line-height: var(--typography-scale-body-m-regular-line-height);
+}
+
+.variantL {
+  gap: var(--spacing-100);
+}
+.variantL .title {
+  /* Was bound to headline-xl (44px) — the real headline-l token (33px)
+     exists in tokens.json but wasn't reachable through any variant.
+     Fixed directly rather than adding a 5th variant, per direct
+     instruction: 2 occurrences of the same inline-bypass workaround is
+     the project's own stated threshold for fixing the component itself,
+     not waiting for a 3rd. See component-gaps.md. */
+  font-family: var(--typography-scale-headline-l-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-l-font-weight);
+  font-size: var(--typography-scale-headline-l-font-size);
+  line-height: var(--typography-scale-headline-l-line-height);
+}
+.variantL .caption {
+  font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-m-regular-font-weight);
+  font-size: var(--typography-scale-body-m-regular-font-size);
+  line-height: var(--typography-scale-body-m-regular-line-height);
+}
+
+.variantM {
+  gap: var(--spacing-050);
+}
+.variantM .title {
+  font-family: var(--typography-scale-headline-xs-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-xs-bold-font-weight);
+  font-size: var(--typography-scale-headline-xs-bold-font-size);
+  line-height: var(--typography-scale-headline-xs-bold-line-height);
+}
+.variantM .caption {
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+
+.variantS {
+  gap: var(--spacing-050);
+}
+.variantS .title {
+  font-family: var(--typography-scale-headline-xxs-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-xxs-bold-font-weight);
+  font-size: var(--typography-scale-headline-xxs-bold-font-size);
+  line-height: var(--typography-scale-headline-xxs-bold-line-height);
+}
+.variantS .caption {
+  font-family: var(--typography-scale-caption-s-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-s-regular-font-weight);
+  font-size: var(--typography-scale-caption-s-regular-font-size);
+  line-height: var(--typography-scale-caption-s-regular-line-height);
+}
