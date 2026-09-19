@@ -110,6 +110,12 @@ export function AfterRecordingContent() {
         rightAriaLabel="More options"
       >
         <div className={styles.progressRow}>
+          {/* Invisible mirror of the real BadgeChip below — see
+             ../recording/page.module.css's own comment on .progressRow
+             for why this is needed for true centering. */}
+          <span className={styles.badgeSpacer} aria-hidden="true">
+            <BadgeChip type="xp" label={String(xp)} />
+          </span>
           <span className={styles.countdown}>{formatCountdown(remaining)}</span>
           <BadgeChip type="xp" label={String(xp)} />
         </div>

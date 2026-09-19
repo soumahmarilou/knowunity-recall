@@ -93,6 +93,13 @@ export function FreeRecallChallengeRecordingContent() {
         rightAriaLabel="More options"
       >
         <div className={styles.progressRow}>
+          {/* Invisible mirror of the real BadgeChip below — same rendered
+             width, so the grid's two outer columns match and the
+             countdown lands in the true center of the row instead of
+             being pushed left by the badge's own width. */}
+          <span className={styles.badgeSpacer} aria-hidden="true">
+            <BadgeChip type="xp" label={String(xp)} />
+          </span>
           <span className={styles.countdown}>{formatCountdown(remaining)}</span>
           <BadgeChip type="xp" label={String(xp)} />
         </div>

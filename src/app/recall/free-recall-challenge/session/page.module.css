@@ -1,21 +1,36 @@
 /* No coverage bar here anymore — per direct instruction it moved into
    middleContent, below the mascot (see .coverageRow/.coverageBar).
-   AppBar's own row is just the countdown and XP now, pushed to the row's
-   two ends. */
+   AppBar's own row is just the countdown and XP now.
+
+   A plain `flex:1` + `text-align:center` on .countdown alone isn't true
+   centering: with only one sized sibling (the XP badge) on the right,
+   the flex item's own box stops short of the row's right edge, so
+   centered text inside it ends up off-center too. Fixed with a
+   3-column grid: an invisible mirror of the badge in column 1
+   (.badgeSpacer, same rendered width as the real one), the countdown
+   centered in column 2, the real badge in column 3 — same fix as
+   ../recording/page.module.css's identical .progressRow. */
 .progressRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
   flex: 1;
 }
 
+.badgeSpacer {
+  visibility: hidden;
+}
+
 .countdown {
-  flex-shrink: 0;
+  text-align: center;
   color: var(--color-text-primary);
-  font-family: var(--typography-scale-caption-s-bold-font-family), sans-serif;
-  font-weight: var(--typography-scale-caption-s-bold-font-weight);
-  font-size: var(--typography-scale-caption-s-bold-font-size);
-  line-height: var(--typography-scale-caption-s-bold-line-height);
+  /* Was caption-s-bold (9px) — same bump to headline-s-bold (21px) as
+     ../recording/page.module.css, for a countdown a student needs to
+     read at a glance. */
+  font-family: var(--typography-scale-headline-s-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-s-font-weight);
+  font-size: var(--typography-scale-headline-s-font-size);
+  line-height: var(--typography-scale-headline-s-line-height);
 }
 
 .middleContent {
