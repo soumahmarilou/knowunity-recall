@@ -10,7 +10,7 @@ import { MascotBubble } from "@/components/MascotBubble/MascotBubble";
 import { MicButton } from "@/components/MicButton/MicButton";
 import { ChatInput } from "@/components/ChatInput/ChatInput";
 import { XClose, DotsVertical } from "@/components/Icons/Icons";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   CONCEPT_QUESTIONS_TERMS,
@@ -40,17 +40,21 @@ import styles from "../page.module.css";
  * `outcomes` before navigating here, so this screen never appends to it
  * itself, only reads it forward.
  *
- * Nothing here is judged (the answer's already given), so unlike every
- * other mic/chat interaction in this mode, tapping the mic or sending
- * text does not route through Recording/Processing at all — it advances
- * straight to the next term (or Summary, if this was the last one), the
- * same destination "Say it back" used to lead to before it was removed
- * from the mode entirely.
+ * Tapping the mic or sending text here is a real repeat attempt, per
+ * direct instruction — it routes through the exact same Recording ->
+ * Processing pipeline any other question uses (`goToRecording`, `hints`
+ * reset to 0 for a fresh start of this term's ladder), not a shortcut
+ * straight to the next term. An earlier version of this screen skipped
+ * Recording/Processing entirely and just advanced — that's been
+ * corrected; the mic genuinely records now, "like for all the other
+ * questions."
  *
- * The bubble now tells the student what that mic/chat interaction is
- * for, per direct instruction — the answer text is followed by a fixed
- * "Repeat the answer to go to the next question." line, since nothing
- * on screen previously explained why tapping the mic here made sense.
+ * The bubble still tells the student what tapping the mic here is for —
+ * the answer text is followed by a fixed "Repeat the answer to go to the
+ * next question." line. That copy is a slight simplification now (a
+ * repeat can also land on another hint or a second reveal if it doesn't
+ * go well, same as any other attempt) but stays accurate to the common
+ * case and to the on-screen "Tap to repeat" label, so left as-is.
  */
 const REPEAT_PROMPT = "Repeat the answer to go to the next question.";
 
@@ -67,16 +71,17 @@ export function ConceptQuestionsRevealContent() {
   const xpTotal = parseOutcomes(outcomesParam).reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
   const [message, setMessage] = useState("");
 
-  const goToNext = () => {
-    if (term === CONCEPT_QUESTIONS_TERMS.length) {
-      router.push(
-        `/recall/concept-questions/summary?outcomes=${outcomesParam ?? ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
-      );
-    } else {
-      router.push(
-        `/recall/concept-questions/session?term=${term + 1}&hints=0&outcomes=${outcomesParam ?? ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
-      );
-    }
+  // Per direct instruction: repeating the answer is a genuine new attempt
+  // at this same term, not just navigation — routes into the same
+  // Recording screen any other question uses (hints=0, a fresh start of
+  // the ladder for this term), matching Session's own goToRecording query
+  // shape exactly. From there the existing Recording -> Processing
+  // pipeline decides what happens next (pass advances to the next term/
+  // summary same as always; a miss shows a hint or forces reveal again),
+  // the same as any other question — nothing special-cased here.
+  const goToRecording = () => {
+    const query = `term=${term}&hints=0${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
+    router.push(`/recall/concept-questions/session/recording?${query}`);
   };
 
   return (
@@ -85,7 +90,7 @@ export function ConceptQuestionsRevealContent() {
         variant="leftAndRightIconButton"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 75))}
         rightIcon={<DotsVertical />}
         rightAriaLabel="More options"
       >
@@ -117,7 +122,7 @@ export function ConceptQuestionsRevealContent() {
 
       <div className={styles.bottomContent}>
         <div className={styles.micRow}>
-          <MicButton state="idle" aria-label="Repeat the answer" onClick={goToNext} />
+          <MicButton state="idle" aria-label="Repeat the answer" onClick={goToRecording} />
           <p className={styles.micLabel}>Tap to repeat</p>
         </div>
 
@@ -128,7 +133,7 @@ export function ConceptQuestionsRevealContent() {
         </div>
 
         <div className={styles.chatInputRow}>
-          <ChatInput state="Answer" value={message} onChange={setMessage} onSend={goToNext} />
+          <ChatInput state="Answer" value={message} onChange={setMessage} onSend={goToRecording} />
         </div>
       </div>
     </Screen>

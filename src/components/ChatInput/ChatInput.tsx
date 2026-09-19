@@ -116,6 +116,14 @@ export interface ChatInputProps {
    * while typed text (per direct instruction, distinct from the
    * recording button's own spin, which this replaces for a text send). */
   sending?: boolean;
+  /** Genuinely disables the field — the textarea gets a real HTML
+   * `disabled` attribute (not just a no-op onChange), and the trailing
+   * mic/send button is disabled too. For a beat where typing or sending
+   * shouldn't be possible at all (e.g. while Knowie is still reacting to
+   * the previous answer), not to be confused with `sending` (mid-send,
+   * still enabled until the request resolves) or `notWired` (no handler
+   * passed at all, a disclosed prototype gap). Off by default. */
+  disabled?: boolean;
   /** Chip attached only — the pinned category/context chip. Figma default: "Recall exercice". */
   chipText?: string;
   chipIcon?: ReactNode;
@@ -138,6 +146,7 @@ export function ChatInput({
   onSend,
   sendAriaLabel = "Send",
   sending = false,
+  disabled = false,
   chipText = "Recall exercice",
   chipIcon = <FlashcardStack01 />,
   onChipRemove,
@@ -173,6 +182,7 @@ export function ChatInput({
           onChange={handleChange}
           placeholder={resolvedPlaceholder}
           rows={1}
+          disabled={disabled}
         />
         {/* Was a ButtonIcon (Primary, S) — a filled 48px circle, much
            bigger than Home chat's own trailing send/mic icon (a bare
@@ -184,10 +194,12 @@ export function ChatInput({
            the wrapper button's extra height isn't needed anymore either. */}
         <button
           type="button"
-          className={styles.answerSendButton}
+          className={[styles.answerSendButton, !onSend && !sending && styles.notWired]
+            .filter(Boolean)
+            .join(" ")}
           aria-label={sendAriaLabel}
           aria-busy={sending || undefined}
-          disabled={sending}
+          disabled={sending || disabled}
           onClick={onSend}
         >
           <IconSlot size="300" icon={sending ? <Loading01 /> : <Send01 />} />
@@ -269,13 +281,26 @@ export function ChatInput({
               onChange={handleChange}
               placeholder={resolvedPlaceholder}
               rows={1}
+              disabled={disabled}
             />
             {value.trim().length > 0 ? (
-              <button type="button" className={styles.micButton} aria-label={sendAriaLabel} onClick={onSend}>
+              <button
+                type="button"
+                className={[styles.micButton, !onSend && styles.notWired].filter(Boolean).join(" ")}
+                aria-label={sendAriaLabel}
+                disabled={disabled}
+                onClick={onSend}
+              >
                 <IconSlot size="300" icon={<Send01 />} />
               </button>
             ) : (
-              <button type="button" className={styles.micButton} aria-label={micAriaLabel} onClick={onMicClick}>
+              <button
+                type="button"
+                className={[styles.micButton, !onMicClick && styles.notWired].filter(Boolean).join(" ")}
+                aria-label={micAriaLabel}
+                disabled={disabled}
+                onClick={onMicClick}
+              >
                 <IconSlot size="300" icon={<Microphone01 />} />
               </button>
             )}

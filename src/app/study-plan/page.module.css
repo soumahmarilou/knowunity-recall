@@ -46,6 +46,7 @@
   box-sizing: border-box;
 }
 .examBadge svg {
+  display: block;
   width: var(--icon-300);
   height: var(--icon-300);
 }
@@ -57,7 +58,11 @@
   border: none;
   background: transparent;
   padding: 0;
-  cursor: pointer;
+  /* No onClick wired yet (disclosed open gap — see the component's own
+     header comment) — no pointer cursor promising a tap that goes
+     nowhere. Native <button>, not the Button component, so this can't
+     reuse its notWired class; same fix, applied by hand. */
+  cursor: default;
   color: var(--color-text-primary);
   font-family: var(--typography-scale-headline-l-font-family), sans-serif;
   font-weight: var(--typography-scale-headline-l-font-weight);
@@ -97,6 +102,7 @@
   line-height: var(--typography-scale-body-s-regular-line-height);
 }
 .stat svg {
+  display: block;
   width: var(--icon-200);
   height: var(--icon-200);
 }
@@ -163,64 +169,39 @@
   padding: var(--spacing-400) 0;
 }
 
-/* Used for both the "current" step (a real <button>, see page.tsx) and
-   the three "locked" steps (plain <div>s) — the button-reset properties
-   are no-ops on a div, so one rule covers both instead of splitting it. */
+/* No longer a <button> at all, for any of the three states — the real
+   ButtonIcon instance each step renders is the only tappable thing now,
+   not this whole row. The label sits next to it as plain, inert text. */
 .step {
   display: flex;
   align-items: center;
   gap: var(--spacing-400);
   width: 100%;
-  border: none;
-  background: transparent;
-  padding: 0;
-  text-align: left;
-  font: inherit;
-  color: inherit;
 }
 
-/* Scoped to the real <button> only — the done/locked steps render as
-   plain <div>s and do nothing when tapped, so they shouldn't claim a
-   pointer cursor. A <button> defaults to `cursor: default` in the UA
-   stylesheet, not pointer, so this needs to be explicit. */
-button.step {
-  cursor: pointer;
-}
-
-.node {
+/* Holds the current step's ButtonIcon + its ProgressRing together —
+   sized to the ring's own 64px (spacing-1600, the same footprint the
+   old hand-rolled .node used, so this row's height doesn't shift), with
+   the 56px ButtonIcon (its real L size) centered inside. */
+.currentIconWrap {
+  position: relative;
+  width: var(--spacing-1600);
+  height: var(--spacing-1600);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: var(--spacing-1600);
-  height: var(--spacing-1600);
-  border-radius: var(--radius-full);
-  box-sizing: border-box;
 }
-.node svg {
-  width: var(--icon-250);
-  height: var(--icon-250);
-}
-.nodeIconLarge svg {
-  width: var(--icon-300);
-  height: var(--icon-300);
-}
-
-.nodeCurrent {
-  background: var(--color-accent-1-subtle);
-  border: var(--stroke-heavy-border) solid var(--color-accent-1-bold);
-  color: var(--color-accent-1-bold);
-}
-/* Solid fill, not just an outlined ring like .nodeCurrent — a completed
-   step should read as more settled/confident than the one still being
-   worked on. */
-.nodeDone {
-  background: var(--color-accent-1-bold);
-  color: var(--color-accent-1-on-bold);
-}
-.nodeLocked {
-  background: var(--color-background-surface);
-  color: var(--color-text-disabled);
+/* pointer-events: none — the ring is decorative (see ProgressRing's own
+   aria-hidden) and sits visually around the ButtonIcon; it must never
+   intercept a tap meant for the real control underneath it. */
+.ringLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 }
 
 .stepLabel {
@@ -254,7 +235,13 @@ button.step {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-300) var(--spacing-400) var(--spacing-400);
+  /* Vertical rhythm matches Home's/Recall exercice's own .navbar
+     (spacing-100 top/bottom) — this one just also needs horizontal
+     padding since, unlike theirs, it isn't nested inside an already-
+     padded .bottomContent. Was spacing-300/spacing-400/spacing-400,
+     which made this bar visibly taller (75px) than the other two
+     screens' identical nav bar (55px) for no reason tied to content. */
+  padding: var(--spacing-100) var(--spacing-400);
   gap: var(--spacing-800);
   box-sizing: border-box;
 }

@@ -22,6 +22,11 @@
   color: var(--color-text-disabled);
 }
 
+/* No onClick wired — see Button.tsx's own comment on `notWired`. */
+.notWired {
+  cursor: default;
+}
+
 /* Pressed genuinely dims the icon here (unlike ButtonIcon's Tertiary,
    which has no Pressed treatment at all) — confirmed directly in Figma.
    `:active` is what fires it on a real tap/click. */
@@ -36,6 +41,17 @@
   justify-content: var(--layout-align-center);
   width: var(--icon-300);
   height: var(--icon-300);
+}
+
+/* Was missing entirely — the wrapper above had a size, but nothing ever
+   told the actual <svg> inside it to fill that size. Same Safari/iOS
+   bug as IconSlot's own fix — see that component's comment. This one
+   sizes the AppBar's own menu/notification/close/overflow icons, all
+   reported invisible on a real iPhone. */
+.icon > :global(svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 /* This project's Icons set bakes a fixed token color into each icon's

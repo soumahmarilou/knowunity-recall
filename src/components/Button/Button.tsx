@@ -58,6 +58,13 @@ export function Button({
     styles[`variant${variant}`],
     styles[`size${size}`],
     isPressed && styles.pressed,
+    // No onClick means tapping this does nothing — not a Figma state,
+    // a disclosed prototype gap (some CTAs, e.g. Study plan's "Focus
+    // Mode", have no destination yet). Drops the pointer cursor so it
+    // doesn't promise an action that isn't there; doesn't touch
+    // `disabled` itself, which would also change focus/AT behavior and
+    // the button's whole visual state, not just the cursor.
+    !onClick && !isDisabled && !isLoading && styles.notWired,
   ]
     .filter(Boolean)
     .join(" ");

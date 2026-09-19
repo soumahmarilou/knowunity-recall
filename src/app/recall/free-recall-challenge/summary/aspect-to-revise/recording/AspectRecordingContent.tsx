@@ -15,7 +15,7 @@ import { TranscriptView } from "@/components/TranscriptView/TranscriptView";
 import { XClose, Redo01 } from "@/components/Icons/Icons";
 import { useMicLevel } from "@/lib/micLevel";
 import { useSpeechTranscript } from "@/lib/speechTranscript";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   FRC_ASPECTS,
@@ -74,7 +74,7 @@ export function AspectRecordingContent() {
         variant="leftIconButtonOnly"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 75))}
       >
         <div className={styles.progressRow}>
           <div className={styles.progressBar}>

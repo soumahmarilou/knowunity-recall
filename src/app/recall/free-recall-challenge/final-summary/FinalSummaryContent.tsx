@@ -9,7 +9,7 @@ import { ButtonGroup } from "@/components/ButtonGroup/ButtonGroup";
 import { Button } from "@/components/Button/Button";
 import { XClose, Lightning01, Gauge01 } from "@/components/Icons/Icons";
 import { getCoverageFromSearchParam, getXpFromSearchParam } from "../frc";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl, studyPlanReturnUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import styles from "./page.module.css";
 
@@ -33,8 +33,8 @@ export function FinalSummaryContent() {
   const xp = getXpFromSearchParam(searchParams.get("xp"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
 
-  const goToContinue = () => router.push("/recall/free-recall-challenge/summary/continue");
-  const goToReturn = () => router.push(entry === "study-plan" ? "/study-plan" : "/");
+  const goToContinue = () => router.push(`/recall/free-recall-challenge/summary/continue?entry=${entry}`);
+  const goToReturn = () => router.push(studyPlanReturnUrl(entry));
 
   return (
     <Screen>
@@ -42,7 +42,7 @@ export function FinalSummaryContent() {
         variant="leftIconButtonOnly"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 75))}
       />
 
       <div className={styles.middleContent}>

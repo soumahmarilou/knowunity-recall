@@ -27,7 +27,7 @@ const meta = {
     },
   },
   argTypes: {
-    variant: { control: "radio", options: ["Primary", "Secondary", "Tertiary"] },
+    variant: { control: "radio", options: ["Primary", "Secondary", "Tertiary", "Success"] },
     size: { control: "radio", options: ["S", "M", "L"] },
     state: { control: "radio", options: ["Default", "Pressed", "Disabled", "Loading"] },
   },
@@ -115,4 +115,21 @@ export const TertiaryDisabled: Story = {
 export const TertiaryLoading: Story = {
   name: "Tertiary / Loading",
   args: { variant: "Tertiary", state: "Loading" },
+};
+
+export const SuccessDefault: Story = {
+  name: "Success / Default",
+  args: { variant: "Success", state: "Default" },
+};
+export const SuccessPressed: Story = {
+  name: "Success / Pressed",
+  args: { variant: "Success", state: "Pressed" },
+};
+export const SuccessDisabled: Story = {
+  name: "Success / Disabled",
+  args: { variant: "Success", state: "Disabled" },
+};
+export const SuccessLoading: Story = {
+  name: "Success / Loading",
+  args: { variant: "Success", state: "Loading" },
 };

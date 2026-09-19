@@ -16,6 +16,13 @@
   cursor: not-allowed;
 }
 
+/* No onClick wired — see Button.tsx's own comment on `notWired`. Cursor
+   only; everything else about the button (fill, text, shadow) stays as
+   normal Default, since this isn't a real Figma/design state. */
+.notWired {
+  cursor: default;
+}
+
 /* Sizes */
 .sizeS {
   gap: var(--spacing-150);
@@ -154,6 +161,18 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+/* Was missing entirely — the wrapper above (sized per .sizeS/.sizeM/
+   .sizeL below) never told the actual <svg> inside it to fill that
+   size. Same Safari/iOS bug as IconSlot's own fix — see that
+   component's comment. This is showLeftIcon/showRightIcon's icon,
+   e.g. Home's "Summarize"/"Find study notes" quick-action buttons,
+   reported invisible on a real iPhone. */
+.icon > :global(svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .spinner {

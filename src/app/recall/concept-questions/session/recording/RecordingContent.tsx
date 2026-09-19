@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Screen } from "@/components/Screen/Screen";
 import { AppBar } from "@/components/AppBar/AppBar";
-import { ProgressIndicator, type ProgressIndicatorValue } from "@/components/ProgressIndicator/ProgressIndicator";
+import { ProgressIndicator } from "@/components/ProgressIndicator/ProgressIndicator";
 import { BadgeChip } from "@/components/BadgeChip/BadgeChip";
 import { MascotBubble } from "@/components/MascotBubble/MascotBubble";
 import { Waveform } from "@/components/Waveform/Waveform";
@@ -15,11 +15,12 @@ import { TranscriptView } from "@/components/TranscriptView/TranscriptView";
 import { XClose, DotsVertical, Redo01 } from "@/components/Icons/Icons";
 import { useMicLevel } from "@/lib/micLevel";
 import { useSpeechTranscript } from "@/lib/speechTranscript";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   CONCEPT_QUESTIONS_TERMS,
   XP_BY_OUTCOME,
+  PROGRESS_BY_TERM,
   getTermFromSearchParam,
   getHintsFromSearchParam,
   getSubjectFromSearchParam,
@@ -27,8 +28,6 @@ import {
   parseOutcomes,
 } from "../../terms";
 import styles from "./page.module.css";
-
-const PROGRESS_BY_TERM: ProgressIndicatorValue[] = ["0", "25", "75"];
 
 /**
  * Concept Questions – Recording. SPEC.md screen 8b — "mirrors Guided
@@ -65,7 +64,7 @@ export function ConceptQuestionsRecordingContent() {
         variant="leftAndRightIconButton"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 50))}
         rightIcon={<DotsVertical />}
         rightAriaLabel="More options"
       >

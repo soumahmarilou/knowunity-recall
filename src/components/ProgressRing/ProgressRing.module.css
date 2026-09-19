@@ -1,0 +1,46 @@
+.ring {
+  display: block;
+  flex-shrink: 0;
+  transform-origin: center;
+}
+
+/* border/strong, not border/default — its own token description says
+   "use for dividers that must read at a glance," which is exactly the
+   problem here: at low progress values the filled arc is short, and a
+   viewer needs to actually see the rest of the track to read it as "a
+   partly-filled ring" rather than a stray green sliver floating with
+   nothing to relate it to. */
+.track {
+  stroke: var(--color-border-strong);
+}
+
+.fill {
+  stroke: var(--color-feedback-success-bold);
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+/* Slow breathing scale to invite a tap — decorative, not a status
+   signal, so (unlike Button/ButtonIcon's own Loading spinner, which
+   keeps moving but slower) this stops outright under reduced motion
+   instead of just slowing down. No motion/timing tokens exist anywhere
+   in tokens.json for either value — same known, disclosed gap as the
+   spinner's own 0.6s. */
+.pulse {
+  animation: progressring-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes progressring-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+}

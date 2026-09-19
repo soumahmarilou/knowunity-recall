@@ -25,20 +25,32 @@
   cursor: not-allowed;
 }
 
+/* No onClick wired — see ButtonIcon.tsx's own comment on `notWired`. */
+.notWired {
+  cursor: default;
+}
+
+/* This project's Icons set bakes a fixed token color into each icon's
+   fill attribute (e.g. Microphone01's path has a hardcoded fill="var(
+   --color-text-secondary)") — correct for their normal, single-color
+   usage elsewhere, but wrong here: it meant every icon rendered inside
+   this button stayed text-secondary grey regardless of variant/state,
+   silently ignoring the `color` each .variantX rule below actually sets
+   (interactive/onPrimary for Primary, etc.). CSS always wins over an SVG
+   presentation attribute like a plain fill="...", so this is a real,
+   reliable override — same pattern already fixed on AppBarButtonIcon,
+   NavigationButton, MicButton, IconBadge and Button, just missed here
+   until now. */
+.button :global(svg *) {
+  fill: currentColor;
+}
+
 /* Variants */
 .variantPrimary {
   background: var(--color-interactive-primary);
   color: var(--color-interactive-on-primary);
   border: var(--stroke-border) solid var(--color-border-default);
-  box-shadow: inset 0 var(--spacing-negative-050) 0 0 var(--color-alpha-shadow-15);
 }
-.sizeL.variantPrimary {
-  box-shadow: inset 0 var(--spacing-negative-100) 0 0 var(--color-alpha-shadow-15);
-}
-/* Pressed carries no distinct fill/stroke/shadow in Figma for Primary —
-   same as Default, same as the text Button's Primary/Pressed — so
-   deliberately no :active rule here to match (there's nothing to
-   change). */
 
 .variantPrimary:disabled {
   background: var(--color-background-surface);
@@ -53,10 +65,6 @@
 .variantSecondary {
   background: var(--color-background-surface);
   color: var(--color-interactive-on-secondary);
-  box-shadow: inset 0 var(--spacing-negative-050) 0 0 var(--color-alpha-shadow-15);
-}
-.sizeL.variantSecondary {
-  box-shadow: inset 0 var(--spacing-negative-100) 0 0 var(--color-alpha-shadow-15);
 }
 .variantSecondary.pressed,
 .variantSecondary:active:not(:disabled) {
@@ -66,12 +74,79 @@
   background: var(--color-background-surface);
 }
 
+/* Pressed — matches Button's own established convention (its Primary/
+   Secondary also flatten this same shadow on press, see Button.module.css):
+   the inner shadow disappears, paired with `.iconWrap`'s own settle-down
+   shift below so the icon visibly sinks as the ridge flattens. Applied
+   consistently across every variant that has a shadow, not just Primary,
+   so ButtonIcon doesn't read as a different button family from Button. */
+.variantPrimary:not(.pressed):not(:active),
+.variantSecondary:not(.pressed):not(:active) {
+  box-shadow: inset 0 var(--spacing-negative-050) 0 0 var(--color-alpha-shadow-15);
+}
+.sizeL.variantPrimary:not(.pressed):not(:active),
+.sizeL.variantSecondary:not(.pressed):not(:active) {
+  box-shadow: inset 0 var(--spacing-negative-100) 0 0 var(--color-alpha-shadow-15);
+}
+
+.iconWrap {
+  display: inline-flex;
+  transform: translateY(0);
+}
+/* Same magnitude as the shadow offset it pairs with above (spacing-050
+   at S/M, spacing-100 at L) — the icon visibly settles down as the ridge
+   flattens, same felt "pushed in" result as Button's own padding-bottom
+   shrink, just via a transform since ButtonIcon's icon is flex-centered,
+   not offset by padding the way Button's label is. */
+.variantPrimary.pressed .iconWrap,
+.variantPrimary:active:not(:disabled) .iconWrap,
+.variantSecondary.pressed .iconWrap,
+.variantSecondary:active:not(:disabled) .iconWrap,
+.variantSuccess.pressed .iconWrap,
+.variantSuccess:active:not(:disabled) .iconWrap {
+  transform: translateY(var(--spacing-050));
+}
+.sizeL.variantPrimary.pressed .iconWrap,
+.sizeL.variantPrimary:active:not(:disabled) .iconWrap,
+.sizeL.variantSecondary.pressed .iconWrap,
+.sizeL.variantSecondary:active:not(:disabled) .iconWrap,
+.sizeL.variantSuccess.pressed .iconWrap,
+.sizeL.variantSuccess:active:not(:disabled) .iconWrap {
+  transform: translateY(var(--spacing-100));
+}
+
 .variantTertiary {
   background: transparent;
   color: var(--color-text-primary);
   /* No fill in Figma for any Tertiary state, so no inner shadow either —
      nothing to inset it onto, same as the text Button's Tertiary. No
      :active rule to match, for the same reason. */
+}
+
+/* Built out to the full S/M/L x Default/Pressed/Disabled/Loading grid
+   per direct instruction, matching Primary/Secondary/Tertiary's own
+   completeness. Border + inner shadow match Primary's exact treatment —
+   same border/default stroke, same shadow depth per size. */
+.variantSuccess {
+  background: var(--color-feedback-success-bold);
+  color: var(--color-feedback-success-on-bold);
+  border: var(--stroke-border) solid var(--color-border-default);
+}
+.variantSuccess:not(.pressed):not(:active) {
+  box-shadow: inset 0 var(--spacing-negative-050) 0 0 var(--color-alpha-shadow-15);
+}
+.sizeL.variantSuccess:not(.pressed):not(:active) {
+  box-shadow: inset 0 var(--spacing-negative-100) 0 0 var(--color-alpha-shadow-15);
+}
+/* Disabled collapses to the same neutral "unavailable" look every other
+   variant's Disabled state already uses (see Primary's own :disabled
+   rule, which this mirrors exactly: fill swaps, border drops) — Success
+   loses its green identity here too, consistent with the rest of the
+   grid rather than inventing a dimmed-green treatment nothing else in
+   this component does. */
+.variantSuccess:disabled {
+  background: var(--color-background-surface);
+  border: none;
 }
 
 .button:disabled {

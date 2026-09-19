@@ -32,7 +32,17 @@
   height: var(--icon-400);
 }
 
+/* `display: block` matters, not just decoration — Safari/WebKit (every
+   browser on iOS, "Chrome for iOS" included, since Apple requires all
+   iOS browsers to use WebKit underneath) can fail to size an <svg> at
+   all when it's left at its default `display: inline` inside a flex
+   container with only percentage width/height and no intrinsic size —
+   confirmed as the cause of icons rendering invisible on a real iPhone.
+   Every icon in this app is a bare viewBox-only <svg> (no width/height
+   attributes — see Icons.tsx's own comment), so this affects every icon
+   that goes through this component. */
 .slot > :global(svg) {
+  display: block;
   width: 100%;
   height: 100%;
 }

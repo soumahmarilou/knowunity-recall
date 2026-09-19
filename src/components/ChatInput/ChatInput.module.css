@@ -110,6 +110,18 @@
   color: var(--color-text-primary);
 }
 
+/* No onMicClick/onSend wired — see Button.tsx's own comment on
+   `notWired`. Shared by .micButton and .answerSendButton below, same
+   component. Compound selectors, not a bare `.notWired` — this file
+   declares three separate buttons' own `cursor: pointer` at different
+   points below, each of which would otherwise win on source order alone
+   against a single lower-down `.notWired` rule (equal specificity, same
+   as any of .micButton/.answerSendButton). */
+.micButton.notWired,
+.answerSendButton.notWired {
+  cursor: default;
+}
+
 /* Invisible hit-area expansion, not a visible resize — the icon stays
    IconSlot 300 (24px) and the pill's layout/height are untouched. `inset`
    with a negative spacing token pads the tappable region out on all four

@@ -6,19 +6,26 @@ import styles from "./ButtonIcon.module.css";
  * Icon-only button. Figma: "buttonIcon" component set (variant x size x state).
  *
  * WHAT IT IS: The icon-only counterpart to button. Same variant grid —
- * variant (Primary/Secondary/Tertiary) x size (S/M/L) x state
+ * variant (Primary/Secondary/Tertiary/Success) x size (S/M/L) x state
  * (Default/Pressed/Disabled/Loading) — but no CTA text or icon-toggle
- * props, since the icon is the whole button.
+ * props, since the icon is the whole button. Success is a solid green
+ * accent for a completed step, built out to the same full grid as the
+ * other three variants, with the same border and inner-shadow treatment
+ * as Primary/Secondary at rest. Pressed flattens that inner shadow on
+ * Primary/Secondary/Success alike, the same convention button's own
+ * Pressed already uses — Tertiary has no fill to inset a shadow onto, so
+ * nothing changes there.
  *
  * WHEN TO USE IT: A tappable action with no room or need for a label —
  * nav bar actions, close/back, compact toolbars. Used this way inside
- * appBar's variants.
+ * appBar's variants. Success specifically marks a step that's already
+ * done.
  *
  * DON'T: Don't use it for an action a first-time user can't identify from
  * the icon alone — there's no label to fall back on.
  */
 
-export type ButtonIconVariant = "Primary" | "Secondary" | "Tertiary";
+export type ButtonIconVariant = "Primary" | "Secondary" | "Tertiary" | "Success";
 export type ButtonIconSize = "S" | "M" | "L";
 export type ButtonIconState = "Default" | "Pressed" | "Disabled" | "Loading";
 
@@ -66,6 +73,8 @@ export function ButtonIcon({
     styles[`variant${variant}`],
     styles[`size${size}`],
     isPressed && styles.pressed,
+    // Same reasoning as Button's own `notWired` — see that component.
+    !onClick && !isDisabled && !isLoading && styles.notWired,
   ]
     .filter(Boolean)
     .join(" ");
@@ -82,7 +91,9 @@ export function ButtonIcon({
       {isLoading ? (
         <span className={styles.spinner} aria-hidden="true" />
       ) : (
-        <IconSlot size={ICON_SLOT_SIZE[size]} icon={icon} />
+        <span className={styles.iconWrap}>
+          <IconSlot size={ICON_SLOT_SIZE[size]} icon={icon} />
+        </span>
       )}
     </button>
   );

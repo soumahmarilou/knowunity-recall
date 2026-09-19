@@ -8,7 +8,7 @@ import { TextBlock } from "@/components/TextBlock/TextBlock";
 import { IconSlot } from "@/components/IconSlot/IconSlot";
 import { Button } from "@/components/Button/Button";
 import { XClose, Microphone01, Lightbulb01, TrendingUp01 } from "@/components/Icons/Icons";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import { getSubjectFromSearchParam } from "./terms";
 import styles from "./page.module.css";
@@ -40,7 +40,7 @@ export function ConceptQuestionsIntroContent() {
         variant="leftIconButtonOnly"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 0))}
       />
 
       <div className={styles.middleContent}>

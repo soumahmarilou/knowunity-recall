@@ -45,7 +45,17 @@ export function NavigationButton({
 }: NavigationButtonProps) {
   const isActive = state === "Active";
 
-  const className = [styles.button, isActive && styles.active].filter(Boolean).join(" ");
+  const className = [
+    styles.button,
+    isActive && styles.active,
+    // No onClick wired — see Button.tsx's own comment on `notWired`.
+    // Applies even to the Active tab: it's already "here," so a missing
+    // onClick there is expected, not a gap — same cursor treatment
+    // either way since neither promises a navigation that happens.
+    !onClick && styles.notWired,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <button

@@ -8,7 +8,7 @@ import { ButtonGroup } from "@/components/ButtonGroup/ButtonGroup";
 import { ProgressIndicator } from "@/components/ProgressIndicator/ProgressIndicator";
 import { MascotBubble } from "@/components/MascotBubble/MascotBubble";
 import { XClose } from "@/components/Icons/Icons";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   getCoverageFromSearchParam,
@@ -83,7 +83,7 @@ export function FreeRecallChallengeSummaryContent() {
         variant="leftIconButtonOnly"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 75))}
       />
 
       <div className={styles.middleContent}>

@@ -11,7 +11,7 @@ import { MicButton } from "@/components/MicButton/MicButton";
 import { ButtonIcon } from "@/components/ButtonIcon/ButtonIcon";
 import { ChatInput } from "@/components/ChatInput/ChatInput";
 import { XClose, DotsVertical, Redo01 } from "@/components/Icons/Icons";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   CONCEPT_QUESTIONS_TERMS,
@@ -146,7 +146,7 @@ export function ConceptQuestionsProcessingContent() {
         variant="leftAndRightIconButton"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 75))}
         rightIcon={<DotsVertical />}
         rightAriaLabel="More options"
       >

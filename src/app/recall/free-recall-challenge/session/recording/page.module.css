@@ -1,21 +1,29 @@
 /* No coverage bar here anymore — per direct instruction it moved into
    middleContent, below the mascot (see .coverageRow/.coverageBar).
-   AppBar's own row is just the countdown and XP now, pushed to the row's
-   two ends. */
+   AppBar's own row is just the countdown and XP now. `justify-content:
+   space-between` used to pin the countdown to the row's left edge
+   (against the XP badge on the right) — the countdown is the thing a
+   student needs to read at a glance during a timed challenge, so it
+   gets `flex: 1` + centered text instead, keeping it centered in the
+   available row space regardless of the badge's own width. */
 .progressRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex: 1;
 }
 
 .countdown {
-  flex-shrink: 0;
+  flex: 1;
+  text-align: center;
   color: var(--color-text-primary);
-  font-family: var(--typography-scale-caption-s-bold-font-family), sans-serif;
-  font-weight: var(--typography-scale-caption-s-bold-font-weight);
-  font-size: var(--typography-scale-caption-s-bold-font-size);
-  line-height: var(--typography-scale-caption-s-bold-line-height);
+  /* Was caption-s-bold (9px) — the smallest caption step in the whole
+     type scale, unreadably tiny for a countdown a student needs to
+     track at a glance. headline-xs-bold (18px) is a real step up while
+     still compact enough for an AppBar row. */
+  font-family: var(--typography-scale-headline-xs-bold-font-family), sans-serif;
+  font-weight: var(--typography-scale-headline-xs-bold-font-weight);
+  font-size: var(--typography-scale-headline-xs-bold-font-size);
+  line-height: var(--typography-scale-headline-xs-bold-line-height);
 }
 
 .middleContent {

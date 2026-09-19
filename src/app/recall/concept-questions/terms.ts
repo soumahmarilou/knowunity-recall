@@ -110,12 +110,16 @@ export const CONCEPT_QUESTIONS_TERMS: ConceptQuestionsTerm[] = [
 
 // ProgressIndicator only supports 5 fixed steps (0/25/50/75/100), not a
 // free 0-100 value — exact thirds (33%/66%) for "term 1 of 3"/"term 2 of
-// 3" aren't representable. Per direct instruction, mapped to the closest
-// available steps instead: 25% / 50% / 100%, so term 3 of 3 reads as
-// fully filled rather than 75%. Centralized here (was duplicated
-// identically in SessionContent, ProcessingContent, and RevealContent)
-// rather than left as a 3rd drifting copy.
-export const PROGRESS_BY_TERM: ProgressIndicatorValue[] = ["25", "50", "100"];
+// 3" aren't representable. Evenly spaced across the available steps
+// instead (25/50/75) rather than the ["25","50","100"] this used to be —
+// that mapping showed the last term already at 100% before the student
+// had attempted it (reads "ahead" of actual progress) and paced unevenly
+// (a 25-point step, then a 50-point jump). 25/50/75 is a flat 25-point
+// climb throughout and never claims completion before Reveal/Summary
+// actually reach it. Centralized here (was duplicated identically in
+// SessionContent, ProcessingContent, and RevealContent) rather than left
+// as a 3rd drifting copy.
+export const PROGRESS_BY_TERM: ProgressIndicatorValue[] = ["25", "50", "75"];
 
 export type TermOutcome = "first" | "hint" | "revealed";
 

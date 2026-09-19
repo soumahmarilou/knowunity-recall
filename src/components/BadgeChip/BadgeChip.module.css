@@ -28,7 +28,11 @@
   width: auto;
   flex-shrink: 0;
 }
+/* `display: block` matters, not just decoration — see IconSlot's own
+   comment on the Safari/iOS bug this fixes (Home's Pro/XP/streak badges
+   were among the icons reported invisible on a real iPhone). */
 .icon > :global(svg) {
+  display: block;
   height: 100%;
   width: auto;
 }

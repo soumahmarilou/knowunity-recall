@@ -11,7 +11,7 @@ import { MicButton } from "@/components/MicButton/MicButton";
 import { ButtonIcon } from "@/components/ButtonIcon/ButtonIcon";
 import { ChatInput } from "@/components/ChatInput/ChatInput";
 import { XClose, Redo01 } from "@/components/Icons/Icons";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   ASPECT_PASS_ODDS_BY_ATTEMPT,
@@ -161,7 +161,7 @@ export function AspectProcessingContent() {
         variant="leftIconButtonOnly"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 75))}
       >
         <div className={styles.progressRow}>
           <div className={styles.progressBar}>

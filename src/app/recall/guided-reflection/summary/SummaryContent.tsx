@@ -9,7 +9,7 @@ import { ButtonGroup } from "@/components/ButtonGroup/ButtonGroup";
 import { Button } from "@/components/Button/Button";
 import { XClose, GraduationHat01 } from "@/components/Icons/Icons";
 import { getSummaryTerms } from "../terms";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl, studyPlanReturnUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import styles from "./page.module.css";
 
@@ -39,7 +39,7 @@ export function GuidedReflectionSummaryContent() {
         variant="leftIconButtonOnly"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 75))}
       />
 
       <div className={styles.middleContent}>
@@ -69,13 +69,13 @@ export function GuidedReflectionSummaryContent() {
             variant="Primary"
             size="L"
             cta="Continue studying"
-            onClick={() => router.push("/recall/guided-reflection/summary/continue")}
+            onClick={() => router.push(`/recall/guided-reflection/summary/continue?entry=${entry}`)}
           />
           <Button
             variant="Secondary"
             size="L"
             cta={entry === "study-plan" ? "Return to study plan" : "Return to home"}
-            onClick={() => router.push(entry === "study-plan" ? "/study-plan" : "/")}
+            onClick={() => router.push(studyPlanReturnUrl(entry))}
           />
         </ButtonGroup>
       </div>

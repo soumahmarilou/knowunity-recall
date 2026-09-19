@@ -11,7 +11,7 @@ import { ButtonIcon } from "@/components/ButtonIcon/ButtonIcon";
 import { ChatInput } from "@/components/ChatInput/ChatInput";
 import { XClose, DotsVertical, Redo01 } from "@/components/Icons/Icons";
 import { getTermFromSearchParam, getSubjectFromSearchParam } from "../../terms";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 // Reuses Recording's own page.module.css rather than a copy — per Marilou's
 // standing fix-routing rule, this was raised as a fix: Processing was
@@ -92,7 +92,7 @@ export function GuidedReflectionProcessingContent() {
         variant="leftAndRightIconButton"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 75))}
         rightIcon={<DotsVertical />}
         rightAriaLabel="More options"
       >
@@ -174,11 +174,21 @@ export function GuidedReflectionProcessingContent() {
         </div>
 
         <div className={styles.chatInputRow}>
+          {/* Genuinely disabled throughout Processing, not just visually
+             inert via a no-op onChange (that left the textarea actually
+             typable) — per direct instruction, matches MicButton's own
+             disabled-the-whole-screen behavior above: the student can't
+             touch either input again until "Next question" (see the
+             MascotBubble render below, phase === "acknowledging"). Not
+             phase-conditional — Knowie is either still thinking about or
+             has just reacted to the answer for this screen's entire
+             lifetime. */}
           <ChatInput
             state="Answer"
             value={message}
             onChange={() => {}}
             sending={sentViaText && phase === "thinking"}
+            disabled
           />
         </div>
       </div>

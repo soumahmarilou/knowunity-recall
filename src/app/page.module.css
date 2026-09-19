@@ -35,18 +35,6 @@
   gap: var(--spacing-200);
 }
 
-/* Same headline-l situation as every other hero heading built so far —
-   see component-gaps.md. */
-.greeting {
-  margin: 0;
-  color: var(--color-text-primary);
-  text-align: center;
-  font-family: var(--typography-scale-headline-l-font-family), sans-serif;
-  font-weight: var(--typography-scale-headline-l-font-weight);
-  font-size: var(--typography-scale-headline-l-font-size);
-  line-height: var(--typography-scale-headline-l-line-height);
-}
-
 /* 4 fixed 120px-wide cards + 12px gaps = 516px, wider than the 358px
    content area — Figma's own row is a FIXED, not HUG, box at that width,
    so this scrolls horizontally rather than wrapping. */

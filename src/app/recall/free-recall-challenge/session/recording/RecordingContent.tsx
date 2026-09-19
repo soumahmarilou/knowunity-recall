@@ -15,7 +15,7 @@ import { TranscriptView } from "@/components/TranscriptView/TranscriptView";
 import { XClose, DotsVertical, Redo01 } from "@/components/Icons/Icons";
 import { useMicLevel } from "@/lib/micLevel";
 import { useSpeechTranscript } from "@/lib/speechTranscript";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   TOTAL_SECONDS,
@@ -88,7 +88,7 @@ export function FreeRecallChallengeRecordingContent() {
         variant="leftAndRightIconButton"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 50))}
         rightIcon={<DotsVertical />}
         rightAriaLabel="More options"
       >

@@ -9,6 +9,7 @@
     "lint": "eslint",
     "tokens": "style-dictionary build --config style-dictionary.config.mjs",
     "check:tokens": "! grep -rnE \"#[0-9a-fA-F]{3,8}\\b\" src/components --include=\"*.tsx\" --include=\"*.module.css\" && echo \"No raw hex colors found in src/components.\"",
+    "check:touch-targets": "node scripts/check-touch-targets.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "dotenv -e .env.local -- chromatic"

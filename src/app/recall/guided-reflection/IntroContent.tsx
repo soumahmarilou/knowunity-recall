@@ -9,7 +9,7 @@ import { IconSlot } from "@/components/IconSlot/IconSlot";
 import { Button } from "@/components/Button/Button";
 import { XClose, Microphone01, GraduationHat01 } from "@/components/Icons/Icons";
 import { getSubjectFromSearchParam } from "./terms";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import styles from "./page.module.css";
 
@@ -33,7 +33,7 @@ export function GuidedReflectionIntroContent() {
         variant="leftIconButtonOnly"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 0))}
       />
 
       <div className={styles.middleContent}>

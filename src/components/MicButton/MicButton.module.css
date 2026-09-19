@@ -20,12 +20,26 @@
   color: var(--color-text-disabled);
 }
 
+/* No onClick wired — see Button.tsx's own comment on `notWired`. */
+.notWired {
+  cursor: default;
+}
+
 .icon {
   display: inline-flex;
   align-items: var(--layout-align-center);
   justify-content: var(--layout-align-center);
   width: var(--icon-450);
   height: var(--icon-450);
+}
+
+/* Was missing entirely — the wrapper above had a size, but nothing ever
+   told the actual <svg> inside it to fill that size. Same Safari/iOS
+   bug as IconSlot's own fix — see that component's comment. */
+.icon > :global(svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 /* CSS always wins over an SVG presentation attribute like a plain

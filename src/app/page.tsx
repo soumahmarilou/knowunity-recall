@@ -6,6 +6,7 @@ import { Screen } from "@/components/Screen/Screen";
 import { AppBar } from "@/components/AppBar/AppBar";
 import { BadgeChip } from "@/components/BadgeChip/BadgeChip";
 import { MascotSlot } from "@/components/MascotSlot/MascotSlot";
+import { TextBlock } from "@/components/TextBlock/TextBlock";
 import { ActivityCard } from "@/components/ActivityCard/ActivityCard";
 import { Button } from "@/components/Button/Button";
 import { ChatInput } from "@/components/ChatInput/ChatInput";
@@ -61,11 +62,24 @@ export default function HomePage() {
       <div className={styles.middleContent}>
         <div className={styles.hero}>
           <MascotSlot size="2XL" expression="excited" />
-          <h1 className={styles.greeting}>
-            Evening study session,
-            <br />
-            Maria?
-          </h1>
+          {/* Non-breaking spaces between "Evening"/"study"/"session," —
+             no real font is embedded in this project (see layout.tsx's own
+             comment), so the rendered typeface, and therefore where this
+             text naturally wraps, varies per device (system sans-serif:
+             San Francisco on iOS, Roboto on Android, something else on
+             desktop). Without this, real-device testing found it wrapping
+             to 3 lines instead of 2. Forcing "Evening study session," to
+             stay on one unbreakable line guarantees the intended 2-line
+             break before "Maria?" regardless of which font actually
+             renders it — same fixed 2-line result the original hand-rolled
+             <h1> + <br/> had before this screen was converted to
+             TextBlock (see component-gaps.md), which only takes a plain
+             string, no forced break. */}
+          <TextBlock
+            variant="L"
+            showCaption={false}
+            title={"Evening study session, Maria?"}
+          />
         </div>
 
         <div className={styles.activityRow} ref={activityRowRef}>

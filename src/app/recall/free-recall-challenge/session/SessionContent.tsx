@@ -12,7 +12,7 @@ import { MicPermissionPrimer } from "@/components/MicPermissionPrimer/MicPermiss
 import { ChatInput } from "@/components/ChatInput/ChatInput";
 import { XClose, DotsVertical } from "@/components/Icons/Icons";
 import { useMicPermission } from "@/lib/micPermission";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   TOTAL_SECONDS,
@@ -114,7 +114,7 @@ export function FreeRecallChallengeSessionContent() {
         variant="leftAndRightIconButton"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 25))}
         rightIcon={<DotsVertical />}
         rightAriaLabel="More options"
       >

@@ -20,6 +20,8 @@ Companion to `tokens.json`. That file holds every value. This file holds the rul
 
 **Bounded progress (a session, a multi-step flow).** `progressIndicator`. It's a horizontal bar, not a ring, and it only supports four fixed steps (0/25/50/75/100), not a live percentage.
 
+**Progress around one tappable icon, not a standalone bar.** `Progress Ring`. Same four-step convention as `progressIndicator`, but a ring that wraps a single control — the current step in a list, not a session-level overview. See its own section below.
+
 **Brief, non-blocking system feedback.** `snackbar`. Never use it for something the user must acknowledge before continuing, that's a blocking dialog's job, not this component's.
 
 **A heading with a supporting line under it.** `textBlock`. Sized for headings, not for body copy or list rows.
@@ -115,6 +117,46 @@ Existing component, given a real `position` variant today, plus a genuine bug fi
 
 **Values, pointed at `tokens.json`, not repeated here.** The on-canvas description text (and the matching component description) uses body copy bound to `text/secondary`. Width is fixed at 358 regardless of state; height is not tokenized, it's a real content-driven auto-layout result.
 
+## `buttonIcon`
+
+Existing component, given a real fourth variant today: `Success`, a solid green accent for a completed step, built out to the same full grid as the other three variants. Scoped here to documenting what's true after that change — the rest of `buttonIcon` (its `Primary`/`Secondary`/`Tertiary` history) predates today and has no entry of its own yet, part of this file's existing backfill gap noted above.
+
+**States and options.** `variant`: `Primary`/`Secondary`/`Tertiary`/`Success`. `size`: `S`/`M`/`L`. `state`: `Default`/`Pressed`/`Disabled`/`Loading` — `Success` has all 12 `size` × `state` combinations, not a partial row.
+
+**Other properties.** None exposed — the icon itself is supplied by the consumer, not a component property (no swap property exists on this set).
+
+**When to reach for it, what each state means, what not to do with it (from the component's own Figma description, quoted, not paraphrased):**
+
+> WHAT IT IS: The icon-only counterpart to button. Same variant grid — variant (Primary/Secondary/Tertiary/Success) x size (S/M/L) x state (Default/Pressed/Disabled/Loading) — but no CTA text or icon-toggle props, since the icon is the whole button. Success is a solid green accent for a completed step, built out to the same full grid as the other three variants, with the same border/inner-shadow treatment as Primary (an initial flat, borderless version read as "not really a button" once actually looked at — corrected per direct instruction).
+>
+> WHEN TO USE IT: A tappable action with no room or need for a label — nav bar actions, close/back, compact toolbars. Used this way inside appBar's variants. Success specifically marks a step that's already done.
+>
+> DON'T: Don't use it for an action a first-time user can't identify from the icon alone — there's no label to fall back on.
+
+**Values, pointed at `tokens.json`, not repeated here.** `Success`'s fill is bound to `feedback/success/bold`, its icon color to `feedback/success/onBold` — the same green `progressIndicator`'s own fill already resolves to, and the same token `Progress Ring`'s filled arc uses below. Its `Disabled` state collapses to `background/surface`, matching `Primary`/`Secondary`'s own `Disabled` treatment exactly. A locked/not-yet-available step reuses the existing `Disabled` state on `Primary` rather than a new variant — its fill (`background/surface`) and icon color (`text/disabled`) already matched what a hand-rolled "locked" badge needed, once actually checked against Figma.
+
+**Pressed.** `Primary`/`Secondary`/`Success` all flatten their inner shadow on press, paired with the icon settling down by the same amount the shadow used to offset it (2px at S/M, 4px at L) — the same felt "pushed in" result `button` already gives its own Primary/Secondary on press, so `buttonIcon` reads as the same button family rather than a differently-behaved one. Built and verified in both Figma (all 9 `Primary`/`Secondary`/`Success` × `S`/`M`/`L` `Pressed` components, shadow removed and icon shifted) and code (`box-shadow: none` + a `translateY` on the icon wrapper), per direct instruction.
+
+## `Progress Ring`
+
+Built today, from a real gap: no circular progress component existed anywhere in this file, and `progressIndicator` (the one progress component that does exist) is explicitly documented as a horizontal bar, not a ring. Needed to wrap a single tappable icon — the current step in a multi-step list — with a fill that shows how far into it the student got. Originally placed in an empty, disconnected area of the canvas, far from `buttonIcon` — undiscoverable there, and gone entirely by the time of a later pass (its node no longer resolved, and it had dropped out of the component search index — most likely deleted while unrecognized as real, sitting isolated the way it was). Rebuilt identically, this time positioned directly beside `buttonIcon`'s own library frame, with a composed example (a real `buttonIcon` Primary/L/Default instance with a `Progress Ring` instance behind it, positioned the same way `/study-plan`'s current step actually pairs them) placed right there too, so the relationship between the two components is visible on the canvas, not just implied by their descriptions.
+
+**Is this a `buttonIcon` state?** No — `Progress Ring` is a separate component, not a `state` value on `buttonIcon`'s own variant grid. `state` (`Default`/`Pressed`/`Disabled`/`Loading`) describes the button surface's own look; the ring is a decorative layer that sits behind whichever `buttonIcon` instance it's paired with, unrelated to that button's own state. Folding it in as a fifth `state` would force a `buttonIcon` in `Default` to somehow also encode "has a ring" — two independent things collapsed into one axis — where composing two real components (as the example above does) keeps them each doing one job.
+
+**States and options.** One variant axis, `progress`: `0`/`25`/`50`/`75`/`100`, the same four-step convention `progressIndicator` already established, not a free 0-100 value.
+
+**Other properties.** None exposed on the Figma component. The code-side component adds one more real prop, `pulse` (boolean, default off) — a slow breathing-scale loop that invites a tap, purely a code-side motion detail with no Figma variant behind it, since Figma has no way to preview a CSS animation.
+
+**When to reach for it, what not to do with it (from the component's own Figma description, quoted, not paraphrased):**
+
+> WHAT IT IS: A circular progress ring, stepped in quarters (0/25/50/75/100), that wraps around a tappable icon rather than sitting as its own standalone bar. Track uses border/strong (not border/default — needs to read as a full circle at a glance even when the filled arc is short, per border/strong's own token description), the filled arc uses feedback/success/bold — the same green buttonIcon's own Success variant uses for a completed step.
+>
+> WHEN TO USE IT: A single bounded task that's already in progress and still tappable to continue — the current step in a multi-step list, sized to sit just outside a 56px (buttonIcon L) icon. Not for a completed or not-yet-started state; those don't need a ring at all.
+>
+> DON'T: Don't use this for the same job progressIndicator already does — a linear, multi-step overview bar. This is specifically for one in-progress ring around one tappable icon, not a general progress bar.
+
+**Values, pointed at `tokens.json`, not repeated here.** Track is bound to `border/strong` (was `border/default` — too faint to read as a full circle at a glance once actually seen in the app rather than assumed, fixed per direct instruction; both Figma and code updated together), the filled arc to `feedback/success/bold`. Diameter (64px) and stroke width (4.5px) are both raw values, not bound to a spacing/stroke token — 64px matches `spacing/1600` in value but isn't literally bound to it in Figma, and no stroke-weight token in `tokens.json` lands anywhere near 4.5px (only `stroke/border` at 1px and `stroke/heavyBorder` at 2px exist). Flagged, not invented — carried over as-is from the component's own build.
+
 ## Naming conventions
 
 These are the patterns actually in use across the file, not a proposal.
@@ -124,7 +166,7 @@ These are the patterns actually in use across the file, not a proposal.
 - **Text styles**: Title Case after a shared prefix (`Greed/Body M Bold`, `Greed/Headline XS Regular`).
 - **Spacing, radius, icon, illustration, stroke steps**: PascalCase group name, slash, then the step (`Space/100`, `Radius/Full`, `Icon/200`). This is a different casing convention from the color tokens (`Space` vs `background`). That inconsistency already exists in the file, it's not something to copy forward, anything new here should follow the color layer's lowercase pattern instead.
 - **Components, older layer** (`button`, `buttonIcon`, `mascotSlot`, `scaffold`, `micButton`, `badgeChip` and the rest of the original set): lowercase-leading camelCase, one word where possible.
-- **Components, newer layer** (`Superlist item`, `Stat box`, `Quiz result row`, `Mascot bubble`, `Chat Input`, `Icon badge`, and today's `Activity card` and `Waveform`): Title Case, space-separated, plain English words describing the actual UI element. This is a real, consistent split, not noise, every component built for the voice-recall feature work follows this second pattern and none of them follow the first. **The naming convention documented here previously (lowercase camelCase) no longer matches current practice.** Going forward, follow the newer Title Case pattern, it's what every recent component actually uses, not the older rule. Reconciling the two layers retroactively is a separate decision, not something to do silently.
+- **Components, newer layer** (`Superlist item`, `Stat box`, `Quiz result row`, `Mascot bubble`, `Chat Input`, `Icon badge`, `Activity card`, `Waveform`, and today's `Progress Ring`): Title Case, space-separated, plain English words describing the actual UI element. This is a real, consistent split, not noise, every component built for the voice-recall feature work follows this second pattern and none of them follow the first. **The naming convention documented here previously (lowercase camelCase) no longer matches current practice.** Going forward, follow the newer Title Case pattern, it's what every recent component actually uses, not the older rule. Reconciling the two layers retroactively is a separate decision, not something to do silently.
 - **Instance layer names should match their component's real name.** They don't always: some `appBar` instances in the example screens are labeled "App Bar" instead. A renamed instance is harder to find in search and reads like a second, different component. Rename it back to match, or better, don't rename component instances at all.
 
 ## Description convention

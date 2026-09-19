@@ -46,7 +46,14 @@ export function AppBarButton({
   const isLoading = state === "Loading";
   const isPressed = state === "Pressed";
 
-  const className = [styles.button, isPressed && styles.pressed].filter(Boolean).join(" ");
+  const className = [
+    styles.button,
+    isPressed && styles.pressed,
+    // No onClick wired — see Button.tsx's own comment on `notWired`.
+    !onClick && !isDisabled && !isLoading && styles.notWired,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <button

@@ -24,6 +24,11 @@
   color: var(--color-text-disabled);
 }
 
+/* No onClick wired — see Button.tsx's own comment on `notWired`. */
+.notWired {
+  cursor: default;
+}
+
 /* Pressed genuinely dims the label here (confirmed directly in Figma),
    unlike Button's Tertiary variant which keeps the same color when
    pressed. `:active` is what fires it on a real tap/click. */

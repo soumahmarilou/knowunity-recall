@@ -7,7 +7,7 @@ import { MascotSlot } from "@/components/MascotSlot/MascotSlot";
 import { TextBlock } from "@/components/TextBlock/TextBlock";
 import { SuperlistItem } from "@/components/SuperlistItem/SuperlistItem";
 import { XClose, Microphone01, Lightbulb01, GraduationHat01 } from "@/components/Icons/Icons";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import styles from "./page.module.css";
 
@@ -47,7 +47,7 @@ export function ModeSelectionContent() {
         variant="leftIconButtonOnly"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.back()}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 0))}
       />
 
       <div className={styles.middleContent}>

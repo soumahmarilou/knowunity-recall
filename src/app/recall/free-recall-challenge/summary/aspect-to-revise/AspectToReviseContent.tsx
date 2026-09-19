@@ -12,7 +12,7 @@ import { MicPermissionPrimer } from "@/components/MicPermissionPrimer/MicPermiss
 import { ChatInput } from "@/components/ChatInput/ChatInput";
 import { XClose } from "@/components/Icons/Icons";
 import { useMicPermission } from "@/lib/micPermission";
-import { getEntryFromSearchParam } from "@/lib/entryPoint";
+import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   FRC_ASPECTS,
@@ -135,7 +135,7 @@ export function AspectToReviseContent() {
         variant="leftIconButtonOnly"
         leftIcon={<XClose />}
         leftAriaLabel="Close"
-        onLeftClick={() => router.push("/")}
+        onLeftClick={() => router.push(studyPlanCloseUrl(entry, 75))}
       >
         <div className={styles.progressRow}>
           <div className={styles.progressBar}>

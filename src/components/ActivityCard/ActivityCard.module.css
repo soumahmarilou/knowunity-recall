@@ -5,7 +5,6 @@
   /* Button reset — .card now sometimes renders as a real <button>, same
      precedent as SuperlistItem's own reset for the same reason. */
   border: none;
-  cursor: pointer;
   font: inherit;
   /* Genuinely fixed in Figma (both axes, not content-derived). Neither
      120 nor 110 had a matching token — spacing/3000 and spacing/2750 were
@@ -35,6 +34,13 @@
      confirmed directly against the live Figma component. */
   align-items: var(--layout-align-center);
   justify-content: var(--layout-align-center);
+}
+
+/* Scoped to the real <button> only — the non-interactive cards (no
+   onClick, rendered as a plain <div>) do nothing when tapped, so they
+   shouldn't claim a pointer cursor either. */
+button.card {
+  cursor: pointer;
 }
 
 .card.pressed,

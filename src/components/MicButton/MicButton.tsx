@@ -51,10 +51,18 @@ export function MicButton({
   const isDisabled = state === "disabled" || state === "sent";
   const isProcessing = state === "processing";
 
+  const className = [
+    styles.button,
+    // No onClick wired — see Button.tsx's own comment on `notWired`.
+    !onClick && !isDisabled && !isProcessing && styles.notWired,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <button
       type={type}
-      className={styles.button}
+      className={className}
       disabled={isDisabled || isProcessing}
       aria-busy={isProcessing || undefined}
       aria-label={ariaLabel}

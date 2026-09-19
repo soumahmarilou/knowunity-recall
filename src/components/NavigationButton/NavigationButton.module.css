@@ -22,6 +22,11 @@
   inset: var(--spacing-negative-100);
 }
 
+/* No onClick wired — see Button.tsx's own comment on `notWired`. */
+.notWired {
+  cursor: default;
+}
+
 /* Icon color/opacity genuinely differs per state in Figma (confirmed via
    rendered screenshots of both states, not just raw property values) —
    interactive/secondary is a pre-composed low-opacity white, so Inactive
@@ -38,6 +43,19 @@
 
 .button.active .icon {
   color: var(--color-interactive-primary);
+}
+
+/* Pressed state was missing entirely — the real, cataloged token for
+   exactly this (interactive.secondary/primary's own "Active" tier, i.e.
+   "Pressed state of interactive.secondary/primary" per tokens.json's own
+   description) had just never been wired up here. `:active` is what
+   fires it on a real tap/click; `.notWired` (no onClick, e.g. the
+   already-current tab) never claims a press effect it can't back up. */
+.button:active:not(.notWired) .icon {
+  color: var(--color-interactive-secondary-active);
+}
+.button.active:active:not(.notWired) .icon {
+  color: var(--color-interactive-primary-active);
 }
 
 .label {

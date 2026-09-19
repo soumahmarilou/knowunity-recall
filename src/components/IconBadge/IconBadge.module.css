@@ -18,6 +18,16 @@
   height: var(--icon-250);
 }
 
+/* Was missing entirely — the wrapper above had a size, but nothing ever
+   told the actual <svg> inside it to fill that size (align-items/
+   justify-content only position a child, they don't resize it). Same
+   Safari/iOS bug as IconSlot's own fix — see that component's comment. */
+.icon > :global(svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .color1 {
   background: var(--color-accent-1-subtle);
 }
