@@ -266,7 +266,7 @@ export function StudyPlanContent() {
         <NavigationButton icon={<SearchMd />} hasLabel={false} state="Inactive" />
         <NavigationButton icon={<Target01 />} hasLabel={false} state="Active" />
         <NavigationButton icon={<Trophy02 />} hasLabel={false} state="Inactive" />
-        <Avatar size="Large" shape="Circle" initials="H" />
+        <Avatar size="Large" shape="Circle" initials="M" />
       </div>
     </Screen>
   );

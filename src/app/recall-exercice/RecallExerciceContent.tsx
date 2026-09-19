@@ -6,6 +6,7 @@ import { Screen } from "@/components/Screen/Screen";
 import { AppBar } from "@/components/AppBar/AppBar";
 import { BadgeChip } from "@/components/BadgeChip/BadgeChip";
 import { MascotSlot } from "@/components/MascotSlot/MascotSlot";
+import { TextBlock } from "@/components/TextBlock/TextBlock";
 import { ChatInput } from "@/components/ChatInput/ChatInput";
 import { NavigationButton } from "@/components/NavigationButton/NavigationButton";
 import { Avatar } from "@/components/Avatar/Avatar";
@@ -63,11 +64,20 @@ export function RecallExerciceContent() {
       <div className={styles.middleContent}>
         <div className={styles.hero}>
           <MascotSlot size="2XL" expression="excited" />
-          <h1 className={styles.greeting}>
-            Evening study session,
-            <br />
-            Harry?
-          </h1>
+          {/* Same TextBlock + non-breaking-space fix as Home chat's own
+             greeting (src/app/page.tsx) — this screen's greeting was
+             still the old hand-rolled <h1>, missed when Home's was
+             converted, with two separate bugs as a result: "Harry"
+             instead of "Maria" (Home already says Maria), and no
+             protection against "Evening study session," itself wrapping
+             onto 2 lines before the manual <br/>, producing 3 lines
+             total on a real device's system font instead of the
+             intended 2. */}
+          <TextBlock
+            variant="L"
+            showCaption={false}
+            title={"Evening study session, Maria?"}
+          />
         </div>
       </div>
 
@@ -96,7 +106,7 @@ export function RecallExerciceContent() {
             onClick={() => router.push("/study-plan")}
           />
           <NavigationButton icon={<Trophy02 />} hasLabel={false} state="Inactive" />
-          <Avatar size="Large" shape="Circle" initials="H" />
+          <Avatar size="Large" shape="Circle" initials="M" />
         </div>
       </div>
     </Screen>

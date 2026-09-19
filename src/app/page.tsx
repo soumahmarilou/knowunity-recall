@@ -135,7 +135,7 @@ export default function HomePage() {
             onClick={() => router.push("/study-plan")}
           />
           <NavigationButton icon={<Trophy02 />} hasLabel={false} state="Inactive" />
-          <Avatar size="Large" shape="Circle" initials="H" />
+          <Avatar size="Large" shape="Circle" initials="M" />
         </div>
       </div>
     </Screen>

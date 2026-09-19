@@ -28,16 +28,6 @@
   gap: var(--spacing-200);
 }
 
-.greeting {
-  margin: 0;
-  color: var(--color-text-primary);
-  text-align: center;
-  font-family: var(--typography-scale-headline-l-font-family), sans-serif;
-  font-weight: var(--typography-scale-headline-l-font-weight);
-  font-size: var(--typography-scale-headline-l-font-size);
-  line-height: var(--typography-scale-headline-l-line-height);
-}
-
 .bottomContent {
   display: flex;
   flex-direction: column;
