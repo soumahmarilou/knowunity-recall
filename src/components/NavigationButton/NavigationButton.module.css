@@ -3,11 +3,23 @@
   flex-direction: column;
   align-items: var(--layout-align-center);
   box-sizing: border-box;
+  position: relative;
   border: none;
   background: transparent;
   padding: var(--spacing-200);
   gap: var(--spacing-050);
   cursor: pointer;
+}
+
+/* Invisible hit-area expansion, not a visible resize — measured at
+   40x47 with padding alone, under the 44pt floor. `inset` pads the
+   tappable region out 4px on every side (40+8=48, 47+8=55), well clear
+   of the floor with room to spare against the navbar's 32px gap between
+   buttons (4+4=8 << 32, no overlap risk). */
+.button::before {
+  content: "";
+  position: absolute;
+  inset: var(--spacing-negative-100);
 }
 
 /* Icon color/opacity genuinely differs per state in Figma (confirmed via

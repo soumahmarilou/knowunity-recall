@@ -22,6 +22,8 @@ import {
   getStartFromSearchParam,
   getCoverageFromSearchParam,
   getXpFromSearchParam,
+  getSubjectFromSearchParam,
+  getFrcResultMessage,
   buildFrcQuery,
 } from "../../frc";
 // Reuses Recording's own page.module.css, same reasoning as Processing
@@ -35,7 +37,6 @@ import styles from "../recording/page.module.css";
 // verbatim rather than reverted to SPEC.md's older placeholder copy
 // ("Keep going, you're on the right track!"); SPEC.md's own text was
 // updated to match instead.
-const FRC_RESULT_MESSAGE = "Nice! You still have time to tell everything you remember about Algebraic Fractions. Go!";
 const FRC_COMPLETE_MESSAGE = "You did it!";
 const RESULT_BEAT_MS = 1500;
 
@@ -60,6 +61,7 @@ export function AfterRecordingContent() {
   const start = getStartFromSearchParam(searchParams.get("start"));
   const urlCoverage = getCoverageFromSearchParam(searchParams.get("coverage"));
   const urlXp = getXpFromSearchParam(searchParams.get("xp"));
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
 
   const [remaining, setRemaining] = useState(TOTAL_SECONDS);
@@ -85,11 +87,11 @@ export function AfterRecordingContent() {
       // once every aspect's been covered.
       if (bumped === "100" || stillRemaining <= 0) {
         router.push(
-          `/recall/free-recall-challenge/summary?${buildFrcQuery({ coverage: bumped, xp: nextXp, entry })}`,
+          `/recall/free-recall-challenge/summary?${buildFrcQuery({ coverage: bumped, xp: nextXp, subject, entry })}`,
         );
       } else {
         router.push(
-          `/recall/free-recall-challenge/session?${buildFrcQuery({ start, coverage: bumped, xp: nextXp, entry })}`,
+          `/recall/free-recall-challenge/session?${buildFrcQuery({ start, coverage: bumped, xp: nextXp, subject, entry })}`,
         );
       }
     }, RESULT_BEAT_MS);
@@ -117,7 +119,7 @@ export function AfterRecordingContent() {
         <MascotBubble
           position="Left"
           expression={rolled ? (coverage === "100" ? "excited" : "approving") : "thinking"}
-          bodyText={rolled ? (coverage === "100" ? FRC_COMPLETE_MESSAGE : FRC_RESULT_MESSAGE) : "Thinking…"}
+          bodyText={rolled ? (coverage === "100" ? FRC_COMPLETE_MESSAGE : getFrcResultMessage(subject)) : "Thinking…"}
           showChip={false}
           showButton={false}
         />

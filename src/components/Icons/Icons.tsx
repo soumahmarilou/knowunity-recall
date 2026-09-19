@@ -19,13 +19,14 @@ import { mdiRedo } from "@mdi/js";
  * IconSlot via its `icon` prop) — duplicating per-icon size variants here
  * would just re-implement what IconSlot already does.
  *
- * KNOWN GAP: send-01, menu-01, and notification-01 use a raw #1a1a1a fill
- * in Figma that isn't bound to any variable and matches no token in
- * tokens.json. Left as a literal hex per instruction, flagged here rather
- * than silently invented or substituted. plus-01 had the same issue but
- * was changed to text/primary per direct instruction (it needed to read as
- * white/light against dark surfaces, e.g. inside buttonIcon's Secondary
- * variant, which has no currentColor override of its own).
+ * RESOLVED GAP: send-01, menu-01, and notification-01 originally used a raw
+ * near-black hex fill in Figma that isn't bound to any variable and
+ * matches no token in tokens.json. Changed to text/primary, same fix
+ * already applied to plus-01 for the same reason — dark-mode-only, so a
+ * near-black fill needs to read as white/light against dark surfaces,
+ * e.g. inside buttonIcon's Secondary variant or ChatInput's mic/send
+ * button, neither of which reliably overrides an icon's own fill for
+ * every usage.
  */
 
 export function XClose(props: SVGProps<SVGSVGElement>) {
@@ -39,7 +40,7 @@ export function XClose(props: SVGProps<SVGSVGElement>) {
 export function Send01(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <path d="M4.02 42L46 24L4.02 6L4 20L34 24L4 28L4.02 42Z" fill="#1a1a1a"/>
+      <path d="M4.02 42L46 24L4.02 6L4 20L34 24L4 28L4.02 42Z" fill="var(--color-text-primary)"/>
     </svg>
   );
 }
@@ -55,7 +56,7 @@ export function Plus01(props: SVGProps<SVGSVGElement>) {
 export function Menu01(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <path d="M6 8H42V12H6V8ZM6 22H42V26H6V22ZM6 36H42V40H6V36Z" fill="#1a1a1a"/>
+      <path d="M6 8H42V12H6V8ZM6 22H42V26H6V22ZM6 36H42V40H6V36Z" fill="var(--color-text-primary)"/>
     </svg>
   );
 }
@@ -63,7 +64,7 @@ export function Menu01(props: SVGProps<SVGSVGElement>) {
 export function Notification01(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <path d="M24 44C26.2 44 28 42.2 28 40H20C20 42.2 21.78 44 24 44ZM36 32V22C36 15.86 32.72 10.72 27 9.36V8C27 6.34 25.66 5 24 5C22.34 5 21 6.34 21 8V9.36C15.26 10.72 12 15.84 12 22V32L8 36V38H40V36L36 32Z" fill="#1a1a1a"/>
+      <path d="M24 44C26.2 44 28 42.2 28 40H20C20 42.2 21.78 44 24 44ZM36 32V22C36 15.86 32.72 10.72 27 9.36V8C27 6.34 25.66 5 24 5C22.34 5 21 6.34 21 8V9.36C15.26 10.72 12 15.84 12 22V32L8 36V38H40V36L36 32Z" fill="var(--color-text-primary)"/>
     </svg>
   );
 }

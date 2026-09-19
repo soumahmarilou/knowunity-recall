@@ -102,11 +102,23 @@
   align-items: var(--layout-align-center);
   justify-content: var(--layout-align-center);
   flex-shrink: 0;
+  position: relative;
   border: none;
   background: transparent;
   padding: 0;
   cursor: pointer;
   color: var(--color-text-primary);
+}
+
+/* Invisible hit-area expansion, not a visible resize — the icon stays
+   IconSlot 300 (24px) and the pill's layout/height are untouched. `inset`
+   with a negative spacing token pads the tappable region out on all four
+   sides from the button's own box, clearing the 44pt floor (24 + 12*2 =
+   48) without the rounding risk of a percentage-centered transform. */
+.micButton::before {
+  content: "";
+  position: absolute;
+  inset: var(--spacing-negative-300);
 }
 
 .micButton :global(svg *) {

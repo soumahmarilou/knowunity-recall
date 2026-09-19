@@ -20,6 +20,8 @@ import {
   PROGRESS_BY_TERM,
   getTermFromSearchParam,
   getHintsFromSearchParam,
+  getSubjectFromSearchParam,
+  getTermPrompt,
   parseOutcomes,
   appendOutcome,
 } from "../terms";
@@ -53,11 +55,12 @@ export function ConceptQuestionsSessionContent() {
   const term = getTermFromSearchParam(searchParams.get("term"));
   const hints = getHintsFromSearchParam(searchParams.get("hints"));
   const outcomesParam = searchParams.get("outcomes");
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const currentTerm = CONCEPT_QUESTIONS_TERMS[term - 1];
 
   const xpTotal = parseOutcomes(outcomesParam).reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
-  const bodyText = hints === 0 ? currentTerm.prompt : currentTerm.hints[hints - 1].body;
+  const bodyText = hints === 0 ? getTermPrompt(term, subject) : currentTerm.hints[hints - 1].body;
   const chipText = hints === 0 ? undefined : currentTerm.hints[hints - 1].chipText;
 
   const { status, requestMicPermission } = useMicPermission();
@@ -65,7 +68,7 @@ export function ConceptQuestionsSessionContent() {
   const [showReenableHelp, setShowReenableHelp] = useState(false);
   const [message, setMessage] = useState("");
 
-  const query = `term=${term}&hints=${hints}${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&entry=${entry}`;
+  const query = `term=${term}&hints=${hints}${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
 
   const goToRecording = () => router.push(`/recall/concept-questions/session/recording?${query}`);
 
@@ -85,7 +88,9 @@ export function ConceptQuestionsSessionContent() {
 
   const handleRevealAnswer = () => {
     const nextOutcomes = appendOutcome(outcomesParam, "revealed");
-    router.push(`/recall/concept-questions/session/reveal?term=${term}&outcomes=${nextOutcomes}&entry=${entry}`);
+    router.push(
+      `/recall/concept-questions/session/reveal?term=${term}&outcomes=${nextOutcomes}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
+    );
   };
 
   return (

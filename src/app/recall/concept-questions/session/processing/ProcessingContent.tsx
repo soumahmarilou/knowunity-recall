@@ -19,6 +19,7 @@ import {
   PROGRESS_BY_TERM,
   getTermFromSearchParam,
   getHintsFromSearchParam,
+  getSubjectFromSearchParam,
   parseOutcomes,
   appendOutcome,
 } from "../../terms";
@@ -65,6 +66,7 @@ export function ConceptQuestionsProcessingContent() {
   const term = getTermFromSearchParam(searchParams.get("term"));
   const hints = getHintsFromSearchParam(searchParams.get("hints"));
   const outcomesParam = searchParams.get("outcomes");
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const sentViaText = searchParams.get("via") === "text";
   const attempt = hints + 1;
@@ -108,7 +110,7 @@ export function ConceptQuestionsProcessingContent() {
       // failing routes here automatically, "revealed" already appended.
       const nextOutcomes = appendOutcome(outcomesParam, "revealed");
       router.push(
-        `/recall/concept-questions/session/reveal?term=${term}&outcomes=${nextOutcomes}&entry=${entry}`,
+        `/recall/concept-questions/session/reveal?term=${term}&outcomes=${nextOutcomes}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
       );
       return;
     }
@@ -121,10 +123,12 @@ export function ConceptQuestionsProcessingContent() {
       const nextOutcomes = appendOutcome(outcomesParam, outcomeCode);
 
       if (term === CONCEPT_QUESTIONS_TERMS.length) {
-        router.push(`/recall/concept-questions/summary?outcomes=${nextOutcomes}&entry=${entry}`);
+        router.push(
+          `/recall/concept-questions/summary?outcomes=${nextOutcomes}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
+        );
       } else {
         router.push(
-          `/recall/concept-questions/session?term=${term + 1}&hints=0&outcomes=${nextOutcomes}&entry=${entry}`,
+          `/recall/concept-questions/session?term=${term + 1}&hints=0&outcomes=${nextOutcomes}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
         );
       }
       return;
@@ -132,7 +136,7 @@ export function ConceptQuestionsProcessingContent() {
 
     // Partial: same term, one more hint, outcomes unchanged.
     const nextHints = hints + 1;
-    const query = `term=${term}&hints=${nextHints}${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&entry=${entry}`;
+    const query = `term=${term}&hints=${nextHints}${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
     router.push(`/recall/concept-questions/session?${query}`);
   }
 

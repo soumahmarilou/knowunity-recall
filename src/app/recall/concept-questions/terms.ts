@@ -30,6 +30,31 @@ export interface ConceptQuestionsTerm {
   revealAnswer: string;
 }
 
+export const DEFAULT_SUBJECT = "Algebraic Fractions";
+
+export function getSubjectFromSearchParam(value: string | null): string {
+  return value?.trim() || DEFAULT_SUBJECT;
+}
+
+/**
+ * Term 1's opening line is genuinely subject-agnostic framing ("let's test
+ * your understanding of X") — interpolated per direct instruction, so
+ * `subject` actually follows here from Mode selection instead of silently
+ * dropping. The rest of term 1 (and every other term's prompt/hints/
+ * revealAnswer) stays fixed, algebra-specific content — factoring,
+ * cancelling terms, and simplifying rules don't generalize to an arbitrary
+ * subject the way Guided Reflection's fully generic template does, so
+ * swapping `subject` in there would produce nonsense for anything that
+ * isn't algebra. Same fixed-content precedent Guided Reflection's own
+ * Summary cards already set.
+ */
+export function getTermPrompt(termNumber: number, subject: string): string {
+  if (termNumber === 1) {
+    return `Let's test your understanding of ${subject}. To get started, can you explain in your own words the step-by-step process for simplifying an algebraic fraction?`;
+  }
+  return CONCEPT_QUESTIONS_TERMS[termNumber - 1].prompt;
+}
+
 export const CONCEPT_QUESTIONS_TERMS: ConceptQuestionsTerm[] = [
   {
     topic: "Factoring",

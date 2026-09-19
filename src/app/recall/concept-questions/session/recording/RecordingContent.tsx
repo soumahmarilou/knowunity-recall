@@ -22,6 +22,8 @@ import {
   XP_BY_OUTCOME,
   getTermFromSearchParam,
   getHintsFromSearchParam,
+  getSubjectFromSearchParam,
+  getTermPrompt,
   parseOutcomes,
 } from "../../terms";
 import styles from "./page.module.css";
@@ -41,6 +43,7 @@ export function ConceptQuestionsRecordingContent() {
   const term = getTermFromSearchParam(searchParams.get("term"));
   const hints = getHintsFromSearchParam(searchParams.get("hints"));
   const outcomesParam = searchParams.get("outcomes");
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const currentTerm = CONCEPT_QUESTIONS_TERMS[term - 1];
   const [message, setMessage] = useState("");
@@ -52,9 +55,9 @@ export function ConceptQuestionsRecordingContent() {
   const transcript = useSpeechTranscript(!isTyping);
 
   const xpTotal = parseOutcomes(outcomesParam).reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
-  const bodyText = hints === 0 ? currentTerm.prompt : currentTerm.hints[hints - 1].body;
+  const bodyText = hints === 0 ? getTermPrompt(term, subject) : currentTerm.hints[hints - 1].body;
   const chipText = hints === 0 ? undefined : currentTerm.hints[hints - 1].chipText;
-  const query = `term=${term}&hints=${hints}${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&entry=${entry}`;
+  const query = `term=${term}&hints=${hints}${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
 
   return (
     <Screen>

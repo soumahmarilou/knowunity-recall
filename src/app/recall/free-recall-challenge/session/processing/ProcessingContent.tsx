@@ -20,6 +20,7 @@ import {
   getStartFromSearchParam,
   getCoverageFromSearchParam,
   getXpFromSearchParam,
+  getSubjectFromSearchParam,
   buildFrcQuery,
 } from "../../frc";
 // Reuses Recording's own page.module.css — see Guided Reflection's
@@ -55,6 +56,7 @@ export function FreeRecallChallengeProcessingContent() {
   const start = getStartFromSearchParam(searchParams.get("start"));
   const coverage = getCoverageFromSearchParam(searchParams.get("coverage"));
   const xp = getXpFromSearchParam(searchParams.get("xp"));
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const sentViaText = searchParams.get("via") === "text";
   // Same hydration-safe placeholder as Launched/Recording's countdown —
@@ -78,7 +80,7 @@ export function FreeRecallChallengeProcessingContent() {
       // and encouragement beat happen there, not folded back into the
       // Launched screen.
       router.push(
-        `/recall/free-recall-challenge/session/after-recording?${buildFrcQuery({ start, coverage, xp, entry })}`,
+        `/recall/free-recall-challenge/session/after-recording?${buildFrcQuery({ start, coverage, xp, subject, entry })}`,
       );
     }, THINKING_MS);
     return () => {

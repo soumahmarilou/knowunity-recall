@@ -13,7 +13,8 @@ const meta = {
         component:
           "WHAT IT IS: A leading-icon list row — an Icon badge, a title, a descriptor line below it (reusing .List Bottom Section), and an optional trailing chevron. Two properties: Icon (instance-swap, swaps a whole Icon badge instance) and Show trailing chevron (boolean, default true).\n\n" +
           "WHEN TO USE IT: Any row that pairs a category/topic icon with a title and a short supporting line — a tappable navigation row (chevron on), or a static, non-tappable info row (chevron off).\n\n" +
-          'DON\'T: Don\'t confuse this with the existing "listItem" component elsewhere in this section — that\'s a different, generic selectable-row builder. Don\'t leave "Show trailing chevron" on for a row that isn\'t actually tappable. To recolor the icon, swap the Icon property to a different Icon badge color; to change just the glyph, drill into that instance once and use its own Icon property.',
+          'DON\'T: Don\'t confuse this with the existing "listItem" component elsewhere in this section — that\'s a different, generic selectable-row builder. Don\'t leave "Show trailing chevron" on for a row that isn\'t actually tappable. To recolor the icon, swap the Icon property to a different Icon badge color; to change just the glyph, drill into that instance once and use its own Icon property.\n\n' +
+          "A `state` prop (Default/Pressed) was added after the fact, same naming as Button/ButtonIcon, so the row's inset shadow can be forced off for the Pressed story below — the real tap-driven state is `:active`, wired separately.",
       },
     },
   },
@@ -40,4 +41,8 @@ export const ShowTrailingChevronFalse: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.queryByRole("button")).not.toBeInTheDocument();
   },
+};
+
+export const Pressed: Story = {
+  args: { showTrailingChevron: true, state: "Pressed" },
 };

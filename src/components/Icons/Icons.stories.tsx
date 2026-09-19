@@ -22,7 +22,6 @@ const meta = {
           '"Icon library — plain stroke icons"\n\n' +
           '"Colored icon family — accent-tinted icons"\n\n' +
           "Figma models size as separate fixed-pixel variants per icon (24/12/16); this set ships one scalable SVG per icon instead and leaves sizing to IconSlot, which already owns that job.\n\n" +
-          "KNOWN GAP: send-01, menu-01, and notification-01 use a raw #1a1a1a fill in Figma with no matching token — left as a literal hex, not invented or substituted. plus-01 had the same issue but was changed to text/primary per direct instruction (white/light against dark surfaces).\n\n" +
           "KNOWN GAP: trending-up-01, timer-01, and gauge-01 are hand-built placeholders, not ported from real Figma vector data (built while the Desktop Bridge plugin was disconnected) — see the KNOWN GAP comment above their definitions in Icons.tsx.\n\n" +
           "KNOWN DEVIATION: redo-01 is the one icon in this set not hand-built to match Figma — sourced from the @mdi/react + @mdi/js package per direct instruction, since no redo glyph exists in this project's icon set or Figma's library.",
       },

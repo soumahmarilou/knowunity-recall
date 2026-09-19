@@ -24,6 +24,8 @@ import {
   getHintsFromSearchParam,
   getCoverageFromSearchParam,
   getXpFromSearchParam,
+  getSubjectFromSearchParam,
+  getAspectPrompt,
   getAspectProgress,
   buildFrcQuery,
 } from "../../../frc";
@@ -44,6 +46,7 @@ export function AspectRecordingContent() {
   const hints = getHintsFromSearchParam(searchParams.get("hints"));
   const coverage = getCoverageFromSearchParam(searchParams.get("coverage"));
   const xp = getXpFromSearchParam(searchParams.get("xp"));
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const aspect = FRC_ASPECTS[aspectIndex - 1];
   const [message, setMessage] = useState("");
@@ -54,7 +57,7 @@ export function AspectRecordingContent() {
   const isTyping = message.trim().length > 0;
   const transcript = useSpeechTranscript(!isTyping);
 
-  const bodyText = hints === 0 ? aspect.prompt : aspect.hints[hints - 1].body;
+  const bodyText = hints === 0 ? getAspectPrompt(aspectIndex, subject) : aspect.hints[hints - 1].body;
   // Same chip-slot treatment as the Launched-style screen this mirrors —
   // "Aspect you didn't recall" occupies the chip before any hint, per
   // direct instruction.
@@ -63,7 +66,7 @@ export function AspectRecordingContent() {
   // given — per direct instruction, distinct from the hint-status chip
   // this same slot shows afterward.
   const chipColor = hints === 0 ? "error" : "info";
-  const query = buildFrcQuery({ aspect: aspectIndex, total, hints, coverage, xp, entry });
+  const query = buildFrcQuery({ aspect: aspectIndex, total, hints, coverage, xp, subject, entry });
 
   return (
     <Screen>

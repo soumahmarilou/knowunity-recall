@@ -9,12 +9,36 @@
   border: none;
   border-radius: var(--radius-600);
   background: var(--color-background-surface);
+  /* Same inset-shadow-by-default, gone-on-press treatment as Button's
+     Primary/Secondary variants (Button.module.css). */
   box-shadow: inset 0 var(--spacing-negative-100) 0 0 var(--color-alpha-shadow-15);
   text-align: left;
 }
 
 button.superlistItem {
   cursor: pointer;
+}
+
+.superlistItem.pressed,
+button.superlistItem:active:not(:disabled) {
+  box-shadow: none;
+}
+
+/* Button also pairs its inner shadow with an extra bottom-padding reserve
+   that drops on press, so the content visibly settles as the ridge
+   flattens (see Button.module.css). `.superlistItem` can't use the same
+   padding trick — it's a HUG-height row (no fixed/min-height floor like
+   Button's pill or ActivityCard's fixed card), so shrinking padding-
+   bottom on press would shrink the whole row by that amount and reflow
+   the rows below it in Mode selection's list. `transform` gets the same
+   settle-down feel on the row's own content without touching box height
+   or triggering layout at all. */
+.superlistItem > * {
+  transform: translateY(0);
+}
+.superlistItem.pressed > *,
+button.superlistItem:active:not(:disabled) > * {
+  transform: translateY(var(--spacing-100));
 }
 
 .headline {

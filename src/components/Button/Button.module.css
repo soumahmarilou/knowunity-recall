@@ -12,13 +12,6 @@
   cursor: pointer;
 }
 
-/* Figma's real button height also includes a small, unbound raw padding on
-   an inner "Content" frame (2px at S/M, 4px at L) that has no matching
-   token anywhere in tokens.json. It's intentionally omitted here rather
-   than hardcoded as a raw pixel value — the S/M sizes render identically
-   to Figma either way (content already sits within the 48px minimum), and
-   L renders at 48px instead of Figma's 56px. Known, disclosed gap. */
-
 .button:disabled {
   cursor: not-allowed;
 }
@@ -104,14 +97,25 @@
 
 /* Inner shadow: Primary + Secondary only, every state except Pressed
    (Figma has no fill to inset it onto for Tertiary, and Pressed swaps it
-   out entirely). S/M and L use different offsets. */
+   out entirely). S/M and L use different offsets.
+
+   Figma pairs this with an extra bottom-padding reserve on the content
+   itself (a nested "Content" frame, 2px at S/M, 4px at L, present only in
+   Default) — the content sits slightly above true-center, leaving room
+   for the shadow ridge; Pressed drops both the shadow and the reserve
+   together, so the content visibly settles down as the ridge flattens —
+   the actual "pushed in" feel. Same magnitude as the shadow offset above,
+   same tokens (spacing-050/spacing-100), added to the existing symmetric
+   padding-bottom rather than a new wrapper element. */
 .variantPrimary:not(.pressed):not(:active),
 .variantSecondary:not(.pressed):not(:active) {
   box-shadow: inset 0 var(--spacing-negative-050) 0 0 var(--color-alpha-shadow-15);
+  padding-bottom: calc(var(--spacing-150) + var(--spacing-050));
 }
 .sizeL.variantPrimary:not(.pressed):not(:active),
 .sizeL.variantSecondary:not(.pressed):not(:active) {
   box-shadow: inset 0 var(--spacing-negative-100) 0 0 var(--color-alpha-shadow-15);
+  padding-bottom: calc(var(--spacing-150) + var(--spacing-100));
 }
 
 /* Disabled overrides the fill/color for every variant identically. */

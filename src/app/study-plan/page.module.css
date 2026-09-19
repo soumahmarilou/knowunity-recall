@@ -63,6 +63,17 @@
   font-weight: var(--typography-scale-headline-l-font-weight);
   font-size: var(--typography-scale-headline-l-font-size);
   line-height: var(--typography-scale-headline-l-line-height);
+  position: relative;
+}
+
+/* Invisible hit-area expansion — width already clears 44pt from the text
+   content, only height was short (36px). `inset` pads it 6px on every
+   side (36+12=48), clearing the floor without adding visible padding
+   around the title. */
+.planTitle::before {
+  content: "";
+  position: absolute;
+  inset: var(--spacing-negative-150);
 }
 .chevronDown {
   width: var(--icon-200);
@@ -107,6 +118,19 @@
   font-weight: var(--typography-scale-body-m-bold-font-weight);
   font-size: var(--typography-scale-body-m-bold-font-size);
   line-height: var(--typography-scale-body-m-bold-line-height);
+  position: relative;
+}
+
+/* Invisible hit-area expansion — was 35x42/74x42 (under the 44pt floor,
+   "Plan" on both axes, "Materials" on height only). `inset` pads 6px on
+   every side (35+12=47, 42+12=54), clearing the floor with room to
+   spare against the 24px gap between the two tabs (6+6=12 < 24, no
+   overlap). The visible label and its underline stay exactly the width
+   the text produces; only the tappable region grows. */
+.tab::before {
+  content: "";
+  position: absolute;
+  inset: var(--spacing-negative-150);
 }
 .tabActive {
   color: var(--color-text-primary);
@@ -153,6 +177,14 @@
   text-align: left;
   font: inherit;
   color: inherit;
+}
+
+/* Scoped to the real <button> only — the done/locked steps render as
+   plain <div>s and do nothing when tapped, so they shouldn't claim a
+   pointer cursor. A <button> defaults to `cursor: default` in the UA
+   stylesheet, not pointer, so this needs to be explicit. */
+button.step {
+  cursor: pointer;
 }
 
 .node {

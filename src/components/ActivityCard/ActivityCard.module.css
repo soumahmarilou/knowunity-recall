@@ -16,15 +16,31 @@
   padding-left: var(--spacing-300);
   padding-right: var(--spacing-300);
   padding-top: var(--spacing-200);
-  padding-bottom: var(--spacing-200);
   gap: var(--spacing-150);
   border-radius: var(--radius-400);
   background: var(--color-background-surface);
+  /* Same inset-shadow-by-default, gone-on-press treatment as Button's
+     Primary/Secondary variants (Button.module.css) — Figma has no
+     interaction state for this component at all (see the component doc
+     above), so borrowed rather than invented. spacing-negative-050
+     matches Button's S/M offset, not L's, since this card sits closer to
+     that scale. Paired with the same extra-bottom-padding-that-drops-on-
+     press trick Button uses (spacing-050, same magnitude as the shadow
+     offset) — content sits slightly above center by default, then
+     settles down when pressed as the shadow flattens. */
+  padding-bottom: calc(var(--spacing-200) + var(--spacing-050));
+  box-shadow: inset 0 var(--spacing-negative-050) 0 0 var(--color-alpha-shadow-15);
   /* Figma: primaryAxisAlignItems and counterAxisAlignItems are both
      CENTER — content centers on both axes. Missed in the first build;
      confirmed directly against the live Figma component. */
   align-items: var(--layout-align-center);
   justify-content: var(--layout-align-center);
+}
+
+.card.pressed,
+button.card:active:not(:disabled) {
+  box-shadow: none;
+  padding-bottom: var(--spacing-200);
 }
 
 .label {

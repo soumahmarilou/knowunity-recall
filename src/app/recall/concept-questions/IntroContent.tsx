@@ -10,6 +10,7 @@ import { Button } from "@/components/Button/Button";
 import { XClose, Microphone01, Lightbulb01, TrendingUp01 } from "@/components/Icons/Icons";
 import { getEntryFromSearchParam } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
+import { getSubjectFromSearchParam } from "./terms";
 import styles from "./page.module.css";
 
 /**
@@ -22,12 +23,15 @@ import styles from "./page.module.css";
  * Converted to the Suspense/search-param pattern (was a plain default
  * export) to carry `entry` (Home chat vs. Study plan, see
  * src/lib/entryPoint.ts) through into the session, same as every other
- * mode's own Intro.
+ * mode's own Intro. Now also carries `subject` — previously dropped
+ * silently at this exact hop from Mode selection (only Guided Reflection
+ * threaded it); term 1's opening line interpolates it, see terms.ts.
  */
 export function ConceptQuestionsIntroContent() {
   const router = useRouter();
   usePrefetchRoutes(["/recall/concept-questions/session"]);
   const searchParams = useSearchParams();
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
 
   return (
@@ -73,7 +77,11 @@ export function ConceptQuestionsIntroContent() {
           variant="Primary"
           size="L"
           cta="Start"
-          onClick={() => router.push(`/recall/concept-questions/session?entry=${entry}`)}
+          onClick={() =>
+            router.push(
+              `/recall/concept-questions/session?subject=${encodeURIComponent(subject)}&entry=${entry}`,
+            )
+          }
         />
       </div>
     </Screen>

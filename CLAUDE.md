@@ -15,6 +15,7 @@ Static mobile prototype (Next.js) of Knowunity's voice-based active-recall featu
 - Build from the components that already exist in [design-system_1.md](design-system_1.md); stop and flag before creating a new one.
 - Before writing any Next.js code, read AGENTS.md and the relevant guide in `node_modules/next/dist/docs/`.
 - Every design decision (component choice, value, naming) follows [design-system_1.md](design-system_1.md); every value comes from [tokens/tokens.json](tokens/tokens.json).
+- `npm run check:tokens` checks `src/components` for raw hex colors; run it after building or editing anything there.
 - Every product/flow decision follows the full decision log in [sprint-context.md](sprint-context.md), inside the hard constraints and mandate set in [design-brief.md](design-brief.md).
 - Before designing any voice-input state (recording, processing, error, permission), read [voice-ux.md](voice-ux.md)'s six principles and its States-to-design checklist.
 - Match a screen to its real design before building it: check [reference/](reference/) for the matching screenshot or recording first.

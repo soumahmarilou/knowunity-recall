@@ -72,7 +72,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-300);
-  padding: var(--spacing-0) var(--spacing-400) var(--spacing-400);
+  /* No bottom value here — Screen's own shell already applies the
+     universal 16px bottom inset (CLAUDE.md: set once there, never
+     re-added per screen). Re-adding it here doubled it to 32px. */
+  padding: var(--spacing-0) var(--spacing-400);
   box-sizing: border-box;
 }
 

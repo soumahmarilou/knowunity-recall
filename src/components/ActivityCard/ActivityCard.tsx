@@ -29,9 +29,22 @@ export interface ActivityCardProps {
    * these to actually be tappable; renders a real <button> when provided,
    * same pattern as SuperlistItem's showTrailingChevron. */
   onClick?: () => void;
+  /** Not a Figma component property either, same disclosed-gap situation
+   * as onClick above — added so the card's inset shadow (see
+   * ActivityCard.module.css) can be forced off for a static Storybook
+   * story, same `state` naming Button/ButtonIcon already use. The real
+   * tap-driven state is `:active`, wired separately in CSS. */
+  state?: "Default" | "Pressed";
 }
 
-export function ActivityCard({ icon = <GraduationHat01 />, label = "Label", onClick }: ActivityCardProps) {
+export function ActivityCard({
+  icon = <GraduationHat01 />,
+  label = "Label",
+  onClick,
+  state = "Default",
+}: ActivityCardProps) {
+  const className = [styles.card, state === "Pressed" && styles.pressed].filter(Boolean).join(" ");
+
   const content = (
     <>
       <IconSlot size="300" icon={icon} />
@@ -41,11 +54,11 @@ export function ActivityCard({ icon = <GraduationHat01 />, label = "Label", onCl
 
   if (onClick) {
     return (
-      <button type="button" className={styles.card} onClick={onClick}>
+      <button type="button" className={className} onClick={onClick}>
         {content}
       </button>
     );
   }
 
-  return <div className={styles.card}>{content}</div>;
+  return <div className={className}>{content}</div>;
 }

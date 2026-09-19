@@ -21,6 +21,7 @@ import {
   getHintsFromSearchParam,
   getCoverageFromSearchParam,
   getXpFromSearchParam,
+  getSubjectFromSearchParam,
   getAspectProgress,
   buildFrcQuery,
 } from "../../../frc";
@@ -58,6 +59,7 @@ export function AspectProcessingContent() {
   const hints = getHintsFromSearchParam(searchParams.get("hints"));
   const coverage = getCoverageFromSearchParam(searchParams.get("coverage"));
   const xp = getXpFromSearchParam(searchParams.get("xp"));
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const sentViaText = searchParams.get("via") === "text";
   const attempt = hints + 1;
@@ -96,7 +98,7 @@ export function AspectProcessingContent() {
   function advance(nextXp: number) {
     if (aspectIndex >= total) {
       router.push(
-        `/recall/free-recall-challenge/final-summary?${buildFrcQuery({ coverage, xp: nextXp, entry })}`,
+        `/recall/free-recall-challenge/final-summary?${buildFrcQuery({ coverage, xp: nextXp, subject, entry })}`,
       );
     } else {
       router.push(
@@ -106,6 +108,7 @@ export function AspectProcessingContent() {
           hints: 0,
           coverage,
           xp: nextXp,
+          subject,
           entry,
         })}`,
       );
@@ -125,6 +128,7 @@ export function AspectProcessingContent() {
           hints,
           coverage,
           xp,
+          subject,
           entry,
         })}&revealed=true`,
       );
@@ -145,6 +149,7 @@ export function AspectProcessingContent() {
         hints: nextHints,
         coverage,
         xp,
+        subject,
         entry,
       })}`,
     );

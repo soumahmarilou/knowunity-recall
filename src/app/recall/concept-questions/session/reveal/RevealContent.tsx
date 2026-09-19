@@ -17,6 +17,7 @@ import {
   XP_BY_OUTCOME,
   PROGRESS_BY_TERM,
   getTermFromSearchParam,
+  getSubjectFromSearchParam,
   parseOutcomes,
 } from "../../terms";
 // Reuses Launched's own page.module.css — same screen, not a separate
@@ -59,6 +60,7 @@ export function ConceptQuestionsRevealContent() {
   const searchParams = useSearchParams();
   const term = getTermFromSearchParam(searchParams.get("term"));
   const outcomesParam = searchParams.get("outcomes");
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const currentTerm = CONCEPT_QUESTIONS_TERMS[term - 1];
 
@@ -67,10 +69,12 @@ export function ConceptQuestionsRevealContent() {
 
   const goToNext = () => {
     if (term === CONCEPT_QUESTIONS_TERMS.length) {
-      router.push(`/recall/concept-questions/summary?outcomes=${outcomesParam ?? ""}&entry=${entry}`);
+      router.push(
+        `/recall/concept-questions/summary?outcomes=${outcomesParam ?? ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
+      );
     } else {
       router.push(
-        `/recall/concept-questions/session?term=${term + 1}&hints=0&outcomes=${outcomesParam ?? ""}&entry=${entry}`,
+        `/recall/concept-questions/session?term=${term + 1}&hints=0&outcomes=${outcomesParam ?? ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
       );
     }
   };

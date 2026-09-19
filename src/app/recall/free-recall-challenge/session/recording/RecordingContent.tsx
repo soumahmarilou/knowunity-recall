@@ -24,11 +24,11 @@ import {
   getStartFromSearchParam,
   getCoverageFromSearchParam,
   getXpFromSearchParam,
+  getSubjectFromSearchParam,
+  getFrcPrompt,
   buildFrcQuery,
 } from "../../frc";
 import styles from "./page.module.css";
-
-const FRC_PROMPT = "You have 1 minute. Tell me everything you remember about Algebraic Fractions. Go!";
 
 /**
  * Free Recall Challenge – Recording. SPEC.md screen 9b — "same Send/Redo
@@ -44,6 +44,7 @@ export function FreeRecallChallengeRecordingContent() {
   const start = getStartFromSearchParam(searchParams.get("start"));
   const coverage = getCoverageFromSearchParam(searchParams.get("coverage"));
   const xp = getXpFromSearchParam(searchParams.get("xp"));
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const [message, setMessage] = useState("");
   const micLevels = useMicLevel(true);
@@ -58,7 +59,7 @@ export function FreeRecallChallengeRecordingContent() {
   const [remaining, setRemaining] = useState(TOTAL_SECONDS);
   const hasSentRef = useRef(false);
 
-  const query = buildFrcQuery({ start, coverage, xp, entry });
+  const query = buildFrcQuery({ start, coverage, xp, subject, entry });
   // `via` distinguishes the mic's own send from the chat input's, so
   // Processing knows which control should show the loading animation —
   // per direct instruction, a text send animates the chat input's send
@@ -101,7 +102,7 @@ export function FreeRecallChallengeRecordingContent() {
         <MascotBubble
           position="Left"
           expression="standby"
-          bodyText={FRC_PROMPT}
+          bodyText={getFrcPrompt(subject)}
           showChip={false}
           showButton={false}
         />

@@ -13,6 +13,7 @@ import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   getCoverageFromSearchParam,
   getXpFromSearchParam,
+  getSubjectFromSearchParam,
   deriveMissedAspectCount,
   buildFrcQuery,
 } from "../frc";
@@ -46,12 +47,15 @@ export function FreeRecallChallengeSummaryContent() {
   const searchParams = useSearchParams();
   const coverage = getCoverageFromSearchParam(searchParams.get("coverage"));
   const xp = getXpFromSearchParam(searchParams.get("xp"));
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const missedCount = deriveMissedAspectCount(coverage);
 
   const handleContinue = () => {
     if (missedCount === 0) {
-      router.push(`/recall/free-recall-challenge/final-summary?${buildFrcQuery({ coverage, xp, entry })}`);
+      router.push(
+        `/recall/free-recall-challenge/final-summary?${buildFrcQuery({ coverage, xp, subject, entry })}`,
+      );
       return;
     }
     router.push(
@@ -61,13 +65,16 @@ export function FreeRecallChallengeSummaryContent() {
         hints: 0,
         coverage,
         xp,
+        subject,
         entry,
       })}`,
     );
   };
 
   const handleSkip = () => {
-    router.push(`/recall/free-recall-challenge/final-summary?${buildFrcQuery({ coverage, xp, entry })}`);
+    router.push(
+      `/recall/free-recall-challenge/final-summary?${buildFrcQuery({ coverage, xp, subject, entry })}`,
+    );
   };
 
   return (

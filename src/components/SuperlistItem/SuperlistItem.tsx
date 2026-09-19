@@ -45,6 +45,13 @@ export interface SuperlistItemProps {
   /** Figma property name: Show trailing chevron. */
   showTrailingChevron?: boolean;
   onClick?: () => void;
+  /** Not a Figma component property — this is "a single static component,
+   * not a component set" in Figma (see the component doc above), with no
+   * state axis. Added so the row's inset shadow (see
+   * SuperlistItem.module.css) can be forced off for a static Storybook
+   * story, same `state` naming Button/ButtonIcon already use. The real
+   * tap-driven state is `:active`, wired separately in CSS. */
+  state?: "Default" | "Pressed";
 }
 
 export function SuperlistItem({
@@ -54,7 +61,10 @@ export function SuperlistItem({
   descriptor = "Revise",
   showTrailingChevron = true,
   onClick,
+  state = "Default",
 }: SuperlistItemProps) {
+  const className = [styles.superlistItem, state === "Pressed" && styles.pressed].filter(Boolean).join(" ");
+
   const content = (
     <>
       <IconBadge icon={icon} color={iconColor} />
@@ -72,11 +82,11 @@ export function SuperlistItem({
 
   if (showTrailingChevron) {
     return (
-      <button type="button" className={styles.superlistItem} onClick={onClick}>
+      <button type="button" className={className} onClick={onClick}>
         {content}
       </button>
     );
   }
 
-  return <div className={styles.superlistItem}>{content}</div>;
+  return <div className={className}>{content}</div>;
 }

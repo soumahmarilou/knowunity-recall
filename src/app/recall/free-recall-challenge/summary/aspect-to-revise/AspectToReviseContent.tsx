@@ -21,6 +21,8 @@ import {
   getHintsFromSearchParam,
   getCoverageFromSearchParam,
   getXpFromSearchParam,
+  getSubjectFromSearchParam,
+  getAspectPrompt,
   getAspectProgress,
   buildFrcQuery,
 } from "../../frc";
@@ -56,6 +58,7 @@ export function AspectToReviseContent() {
   const hints = getHintsFromSearchParam(searchParams.get("hints"));
   const coverage = getCoverageFromSearchParam(searchParams.get("coverage"));
   const xp = getXpFromSearchParam(searchParams.get("xp"));
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const aspect = FRC_ASPECTS[aspectIndex - 1];
 
@@ -74,7 +77,7 @@ export function AspectToReviseContent() {
   const [selfRevealed, setSelfRevealed] = useState(false);
   const revealed = revealedParam || selfRevealed;
 
-  const bodyText = hints === 0 ? aspect.prompt : aspect.hints[hints - 1].body;
+  const bodyText = hints === 0 ? getAspectPrompt(aspectIndex, subject) : aspect.hints[hints - 1].body;
   // "Aspect you didn't recall" now lives in the bubble's own chip slot,
   // not as a separate right-aligned label outside it — per direct
   // instruction. It only occupies that slot before any hint; once a hint
@@ -85,7 +88,7 @@ export function AspectToReviseContent() {
   // given — per direct instruction, distinct from the hint-status chip
   // this same slot shows afterward.
   const chipColor = hints === 0 ? "error" : "info";
-  const query = buildFrcQuery({ aspect: aspectIndex, total, hints, coverage, xp, entry });
+  const query = buildFrcQuery({ aspect: aspectIndex, total, hints, coverage, xp, subject, entry });
 
   const goToRecording = () =>
     router.push(`/recall/free-recall-challenge/summary/aspect-to-revise/recording?${query}`);
@@ -108,7 +111,9 @@ export function AspectToReviseContent() {
 
   const goToNext = () => {
     if (aspectIndex >= total) {
-      router.push(`/recall/free-recall-challenge/final-summary?${buildFrcQuery({ coverage, xp, entry })}`);
+      router.push(
+        `/recall/free-recall-challenge/final-summary?${buildFrcQuery({ coverage, xp, subject, entry })}`,
+      );
     } else {
       router.push(
         `/recall/free-recall-challenge/summary/aspect-to-revise?${buildFrcQuery({
@@ -117,6 +122,7 @@ export function AspectToReviseContent() {
           hints: 0,
           coverage,
           xp,
+          subject,
           entry,
         })}`,
       );

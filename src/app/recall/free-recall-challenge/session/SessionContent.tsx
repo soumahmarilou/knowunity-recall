@@ -21,11 +21,11 @@ import {
   getStartFromSearchParam,
   getCoverageFromSearchParam,
   getXpFromSearchParam,
+  getSubjectFromSearchParam,
+  getFrcPrompt,
   buildFrcQuery,
 } from "../frc";
 import styles from "./page.module.css";
-
-const FRC_PROMPT = "You have 1 minute. Tell me everything you remember about Algebraic Fractions. Go!";
 
 /**
  * Free Recall Challenge – Launched. SPEC.md screen 9a
@@ -57,6 +57,7 @@ export function FreeRecallChallengeSessionContent() {
   const start = getStartFromSearchParam(searchParams.get("start"));
   const coverage = getCoverageFromSearchParam(searchParams.get("coverage"));
   const xp = getXpFromSearchParam(searchParams.get("xp"));
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
 
   const { status, requestMicPermission } = useMicPermission();
@@ -85,12 +86,12 @@ export function FreeRecallChallengeSessionContent() {
   // "never trap the student."
   useEffect(() => {
     if (remaining <= 0) {
-      router.push(`/recall/free-recall-challenge/summary?${buildFrcQuery({ coverage, xp, entry })}`);
+      router.push(`/recall/free-recall-challenge/summary?${buildFrcQuery({ coverage, xp, subject, entry })}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remaining]);
 
-  const query = buildFrcQuery({ start, coverage, xp, entry });
+  const query = buildFrcQuery({ start, coverage, xp, subject, entry });
   const goToRecording = () => router.push(`/recall/free-recall-challenge/session/recording?${query}`);
 
   const handleMicTap = () => {
@@ -124,7 +125,13 @@ export function FreeRecallChallengeSessionContent() {
       </AppBar>
 
       <div className={styles.middleContent}>
-        <MascotBubble position="Left" expression="standby" bodyText={FRC_PROMPT} showChip={false} showButton={false} />
+        <MascotBubble
+          position="Left"
+          expression="standby"
+          bodyText={getFrcPrompt(subject)}
+          showChip={false}
+          showButton={false}
+        />
         <div>
           <div className={styles.coverageRow}>
             <p className={styles.coverageLabel}>Coverage</p>

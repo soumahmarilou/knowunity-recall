@@ -76,14 +76,22 @@ export function ModeSelectionContent() {
               iconColor="3"
               title="Concept Questions"
               descriptor="Answer and elaborate on targeted questions"
-              onClick={() => router.push(`/recall/concept-questions?entry=${entry}`)}
+              onClick={() =>
+                router.push(
+                  `/recall/concept-questions?subject=${encodeURIComponent(subject)}&entry=${entry}`,
+                )
+              }
             />
             <SuperlistItem
               icon={<GraduationHat01 />}
               iconColor="4"
               title="Free Recall Challenge"
               descriptor="Say everything you know before the clock end"
-              onClick={() => router.push(`/recall/free-recall-challenge?entry=${entry}`)}
+              onClick={() =>
+                router.push(
+                  `/recall/free-recall-challenge?subject=${encodeURIComponent(subject)}&entry=${entry}`,
+                )
+              }
             />
           </div>
         </div>

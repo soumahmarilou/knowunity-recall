@@ -17,6 +17,29 @@ import type { ProgressIndicatorValue } from "@/components/ProgressIndicator/Prog
 
 export type CoverageValue = ProgressIndicatorValue;
 
+// Same duplicated-not-imported precedent as FRC_ASPECTS below (see that
+// const's own comment) — this mode's route tree stays independent of
+// Concept Questions'.
+export const DEFAULT_SUBJECT = "Algebraic Fractions";
+
+export function getSubjectFromSearchParam(value: string | null): string {
+  return value?.trim() || DEFAULT_SUBJECT;
+}
+
+// Genuinely subject-agnostic framing ("tell me everything you remember
+// about X") — the main 60s loop's own prompt (Launched + Recording),
+// interpolated per direct instruction. Distinct from FRC_ASPECTS below,
+// whose content is algebra-specific and stays fixed — see getAspectPrompt.
+export function getFrcPrompt(subject: string): string {
+  return `You have 1 minute. Tell me everything you remember about ${subject}. Go!`;
+}
+
+// Same subject-agnostic framing, the "After recording" beat's own result
+// message.
+export function getFrcResultMessage(subject: string): string {
+  return `Nice! You still have time to tell everything you remember about ${subject}. Go!`;
+}
+
 export const TOTAL_SECONDS = 60;
 
 // Fixed, not randomized — per voice_recall_build_decisions.md this is a
@@ -136,6 +159,19 @@ export interface Aspect {
 // practice — per direct instruction this sub-flow needs the same 3-total
 // question count as Concept Questions itself (both show a "1/3"-style
 // progress number now), so all three terms are back in.
+/**
+ * Term 1's opening line is genuinely subject-agnostic framing — same
+ * `subject`-interpolated exception as Concept Questions' own
+ * `getTermPrompt` (see that file's comment for why the rest of this
+ * content stays fixed and algebra-specific rather than templated).
+ */
+export function getAspectPrompt(aspectIndex: number, subject: string): string {
+  if (aspectIndex === 1) {
+    return `Let's test your understanding of ${subject}. To get started, can you explain in your own words the step-by-step process for simplifying an algebraic fraction?`;
+  }
+  return FRC_ASPECTS[aspectIndex - 1].prompt;
+}
+
 export const FRC_ASPECTS: Aspect[] = [
   {
     topic: "Factoring",
@@ -238,7 +274,11 @@ export function getAspectProgress(aspect: number, total: number): ProgressIndica
 }
 
 export function buildFrcQuery(params: Record<string, string | number>): string {
+  // encodeURIComponent added when `subject` started flowing through here —
+  // every value up to now was a plain number or a closed enum-like string
+  // (coverage steps, "home"/"study-plan"...) with nothing a URL needed
+  // escaped, so this was never exercised before.
   return Object.entries(params)
-    .map(([key, value]) => `${key}=${value}`)
+    .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
     .join("&");
 }
