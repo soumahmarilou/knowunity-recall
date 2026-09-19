@@ -10,7 +10,7 @@ import { MicButton } from "@/components/MicButton/MicButton";
 import { ButtonIcon } from "@/components/ButtonIcon/ButtonIcon";
 import { ChatInput } from "@/components/ChatInput/ChatInput";
 import { XClose, DotsVertical, Redo01 } from "@/components/Icons/Icons";
-import { getTermFromSearchParam, getSubjectFromSearchParam } from "../../terms";
+import { getTermFromSearchParam, getStepFromSearchParam, getSubjectFromSearchParam } from "../../terms";
 import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 // Reuses Recording's own page.module.css rather than a copy — per Marilou's
@@ -34,10 +34,16 @@ const PROCESSING_DELAY_MS = 1500;
 // screen (Processing just auto-advanced straight to the next prompt). Per
 // direct instruction: deliberately non-judgmental — validates that sharing
 // a perspective shows understanding, never says "correct" or "pass" (this
-// mode's own hard rule: zero pass/fail language, ever). Same beat regardless
-// of term, matching how "Thinking…" itself doesn't vary by term either.
+// mode's own hard rule: zero pass/fail language, ever). Shown only after
+// the follow-up (step 2) answer, since that's what actually closes out a
+// term now — see FOLLOW_UP_TRANSITION_TEXT below for the step-1 beat.
 const ACKNOWLEDGMENT_TEXT =
   "Nice! Being able to share your own take on this part of the course really shows you've got a good handle on it.";
+
+// Shown after the term's main (step 1) answer, before Knowie's follow-up
+// question — deliberately shorter and non-conclusive, since the term
+// isn't done yet. Same non-judgmental rule as ACKNOWLEDGMENT_TEXT above.
+const FOLLOW_UP_TRANSITION_TEXT = "Good start — let's dig a little deeper.";
 
 /**
  * Guided Reflection – Processing. SPEC.md screen 7c — explicitly marked
@@ -51,8 +57,12 @@ const ACKNOWLEDGMENT_TEXT =
  * pause.
  *
  * The session loops now, not a fixed 3 terms (see terms.ts's header
- * comment) — "Next question" always advances to `term + 1`, no last-term
- * branch to Summary anymore. Only the AppBar's "Finish" ends it.
+ * comment). Each term is two steps now, not one combined prompt: after
+ * step 1's answer, "acknowledging" shows a short transition line and a
+ * "Continue" button that sends the student back to step 2's follow-up
+ * question (same term); after step 2's answer, it shows the real
+ * ACKNOWLEDGMENT_TEXT and "Next question", advancing to `term + 1, step
+ * 1`. Only the AppBar's "Finish" ends the session early.
  *
  * Expression per phase, per direct instruction: "thinking" while thinking,
  * "approving" once acknowledging — Guided Reflection never has a bad
@@ -69,11 +79,13 @@ export function GuidedReflectionProcessingContent() {
   usePrefetchRoutes(["/recall/guided-reflection/session", "/recall/guided-reflection/summary"]);
   const searchParams = useSearchParams();
   const term = getTermFromSearchParam(searchParams.get("term"));
+  const step = getStepFromSearchParam(searchParams.get("step"));
   const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const sentViaText = searchParams.get("via") === "text";
   const [message] = useState("");
   const [phase, setPhase] = useState<"thinking" | "acknowledging">("thinking");
+  const isFollowUp = step === 2;
 
   useEffect(() => {
     const timer = setTimeout(() => setPhase("acknowledging"), PROCESSING_DELAY_MS);
@@ -81,8 +93,10 @@ export function GuidedReflectionProcessingContent() {
   }, []);
 
   const goToNext = () => {
+    const nextTerm = isFollowUp ? term + 1 : term;
+    const nextStep = isFollowUp ? 1 : 2;
     router.push(
-      `/recall/guided-reflection/session?term=${term + 1}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
+      `/recall/guided-reflection/session?term=${nextTerm}&step=${nextStep}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
     );
   };
 
@@ -127,10 +141,10 @@ export function GuidedReflectionProcessingContent() {
           <MascotBubble
             position="Left"
             expression="approving"
-            bodyText={ACKNOWLEDGMENT_TEXT}
+            bodyText={isFollowUp ? ACKNOWLEDGMENT_TEXT : FOLLOW_UP_TRANSITION_TEXT}
             showChip={false}
             showButton
-            buttonText="Next question"
+            buttonText={isFollowUp ? "Next question" : "Continue"}
             onRevealAnswer={goToNext}
           />
         )}

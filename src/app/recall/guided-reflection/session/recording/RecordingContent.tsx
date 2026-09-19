@@ -14,7 +14,12 @@ import { TranscriptView } from "@/components/TranscriptView/TranscriptView";
 import { XClose, DotsVertical, Redo01 } from "@/components/Icons/Icons";
 import { useMicLevel } from "@/lib/micLevel";
 import { useSpeechTranscript } from "@/lib/speechTranscript";
-import { getTermContent, getTermFromSearchParam, getSubjectFromSearchParam } from "../../terms";
+import {
+  getStepContent,
+  getTermFromSearchParam,
+  getStepFromSearchParam,
+  getSubjectFromSearchParam,
+} from "../../terms";
 import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import styles from "./page.module.css";
@@ -30,9 +35,10 @@ export function GuidedReflectionRecordingContent() {
   usePrefetchRoutes(["/recall/guided-reflection/session/processing"]);
   const searchParams = useSearchParams();
   const term = getTermFromSearchParam(searchParams.get("term"));
+  const step = getStepFromSearchParam(searchParams.get("step"));
   const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
-  const currentTerm = getTermContent(term, subject);
+  const currentStep = getStepContent(term, step, subject);
   const [message, setMessage] = useState("");
   const micLevels = useMicLevel(true);
   // No mocked transcript while the student is typing instead of speaking
@@ -40,7 +46,7 @@ export function GuidedReflectionRecordingContent() {
   // which doesn't apply once they've switched to text.
   const isTyping = message.trim().length > 0;
   const transcript = useSpeechTranscript(!isTyping);
-  const query = `term=${term}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
+  const query = `term=${term}&step=${step}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
 
   return (
     <Screen>
@@ -70,7 +76,7 @@ export function GuidedReflectionRecordingContent() {
         <MascotBubble
           position="Left"
           expression="standby"
-          bodyText={currentTerm.prompt}
+          bodyText={currentStep.prompt}
           showChip={false}
           showButton={false}
         />

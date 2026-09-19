@@ -11,7 +11,12 @@ import { MicPermissionPrimer } from "@/components/MicPermissionPrimer/MicPermiss
 import { ChatInput } from "@/components/ChatInput/ChatInput";
 import { XClose, DotsVertical } from "@/components/Icons/Icons";
 import { useMicPermission } from "@/lib/micPermission";
-import { getTermContent, getTermFromSearchParam, getSubjectFromSearchParam } from "../terms";
+import {
+  getStepContent,
+  getTermFromSearchParam,
+  getStepFromSearchParam,
+  getSubjectFromSearchParam,
+} from "../terms";
 import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import styles from "./page.module.css";
@@ -32,16 +37,17 @@ export function GuidedReflectionSessionContent() {
   ]);
   const searchParams = useSearchParams();
   const term = getTermFromSearchParam(searchParams.get("term"));
+  const step = getStepFromSearchParam(searchParams.get("step"));
   const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
-  const currentTerm = getTermContent(term, subject);
+  const currentStep = getStepContent(term, step, subject);
 
   const { status, requestMicPermission } = useMicPermission();
   const [showPrimer, setShowPrimer] = useState(false);
   const [showReenableHelp, setShowReenableHelp] = useState(false);
   const [message, setMessage] = useState("");
 
-  const query = `term=${term}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
+  const query = `term=${term}&step=${step}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
 
   const goToRecording = () => {
     router.push(`/recall/guided-reflection/session/recording?${query}`);
@@ -93,7 +99,7 @@ export function GuidedReflectionSessionContent() {
         <MascotBubble
           position="Left"
           expression="standby"
-          bodyText={currentTerm.prompt}
+          bodyText={currentStep.prompt}
           showChip={false}
           showButton={false}
         />
