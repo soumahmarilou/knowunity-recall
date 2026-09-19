@@ -169,9 +169,9 @@
   padding: var(--spacing-400) 0;
 }
 
-/* No longer a <button> at all, for any of the three states — the real
-   ButtonIcon instance each step renders is the only tappable thing now,
-   not this whole row. The label sits next to it as plain, inert text. */
+/* Not a <button> itself — each step's real controls are the ButtonIcon
+   and (for the current step only, see .stepLabelButton above) its own
+   label, not this whole row. */
 .step {
   display: flex;
   align-items: center;
@@ -218,6 +218,33 @@
   font-weight: var(--typography-scale-body-m-bold-font-weight);
   font-size: var(--typography-scale-body-m-bold-font-size);
   line-height: var(--typography-scale-body-m-bold-line-height);
+}
+
+/* Applied alongside .stepLabel/.stepLabelCurrent only for the current
+   step, which is the only one with a real destination (see
+   StudyPlanContent.tsx) — resets native <button> chrome so it reads
+   identically to the plain-text <p> version used for done/locked steps,
+   while actually sharing the ButtonIcon's own onClick. Per direct
+   instruction: tapping the label next to the icon must go to the same
+   place as tapping the icon, so students who miss the icon don't land
+   nowhere. Same invisible hit-area expansion pattern as .planTitle
+   above, but -12px (not -6px) — the label's own text box is only 24px
+   tall (body-m line height), and -6px only cleared 36px; -12px clears
+   the full 44pt floor (24+24=48px). .stepsList's 32px row gap has
+   plenty of room for a 12px expansion without reaching into the next
+   step's own hit area. */
+.stepLabelButton {
+  border: none;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+}
+.stepLabelButton::before {
+  content: "";
+  position: absolute;
+  inset: var(--spacing-negative-300);
 }
 
 .materialsPlaceholder {

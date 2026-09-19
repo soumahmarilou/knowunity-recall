@@ -65,9 +65,11 @@ import styles from "./page.module.css";
  * plain `variant="Primary"` default, wrapped in a new `ProgressRing`
  * that fills toward how far the student got (`?progress=` on this
  * route, snapped to the nearest of 0/25/50/75/100) and pulses gently to
- * invite a tap. The tappable area is the icon alone now — the label next
- * to it is plain, inert text, not part of any control (per direct
- * instruction).
+ * invite a tap. The current step's label is now its own real button
+ * sharing the icon's own destination (per direct instruction, reversing
+ * an earlier "label is inert text" decision — students were mistapping
+ * the label and landing nowhere). Done/locked steps have no destination
+ * to begin with, so their labels stay plain, inert text, unchanged.
  */
 
 type LessonStepState = "done" | "current" | "locked";
@@ -227,6 +229,9 @@ export function StudyPlanContent() {
                 }
 
                 const ringProgress = step.subject ? progress : "0";
+                const goToRecall = step.subject
+                  ? () => router.push(`/recall?subject=${encodeURIComponent(step.subject!)}&entry=study-plan`)
+                  : undefined;
                 return (
                   <div key={step.label} className={styles.step}>
                     <div className={styles.currentIconWrap}>
@@ -242,15 +247,27 @@ export function StudyPlanContent() {
                             ? `${step.label}, continue, ${progress}% complete`
                             : `${step.label}, not yet available`
                         }
-                        onClick={
-                          step.subject
-                            ? () =>
-                                router.push(`/recall?subject=${encodeURIComponent(step.subject!)}&entry=study-plan`)
-                            : undefined
-                        }
+                        onClick={goToRecall}
                       />
                     </div>
-                    <p className={[styles.stepLabel, styles.stepLabelCurrent].join(" ")}>{step.label}</p>
+                    {/* Same destination as the icon above, per direct
+                       instruction — a real <button>, not just the icon,
+                       so tapping the label doesn't land nowhere. Only
+                       for the current step with a real subject; without
+                       one (see getLessonSteps's own comment) there's
+                       still no destination to invent, so it stays plain
+                       text, matching the icon's own undefined onClick. */}
+                    {goToRecall ? (
+                      <button
+                        type="button"
+                        className={[styles.stepLabel, styles.stepLabelCurrent, styles.stepLabelButton].join(" ")}
+                        onClick={goToRecall}
+                      >
+                        {step.label}
+                      </button>
+                    ) : (
+                      <p className={[styles.stepLabel, styles.stepLabelCurrent].join(" ")}>{step.label}</p>
+                    )}
                   </div>
                 );
               })}
