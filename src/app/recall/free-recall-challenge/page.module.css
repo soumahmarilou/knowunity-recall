@@ -9,16 +9,16 @@
   gap: var(--spacing-200);
 }
 
-/* Centered vertically, then pushed further down past dead-center, gap to
-   the transparency paragraph tightened — see Guided Reflection's own
-   Intro CSS comment for the full reasoning. */
+/* Centered vertically, then pulled back up past dead-center, gap to the
+   transparency paragraph tightened — see Guided Reflection's own Intro
+   CSS comment for the full reasoning. */
 .middleContent {
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex: 1;
   gap: var(--spacing-300);
-  padding: var(--spacing-1600) var(--spacing-400) var(--spacing-200);
+  padding: var(--spacing-0) var(--spacing-400) var(--spacing-1600);
   box-sizing: border-box;
 }
 

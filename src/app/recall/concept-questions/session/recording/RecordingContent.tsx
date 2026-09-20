@@ -41,6 +41,7 @@ export function ConceptQuestionsRecordingContent() {
   const searchParams = useSearchParams();
   const term = getTermFromSearchParam(searchParams.get("term"));
   const hints = getHintsFromSearchParam(searchParams.get("hints"));
+  const isRepeat = searchParams.get("repeat") === "1";
   const outcomesParam = searchParams.get("outcomes");
   const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
@@ -55,9 +56,23 @@ export function ConceptQuestionsRecordingContent() {
 
   const outcomes = parseOutcomes(outcomesParam);
   const xpTotal = outcomes.reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
-  const bodyText = hints === 0 ? getTermPrompt(term, subject) : currentTerm.hints[hints - 1].body;
-  const chipText = hints === 0 ? undefined : currentTerm.hints[hints - 1].chipText;
-  const query = `term=${term}&hints=${hints}${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
+  // A repeat-after-reveal shows the revealed answer itself — the thing
+  // the student is actually meant to say back — not the original prompt,
+  // which they've already been asked (and answered) once this term.
+  const bodyText = isRepeat
+    ? currentTerm.revealAnswer
+    : hints === 0
+      ? getTermPrompt(term, subject)
+      : currentTerm.hints[hints - 1].body;
+  const chipText = !isRepeat && hints > 0 ? currentTerm.hints[hints - 1].chipText : undefined;
+  const query = `term=${term}&hints=${hints}${isRepeat ? "&repeat=1" : ""}${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
+  // Redo, in repeat mode, goes back to Reveal (same revealed answer to
+  // try again) — not to Launched/Session, which would re-show the
+  // original question prompt and let the student re-enter a hint ladder
+  // for a term that's already concluded.
+  const redoQuery = isRepeat
+    ? `/recall/concept-questions/session/reveal?term=${term}${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`
+    : `/recall/concept-questions/session?${query}`;
 
   return (
     <Screen>
@@ -88,7 +103,7 @@ export function ConceptQuestionsRecordingContent() {
           expression="standby"
           overline={`Question ${term} of ${CONCEPT_QUESTIONS_TERMS.length}`}
           bodyText={bodyText}
-          showChip={hints > 0}
+          showChip={!isRepeat && hints > 0}
           chipText={chipText}
           showButton={false}
         />
@@ -112,7 +127,7 @@ export function ConceptQuestionsRecordingContent() {
               size="L"
               icon={<Redo01 />}
               aria-label="Redo"
-              onClick={() => router.push(`/recall/concept-questions/session?${query}`)}
+              onClick={() => router.push(redoQuery)}
             />
             <p className={styles.controlLabel}>Redo</p>
           </div>

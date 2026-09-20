@@ -1,27 +1,52 @@
 .row {
   display: flex;
-  flex-direction: row;
-  align-items: var(--layout-align-center);
-  gap: var(--spacing-200);
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-100);
   box-sizing: border-box;
   width: 100%;
   padding-left: var(--spacing-400);
   padding-right: var(--spacing-400);
-  padding-top: var(--spacing-200);
-  padding-bottom: var(--spacing-200);
+  padding-top: var(--spacing-400);
+  padding-bottom: var(--spacing-400);
   border-radius: var(--radius-400);
   background: var(--color-background-surface);
 }
 
+/* Code-only eyebrow, not a Figma property — see the component's own
+   header comment. Same "ordinal caption above a title" shape Study
+   plan's own `.stepNumber` establishes, but `text-secondary` here, not
+   `text-tertiary` — this row's `background-surface` card fill measures
+   only 4.34:1 against `text-tertiary` (Storybook's own a11y check
+   caught it), under the 4.5:1 floor; `text-secondary` clears it. */
+.questionNumber {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+
 .title {
   margin: 0;
-  flex: 1 1 auto;
-  min-width: 0;
   color: var(--color-text-primary);
   font-family: var(--typography-scale-body-s-bold-font-family), sans-serif;
   font-weight: var(--typography-scale-body-s-bold-font-weight);
   font-size: var(--typography-scale-body-s-bold-font-size);
   line-height: var(--typography-scale-body-s-bold-line-height);
+}
+
+/* XP indicator + outcome chip, moved off the title's own row (per direct
+   instruction) onto their own row below it, so a long title gets the
+   card's full width instead of being squeezed by these two fixed-width
+   siblings. */
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: var(--layout-align-center);
+  justify-content: space-between;
+  gap: var(--spacing-200);
 }
 
 .xpIndicator {

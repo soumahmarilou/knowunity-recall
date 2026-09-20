@@ -41,24 +41,32 @@ import styles from "../page.module.css";
  * itself, only reads it forward.
  *
  * Tapping the mic or sending text here is a real repeat attempt, per
- * direct instruction — it routes through the exact same Recording ->
- * Processing pipeline any other question uses (`goToRecording`, `hints`
- * reset to 0 for a fresh start of this term's ladder), not a shortcut
- * straight to the next term. An earlier version of this screen skipped
- * Recording/Processing entirely and just advanced — that's been
- * corrected; the mic genuinely records now, "like for all the other
- * questions."
+ * direct instruction — it routes through the same Recording -> Processing
+ * screens any other question uses, not a shortcut straight to the next
+ * term (an earlier version of this screen skipped Recording/Processing
+ * entirely and just advanced; that's been corrected, the mic genuinely
+ * records now). But it's not a *re-scored* attempt either — a `repeat=1`
+ * flag threads through Recording and into Processing, telling Processing
+ * to skip its random pass/hint/reveal roll entirely and always resolve as
+ * a guaranteed pass: this term is already concluded (its "revealed"
+ * outcome was appended before this screen was ever reached), so a coin
+ * flip here could otherwise either silently duplicate that outcome (on a
+ * lucky roll) or drop the student into a second, nonsensical hint ladder
+ * for an answer they've already been shown (on an unlucky one) — neither
+ * is a real "did they say it back correctly" check anyway, since nothing
+ * in this app actually judges speech content. Repeating the already-
+ * revealed answer is accepted unconditionally, per direct instruction.
  *
  * The bubble still tells the student what tapping the mic here is for —
- * a fixed "Repeat the answer to go to the next question." line, in its
- * own chip below the answer text (`footerChipText`) rather than
- * concatenated onto the end of it, per direct instruction. That copy is
- * a slight simplification (a repeat can also land on another hint or a
- * second reveal if it doesn't go well, same as any other attempt) but
- * stays accurate to the common case and to the on-screen "Tap to repeat"
+ * a fixed "Repeat the answer to continue" line, in its own chip below
+ * the answer text (`footerChipText`) rather than concatenated onto the
+ * end of it, per direct instruction. That copy is a slight
+ * simplification (a repeat can also land on another hint or a second
+ * reveal if it doesn't go well, same as any other attempt) but stays
+ * accurate to the common case and to the on-screen "Tap to repeat"
  * label, so left as-is.
  */
-const REPEAT_PROMPT = "Repeat the answer to go to the next question.";
+const REPEAT_PROMPT = "Repeat the answer to continue";
 
 export function ConceptQuestionsRevealContent() {
   const router = useRouter();
@@ -74,16 +82,12 @@ export function ConceptQuestionsRevealContent() {
   const xpTotal = outcomes.reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
   const [message, setMessage] = useState("");
 
-  // Per direct instruction: repeating the answer is a genuine new attempt
-  // at this same term, not just navigation — routes into the same
-  // Recording screen any other question uses (hints=0, a fresh start of
-  // the ladder for this term), matching Session's own goToRecording query
-  // shape exactly. From there the existing Recording -> Processing
-  // pipeline decides what happens next (pass advances to the next term/
-  // summary same as always; a miss shows a hint or forces reveal again),
-  // the same as any other question — nothing special-cased here.
+  // Per direct instruction: repeating the answer is a genuine recording,
+  // routed through the same Recording screen any other question uses —
+  // but `repeat=1` marks it as a guaranteed-pass confirmation, not a
+  // re-scored attempt (see this component's own doc comment above).
   const goToRecording = () => {
-    const query = `term=${term}&hints=0${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
+    const query = `term=${term}&hints=0&repeat=1${outcomesParam ? `&outcomes=${outcomesParam}` : ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`;
     router.push(`/recall/concept-questions/session/recording?${query}`);
   };
 

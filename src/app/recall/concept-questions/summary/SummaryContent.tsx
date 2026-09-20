@@ -13,7 +13,7 @@ import {
   XP_BY_OUTCOME,
   OUTCOME_CHIP,
   getSubjectFromSearchParam,
-  getTermPrompt,
+  getTermSummaryTitle,
   parseOutcomes,
 } from "../terms";
 import { getEntryFromSearchParam, studyPlanCloseUrl, studyPlanReturnUrl } from "@/lib/entryPoint";
@@ -61,7 +61,8 @@ export function ConceptQuestionsSummaryContent() {
             return (
               <QuizResultRow
                 key={term.topic}
-                title={getTermPrompt(index + 1, subject)}
+                questionNumber={index + 1}
+                title={getTermSummaryTitle(index + 1, subject)}
                 xpValue={`${XP_BY_OUTCOME[outcome]}  XP`}
                 chipText={chip.text}
                 chipColor={chip.color}

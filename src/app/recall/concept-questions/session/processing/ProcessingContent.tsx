@@ -65,6 +65,7 @@ export function ConceptQuestionsProcessingContent() {
   const searchParams = useSearchParams();
   const term = getTermFromSearchParam(searchParams.get("term"));
   const hints = getHintsFromSearchParam(searchParams.get("hints"));
+  const isRepeat = searchParams.get("repeat") === "1";
   const outcomesParam = searchParams.get("outcomes");
   const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
@@ -74,8 +75,11 @@ export function ConceptQuestionsProcessingContent() {
   const xpTotal = outcomes.reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
   const questionLabel = `Question ${term} of ${CONCEPT_QUESTIONS_TERMS.length}`;
 
-  // Rolled once per mount, not re-rolled on re-render.
+  // A repeat-after-reveal is a guaranteed pass, never rolled — see
+  // RevealContent's own doc comment for why. Rolled once per mount
+  // otherwise, not re-rolled on re-render.
   const [passed] = useState<boolean>(() => {
+    if (isRepeat) return true;
     if (attempt === 3) return false; // irrelevant — forced reveal either way
     return Math.random() < PASS_ODDS_BY_ATTEMPT[attempt as 1 | 2];
   });
@@ -84,10 +88,28 @@ export function ConceptQuestionsProcessingContent() {
   const [revealMessage] = useState(() => REVEAL_MESSAGES[Math.floor(Math.random() * REVEAL_MESSAGES.length)]);
   const [phase, setPhase] = useState<"thinking" | "affirming" | "hinting" | "revealing">("thinking");
   const [message] = useState("");
+  // The bar shouldn't wait for the *next* screen to show this term's
+  // fill once it's actually passed — per direct instruction, term 3
+  // passing has nowhere else to show it (Summary has no progress bar),
+  // so it would otherwise never be seen at all. Optimistically include
+  // the just-determined outcome once the "affirming" phase confirms a
+  // pass, purely for this screen's own display; the real, persisted
+  // outcomes list still only grows via `navigate()`'s own `appendOutcome`
+  // call below. A forced reveal ("revealing" phase) deliberately doesn't
+  // get the same treatment — see `getProgressFromOutcomes`'s own comment,
+  // a reveal never fills its third, so the bar correctly stays put. A
+  // repeat-after-reveal also skips this: it's still the same already-
+  // revealed term underneath, nothing new to optimistically add.
+  const displayOutcomes =
+    phase === "affirming" && !isRepeat
+      ? [...outcomes, attempt === 1 ? ("first" as const) : ("hint" as const)]
+      : outcomes;
 
   useEffect(() => {
     const thinkingTimer = setTimeout(() => {
-      if (attempt === 3) {
+      if (isRepeat) {
+        setPhase("affirming");
+      } else if (attempt === 3) {
         setPhase("revealing");
       } else if (passed) {
         setPhase("affirming");
@@ -107,6 +129,23 @@ export function ConceptQuestionsProcessingContent() {
   }, [phase]);
 
   function navigate() {
+    if (isRepeat) {
+      // Guaranteed pass, no roll — this term's outcome was already
+      // appended ("revealed") before Reveal was ever reached, so nothing
+      // new gets appended here; appending again would duplicate it and
+      // desync every later term's position in the outcomes list.
+      if (term === CONCEPT_QUESTIONS_TERMS.length) {
+        router.push(
+          `/recall/concept-questions/summary?outcomes=${outcomesParam ?? ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
+        );
+      } else {
+        router.push(
+          `/recall/concept-questions/session?term=${term + 1}&hints=0&outcomes=${outcomesParam ?? ""}&subject=${encodeURIComponent(subject)}&entry=${entry}`,
+        );
+      }
+      return;
+    }
+
     if (attempt === 3) {
       // Reveal is its own route (SPEC.md 8d) — the ladder's 2nd hint
       // failing routes here automatically, "revealed" already appended.
@@ -157,7 +196,7 @@ export function ConceptQuestionsProcessingContent() {
             <ProgressIndicator
               variant="Primary"
               thickness="24"
-              progress={getProgressFromOutcomes(outcomes)}
+              progress={getProgressFromOutcomes(displayOutcomes)}
               aria-label={`Term ${term} of ${CONCEPT_QUESTIONS_TERMS.length}`}
             />
           </div>

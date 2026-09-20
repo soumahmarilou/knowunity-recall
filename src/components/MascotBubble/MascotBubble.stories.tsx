@@ -115,11 +115,11 @@ export const OverlineWithChip: Story = {
 // Concept Questions' Reveal screen — a second chip below the body text
 // instead of plain text concatenated onto the end of it.
 export const WithFooterChip: Story = {
-  name: "footerChipText=Repeat the answer to go to the next question.",
+  name: "footerChipText=Repeat the answer to continue",
   args: {
     position: "Left",
     showChip: false,
-    footerChipText: "Repeat the answer to go to the next question.",
+    footerChipText: "Repeat the answer to continue",
   },
 };
 

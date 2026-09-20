@@ -55,6 +55,25 @@ export function getTermPrompt(termNumber: number, subject: string): string {
   return CONCEPT_QUESTIONS_TERMS[termNumber - 1].prompt;
 }
 
+/**
+ * Term 1's title for the Summary screen's own `QuizResultRow` only — the
+ * live question-asking screens (session/recording, via `getTermPrompt`
+ * above) still need the full "let's test your understanding of X"
+ * framing sentence, since that's the actual opening line read to the
+ * student there. On Summary, each term already sits under its own
+ * "Question N" label (see `QuizResultRow`'s `questionNumber` prop), so
+ * re-stating the framing sentence just made that one row's card taller
+ * than its siblings for no benefit — dropped here, first word
+ * capitalized, per direct instruction. Terms 2/3 are unaffected (their
+ * prompts never had this framing sentence to begin with).
+ */
+export function getTermSummaryTitle(termNumber: number, subject: string): string {
+  if (termNumber === 1) {
+    return "Can you explain in your own words the step-by-step process for simplifying an algebraic fraction?";
+  }
+  return getTermPrompt(termNumber, subject);
+}
+
 export const CONCEPT_QUESTIONS_TERMS: ConceptQuestionsTerm[] = [
   {
     topic: "Factoring",
@@ -115,19 +134,17 @@ export const CONCEPT_QUESTIONS_TERMS: ConceptQuestionsTerm[] = [
 const PASSED_PROGRESS: ProgressIndicatorValue[] = ["0", "33", "66", "100"];
 
 /**
- * The bar fills only once a term has actually concluded — not before, and
- * not merely for "being on" a later term — per direct instruction. A
- * concluded term counts toward this regardless of which outcome it ended
- * on (first-try, hinted, or a forced reveal): all three mean the student
- * is done with that term and has moved on, which is what a *progress*
- * bar tracks. (Outcome quality — whether it went well — is what the
- * colored chip on each term already communicates separately, on Summary
- * and via the hint ladder itself; conflating the two into this same bar
- * would make it stall for a student who's genuinely finished the
- * exercise but leaned on reveals, which reads as broken, not honest.)
+ * The bar fills only when a term is actually answered correctly — first
+ * try or after a hint — not for a forced reveal, per direct instruction
+ * (revising this file's own earlier "any conclusion counts, including a
+ * reveal" call, which was flagged here as a disclosed interpretation
+ * call at the time). A revealed term never fills its own third, on
+ * Summary or anywhere else the outcome list is read back — it wasn't
+ * gotten right, so it doesn't count as progress.
  */
 export function getProgressFromOutcomes(outcomes: TermOutcome[]): ProgressIndicatorValue {
-  return PASSED_PROGRESS[Math.min(outcomes.length, PASSED_PROGRESS.length - 1)];
+  const passedCount = outcomes.filter((o) => o !== "revealed").length;
+  return PASSED_PROGRESS[Math.min(passedCount, PASSED_PROGRESS.length - 1)];
 }
 
 export type TermOutcome = "first" | "hint" | "revealed";

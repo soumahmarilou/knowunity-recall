@@ -8,14 +8,14 @@ import styles from "./QuizResultRow.module.css";
  * two exposed text properties, plus the nested chips instance's own
  * properties bubbled up).
  *
- * WHAT IT IS: A row combining a title, an inline XP indicator (icon +
- * value), and the real chips component as an outcome badge. Text
- * properties Title and XP value are exposed; the nested chips instance's
- * own properties (color, Text, icon visibility) are also exposed and
- * editable from this component directly, no drilling in required.
+ * WHAT IT IS: A row stacking an optional "Question N" eyebrow, a title,
+ * and a footer pairing an inline XP indicator (icon + value) with the
+ * real chips component as an outcome badge. Text properties Title and XP
+ * value are exposed; the nested chips instance's own properties (color,
+ * Text, icon visibility) are also exposed and editable from this
+ * component directly, no drilling in required.
  *
- * WHEN TO USE IT: One row per concept in a quiz or recall summary — title
- * on the left, outcome on the right.
+ * WHEN TO USE IT: One row per concept in a quiz or recall summary.
  *
  * DON'T: Don't expect the lightning icon to be swappable via a component
  * property — it's a raw vector group, not an icon-component instance,
@@ -28,11 +28,24 @@ import styles from "./QuizResultRow.module.css";
  * per the DON'T above — its real vector path, not Icons.tsx's larger
  * illustrative Lightning01 (a visually different glyph built for a
  * different context).
+ *
+ * Revised per direct instruction: the XP indicator and outcome chip used
+ * to share the title's own row (title `flex:1`, xp+chip fixed-width on
+ * the right), which squeezed a long title into a narrow column and grew
+ * the row tall via wrapping. Now a column layout — title gets the row's
+ * full width, xp+chip moved to their own footer row below it. A new,
+ * code-only `questionNumber` prop (not a Figma property — this
+ * component's Figma instance has no such field) renders a small "Question
+ * N" eyebrow above the title, reusing Study plan's own established
+ * "ordinal caption above a title" pattern (`caption-m-regular` /
+ * `text-tertiary`) rather than inventing a new one.
  */
 
 export type QuizResultRowChipColor = "Primary" | "pro" | "success" | "info" | "error";
 
 export interface QuizResultRowProps {
+  /** Code-only, not a Figma property — see the component comment above. */
+  questionNumber?: number;
   /** Figma property name: Title. */
   title?: string;
   /** Figma property name: XP value. */
@@ -65,6 +78,7 @@ function LightningIcon() {
 }
 
 export function QuizResultRow({
+  questionNumber,
   title = "Factoring",
   xpValue = "10  XP",
   chipText = "First try",
@@ -76,23 +90,28 @@ export function QuizResultRow({
 }: QuizResultRowProps) {
   return (
     <div className={styles.row}>
+      {questionNumber !== undefined && (
+        <p className={styles.questionNumber}>Question {questionNumber}</p>
+      )}
       <p className={styles.title}>{title}</p>
-      <span className={styles.xpIndicator}>
-        <span className={styles.lightningIcon} aria-hidden="true">
-          <LightningIcon />
+      <div className={styles.footer}>
+        <span className={styles.xpIndicator}>
+          <span className={styles.lightningIcon} aria-hidden="true">
+            <LightningIcon />
+          </span>
+          <span className={styles.xpValue}>{xpValue}</span>
         </span>
-        <span className={styles.xpValue}>{xpValue}</span>
-      </span>
-      <Chips
-        text={chipText}
-        color={chipColor}
-        size="S"
-        active="True"
-        showLeftIcon={chipShowLeftIcon}
-        showRightIcon={chipShowRightIcon}
-        leftIcon={chipLeftIcon}
-        rightIcon={chipRightIcon}
-      />
+        <Chips
+          text={chipText}
+          color={chipColor}
+          size="S"
+          active="True"
+          showLeftIcon={chipShowLeftIcon}
+          showRightIcon={chipShowRightIcon}
+          leftIcon={chipLeftIcon}
+          rightIcon={chipRightIcon}
+        />
+      </div>
     </div>
   );
 }

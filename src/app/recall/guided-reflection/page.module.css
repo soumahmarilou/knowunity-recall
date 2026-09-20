@@ -13,24 +13,23 @@
   gap: var(--spacing-200);
 }
 
-/* Centered vertically, then pushed further down past dead-center — per
-   direct instruction, confirmed measured as sitting at the exact
-   vertical midpoint before this (equal empty space above and below), and
-   still wanted lower than that. A bigger top padding than bottom does
-   this on a centered flex column: it doesn't move the content within its
-   own centered box, it just eats more of the *outer* empty space from
-   the top than the bottom, so more room accumulates above the block than
-   below it. Gap between the hero and the transparency paragraph below it
-   tightened (spacing-300, down from spacing-600) so the title and its
-   paragraph read as a closer pair, per direct instruction reversing an
-   earlier "leave this gap alone" note. */
+/* Centered vertically, then pulled back up past dead-center — per direct
+   instruction, the previous top-heavy padding (spacing-1600/spacing-200)
+   read as sitting too low. A bigger bottom padding than top does this on
+   a centered flex column: it doesn't move the content within its own
+   centered box, it just eats more of the *outer* empty space from the
+   bottom than the top, so more room accumulates below the block than
+   above it — same mechanism as before, flipped. Gap between the hero and
+   the transparency paragraph below it tightened (spacing-300, down from
+   spacing-600) so the title and its paragraph read as a closer pair, per
+   direct instruction reversing an earlier "leave this gap alone" note. */
 .middleContent {
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex: 1;
   gap: var(--spacing-300);
-  padding: var(--spacing-1600) var(--spacing-400) var(--spacing-200);
+  padding: var(--spacing-0) var(--spacing-400) var(--spacing-1600);
   box-sizing: border-box;
 }
 

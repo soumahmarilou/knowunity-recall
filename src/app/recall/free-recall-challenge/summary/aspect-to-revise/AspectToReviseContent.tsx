@@ -56,7 +56,7 @@ import styles from "./page.module.css";
  * that badge, which this screen (and its Recording/Processing siblings)
  * had simply never carried over.
  */
-const REPEAT_PROMPT = "Repeat the answer to go to the next question.";
+const REPEAT_PROMPT = "Repeat the answer to continue";
 export function AspectToReviseContent() {
   const router = useRouter();
   usePrefetchRoutes([
