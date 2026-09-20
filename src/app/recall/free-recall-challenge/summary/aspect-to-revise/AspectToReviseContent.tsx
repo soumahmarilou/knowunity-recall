@@ -36,16 +36,27 @@ import styles from "./page.module.css";
  * routes, since those are hardwired to CQ's own terms.ts content and
  * outcome model. Disclosed in this build's report, not silently decided.
  *
- * Reveal is no longer its own screen, mirroring CQ's own Launched screen
- * fix — tapping "Reveal answer" stays right here (bubble content swaps to
- * the answer, button becomes "Next"), and the automatic forced-reveal
- * after the second hint lands here too, via `?revealed=true`.
+ * Reveal stays on this same screen (bubble content swaps to the answer),
+ * and the automatic forced-reveal after the second hint lands here too,
+ * via `?revealed=true`.
+ *
+ * Fixed: this used to swap the bubble's button to "Next" once revealed,
+ * which skipped straight to the next aspect/final-summary with no
+ * Thinking/Nice beat at all — a leftover from before Concept Questions'
+ * own Reveal got the same correction (see that mode's Reveal screen).
+ * Since this sub-flow's whole point is mirroring CQ's ladder mechanic
+ * 1:1, leaving that behind here made the "same mechanic" claim false.
+ * Now, once revealed, the bubble shows no button at all (matching CQ's
+ * Reveal exactly) — the mic or chat input is the only way forward, and
+ * it's a real repeat attempt through Recording -> Processing (hints
+ * reset to 0 for a fresh ladder), not a shortcut.
  *
  * The AppBar now also shows the running XP badge, per direct instruction
  * — this sub-flow mirrors Concept Questions' mechanic exactly, including
  * that badge, which this screen (and its Recording/Processing siblings)
  * had simply never carried over.
  */
+const REPEAT_PROMPT = "Repeat the answer to go to the next question.";
 export function AspectToReviseContent() {
   const router = useRouter();
   usePrefetchRoutes([
@@ -67,12 +78,10 @@ export function AspectToReviseContent() {
   const [showReenableHelp, setShowReenableHelp] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Same in-place reveal as Concept Questions' own Launched screen (see
-  // that build's comment) — mirrors CQ's mechanic 1:1, so this mirrors
-  // that fix too. No separate outcomes string to capture here (FRC's
-  // aspect ladder only ever carries a plain accumulating `xp` number, not
-  // per-aspect outcome tracking), so there's nothing extra to thread
-  // through to "Next" beyond what's already in the URL.
+  // No separate outcomes string to capture here (FRC's aspect ladder only
+  // ever carries a plain accumulating `xp` number, not per-aspect outcome
+  // tracking), so there's nothing extra to thread through beyond what's
+  // already in the URL.
   const revealedParam = searchParams.get("revealed") === "true";
   const [selfRevealed, setSelfRevealed] = useState(false);
   const revealed = revealedParam || selfRevealed;
@@ -89,13 +98,23 @@ export function AspectToReviseContent() {
   // this same slot shows afterward.
   const chipColor = hints === 0 ? "error" : "info";
   const query = buildFrcQuery({ aspect: aspectIndex, total, hints, coverage, xp, subject, entry });
+  // A repeat attempt after reveal is a fresh start of this aspect's
+  // ladder, matching CQ's own Reveal -> goToRecording — always hints=0,
+  // regardless of how many hints the pre-reveal attempts had used.
+  const repeatQuery = buildFrcQuery({ aspect: aspectIndex, total, hints: 0, coverage, xp, subject, entry });
 
   const goToRecording = () =>
     router.push(`/recall/free-recall-challenge/summary/aspect-to-revise/recording?${query}`);
+  const goToRepeatRecording = () =>
+    router.push(`/recall/free-recall-challenge/summary/aspect-to-revise/recording?${repeatQuery}`);
 
   const handleMicTap = () => {
     if (status === "granted") {
-      goToRecording();
+      if (revealed) {
+        goToRepeatRecording();
+      } else {
+        goToRecording();
+      }
     } else if (status === "unknown") {
       setShowPrimer(true);
     }
@@ -104,30 +123,16 @@ export function AspectToReviseContent() {
   const handlePrimerAllow = async () => {
     const result = await requestMicPermission();
     setShowPrimer(false);
-    if (result === "granted") goToRecording();
+    if (result === "granted") {
+      if (revealed) {
+        goToRepeatRecording();
+      } else {
+        goToRecording();
+      }
+    }
   };
 
   const handleRevealAnswer = () => setSelfRevealed(true);
-
-  const goToNext = () => {
-    if (aspectIndex >= total) {
-      router.push(
-        `/recall/free-recall-challenge/final-summary?${buildFrcQuery({ coverage, xp, subject, entry })}`,
-      );
-    } else {
-      router.push(
-        `/recall/free-recall-challenge/summary/aspect-to-revise?${buildFrcQuery({
-          aspect: aspectIndex + 1,
-          total,
-          hints: 0,
-          coverage,
-          xp,
-          subject,
-          entry,
-        })}`,
-      );
-    }
-  };
 
   return (
     <Screen>
@@ -157,13 +162,13 @@ export function AspectToReviseContent() {
         <MascotBubble
           position="Right"
           expression={revealed ? "confused" : "standby"}
-          bodyText={revealed ? aspect.revealAnswer : bodyText}
+          bodyText={revealed ? `${aspect.revealAnswer} ${REPEAT_PROMPT}` : bodyText}
           showChip={!revealed}
           chipText={chipText}
           chipColor={chipColor}
-          showButton
-          buttonText={revealed ? "Next" : "Reveal answer"}
-          onRevealAnswer={revealed ? goToNext : handleRevealAnswer}
+          showButton={!revealed}
+          buttonText="Reveal answer"
+          onRevealAnswer={handleRevealAnswer}
         />
       </div>
 
@@ -191,8 +196,12 @@ export function AspectToReviseContent() {
             </>
           ) : (
             <>
-              <MicButton state="idle" aria-label="Record your answer" onClick={handleMicTap} />
-              <p className={styles.micLabel}>Tap to answer</p>
+              <MicButton
+                state="idle"
+                aria-label={revealed ? "Repeat the answer" : "Record your answer"}
+                onClick={handleMicTap}
+              />
+              <p className={styles.micLabel}>{revealed ? "Tap to repeat" : "Tap to answer"}</p>
             </>
           )}
         </div>
@@ -208,8 +217,13 @@ export function AspectToReviseContent() {
             state="Answer"
             value={message}
             onChange={setMessage}
-            onSend={() =>
-              router.push(`/recall/free-recall-challenge/summary/aspect-to-revise/processing?${query}&via=text`)
+            onSend={
+              revealed
+                ? goToRepeatRecording
+                : () =>
+                    router.push(
+                      `/recall/free-recall-challenge/summary/aspect-to-revise/processing?${query}&via=text`,
+                    )
             }
           />
         </div>
