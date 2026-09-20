@@ -4,18 +4,55 @@
   justify-content: center;
   flex-shrink: 0;
   box-sizing: border-box;
-  /* Figma: 32x32, which happens to match icon/400 exactly. */
+}
+
+/* Figma: 32x32, which happens to match icon/400 exactly. Was called
+   "M" before a real "slightly bigger" step was added between this and
+   the hero-scale L below — renamed to S rather than reusing "M" for two
+   different sizes; every caller relying on the default is unaffected. */
+.sizeS {
   width: var(--icon-400);
   height: var(--icon-400);
   border-radius: var(--radius-200);
+}
+.sizeS .icon {
+  width: var(--icon-250);
+  height: var(--icon-250);
+}
+
+/* A modest step up from S (36px vs 32px, icon 24px vs 20px) — for a
+   context that needs a touch more visual weight without jumping to L's
+   hero scale (the mode Intro screens' own icon+name eyebrow). Both
+   dimensions are still real icon-scale tokens (icon-450/icon-300), one
+   step past where S's own tokens land. */
+.sizeM {
+  width: var(--icon-450);
+  height: var(--icon-450);
+  border-radius: var(--radius-200);
+}
+.sizeM .icon {
+  width: var(--icon-300);
+  height: var(--icon-300);
+}
+
+/* Hero scale — same 120px footprint as MascotSlot's own 2XL step
+   (spacing-3000), so this drops into that same hero position cleanly.
+   Both dimensions use spacing tokens, not icon tokens, per this file's
+   own header comment (no icon step goes anywhere near this size). */
+.sizeL {
+  width: var(--spacing-3000);
+  height: var(--spacing-3000);
+  border-radius: var(--radius-800);
+}
+.sizeL .icon {
+  width: var(--spacing-1600);
+  height: var(--spacing-1600);
 }
 
 .icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--icon-250);
-  height: var(--icon-250);
 }
 
 /* Was missing entirely — the wrapper above had a size, but nothing ever

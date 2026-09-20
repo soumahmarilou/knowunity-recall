@@ -11,12 +11,16 @@
   gap: var(--spacing-200);
 }
 
+/* Centered vertically, then pushed further down past dead-center, gap to
+   the transparency paragraph tightened — see Guided Reflection's own
+   Intro CSS comment for the full reasoning. */
 .middleContent {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   flex: 1;
-  gap: var(--spacing-600);
-  padding: var(--spacing-200) var(--spacing-400);
+  gap: var(--spacing-300);
+  padding: var(--spacing-1600) var(--spacing-400) var(--spacing-200);
   box-sizing: border-box;
 }
 
@@ -27,32 +31,45 @@
   gap: var(--spacing-400);
 }
 
+/* Spaced further still from the title below it — see Guided Reflection's
+   own Intro CSS comment for the full reasoning. */
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-600);
+}
+
+/* The small IconBadge and the eyebrow text, horizontally aligned as one
+   row — see Guided Reflection's own Intro CSS comment for the full
+   reasoning. */
+.exerciseLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+
+/* One step bigger than the component's own original size (body-s
+   instead of caption-m). */
+.exerciseLabelText {
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-body-s-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-regular-font-weight);
+  font-size: var(--typography-scale-body-s-regular-font-size);
+  line-height: var(--typography-scale-body-s-regular-line-height);
+}
+
 .benefits {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-400);
 }
 
-.benefitRow {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-300);
-}
-
-/* Forces Lightbulb01's hardcoded accent-3 fill to the same neutral color
-   as this row's sibling icons — same override technique MicButton and
-   ChatInput already use for their own icons (CSS fill beats an SVG's own
-   fill attribute). Scoped to this screen only; Mode selection's IconBadge
-   usage of the same icon is untouched and stays blue. */
-.neutralIcon {
-  color: var(--color-text-secondary);
-}
-.neutralIcon :global(svg *) {
-  fill: currentColor;
-}
-
+/* No leading icon (removed per direct instruction) and centered, not
+   left-aligned next to where that icon used to sit. */
 .benefitLabel {
   margin: 0;
+  text-align: center;
   color: var(--color-text-secondary);
   font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
   font-weight: var(--typography-scale-body-m-regular-font-weight);

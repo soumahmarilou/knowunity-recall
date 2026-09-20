@@ -34,7 +34,45 @@ export function useMicPermission() {
   const [status, setStatus] = useState<MicPermissionStatus>("unknown");
 
   useEffect(() => {
-    setStatus(readStoredStatus());
+    const stored = readStoredStatus();
+    setStatus(stored);
+
+    // The cached "granted" flag can go stale — revoked in OS/browser
+    // settings after the fact, or carried over from a different device/
+    // profile via synced localStorage — and this hook otherwise trusts it
+    // blindly, sending the student straight to a Recording screen where
+    // both the live transcript and the waveform silently do nothing
+    // (both `useSpeechTranscript` and `useMicLevel` degrade quietly on a
+    // real getUserMedia failure, by design, rather than erroring loudly).
+    // Re-verified here against the browser's real current permission via
+    // the Permissions API where it's supported (Chrome/Edge; Safari and
+    // Firefox don't support the "microphone" descriptor and throw, caught
+    // below — the cached value is the only thing to go on there, same as
+    // before this fix). Only ever *downgrades* a stale "granted" back to
+    // "unknown" (re-triggering the primer honestly) — never silently
+    // promotes to "granted" on its own, since actually obtaining
+    // permission still has to go through the real OS prompt via
+    // `requestMicPermission`.
+    if (stored !== "granted" || typeof navigator === "undefined" || !navigator.permissions?.query) {
+      return;
+    }
+    let cancelled = false;
+    navigator.permissions
+      .query({ name: "microphone" as PermissionName })
+      .then((result) => {
+        if (cancelled) return;
+        if (result.state !== "granted") {
+          window.localStorage.removeItem(STORAGE_KEY);
+          setStatus("unknown");
+        }
+      })
+      .catch(() => {
+        // Permissions API doesn't support "microphone" on this browser —
+        // nothing more reliable to check against, leave the cached value.
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const requestMicPermission = useCallback(async (): Promise<MicPermissionStatus> => {

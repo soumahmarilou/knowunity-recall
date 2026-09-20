@@ -23,6 +23,7 @@ import {
   getXpFromSearchParam,
   getSubjectFromSearchParam,
   getFrcPrompt,
+  getFrcResultMessage,
   buildFrcQuery,
 } from "../frc";
 import styles from "./page.module.css";
@@ -131,10 +132,17 @@ export function FreeRecallChallengeSessionContent() {
       </AppBar>
 
       <div className={styles.middleContent}>
+        {/* The very first segment gets the fresh "you have 1 minute"
+           framing — every segment after that keeps the "still have
+           time" message the After-recording beat right before this one
+           already showed, per direct instruction, rather than reverting
+           to copy that reads like the clock just reset. `xp > 0` is a
+           reliable "at least one segment already sent" signal — it only
+           ever increments after a send (see After-recording). */}
         <MascotBubble
           position="Left"
           expression="standby"
-          bodyText={getFrcPrompt(subject)}
+          bodyText={xp > 0 ? getFrcResultMessage(subject) : getFrcPrompt(subject)}
           showChip={false}
           showButton={false}
         />

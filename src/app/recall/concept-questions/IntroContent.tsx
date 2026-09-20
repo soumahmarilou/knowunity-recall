@@ -3,11 +3,10 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Screen } from "@/components/Screen/Screen";
 import { AppBar } from "@/components/AppBar/AppBar";
-import { MascotSlot } from "@/components/MascotSlot/MascotSlot";
 import { TextBlock } from "@/components/TextBlock/TextBlock";
-import { IconSlot } from "@/components/IconSlot/IconSlot";
+import { IconBadge } from "@/components/IconBadge/IconBadge";
 import { Button } from "@/components/Button/Button";
-import { XClose, Microphone01, Lightbulb01, TrendingUp01 } from "@/components/Icons/Icons";
+import { XClose, Lightbulb01 } from "@/components/Icons/Icons";
 import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import { getSubjectFromSearchParam } from "./terms";
@@ -26,7 +25,36 @@ import styles from "./page.module.css";
  * mode's own Intro. Now also carries `subject` — previously dropped
  * silently at this exact hop from Mode selection (only Guided Reflection
  * threaded it); term 1's opening line interpolates it, see terms.ts.
+ *
+ * Revised per direct instruction, same treatment as Guided Reflection's
+ * own Intro (see that file's comment for the full reasoning): the
+ * explanatory benefit list is now folded into the title itself, with a
+ * small icon+name eyebrow above it using Mode selection's own icon for
+ * this card (Lightbulb01) rather than the Microphone01 this screen used
+ * before — that earlier choice didn't match this mode's own identity
+ * anywhere else in the app. The old benefit rows are replaced by a
+ * single "how does Knowie judge this" line (this build's disclosed
+ * proposal, not Figma-sourced).
+ *
+ * Revised again per direct instruction: the mascot is gone from this
+ * screen entirely, replaced by a large `IconBadge` (`size="L"`, see
+ * Guided Reflection's own Intro comment for the full reasoning) showing
+ * this same identity icon at hero scale — `color="3"`, matching Mode
+ * selection's own `iconColor` for this card.
+ *
+ * Revised a third time, same treatment as Guided Reflection's own Intro
+ * (see that file's comment): the eyebrow's own icon and the transparency
+ * line's leading icon are both gone, the eyebrow is one step bigger and
+ * spaced further from the title, and the transparency line is centered.
+ *
+ * Revised a fourth time, same treatment as Guided Reflection's own Intro
+ * (see that file's comment): the standalone hero-scale `IconBadge` is
+ * gone, replaced by a much smaller one (`size="M"`) sitting beside the
+ * eyebrow text again, horizontally aligned as one row. The gap to the
+ * title below grew again too (spacing-400).
  */
+const TITLE = "Answer questions, get hints if you're stuck";
+const TRANSPARENCY_LINE = "Knowie checks whether your answer includes the key ideas behind each concept.";
 export function ConceptQuestionsIntroContent() {
   const router = useRouter();
   usePrefetchRoutes(["/recall/concept-questions/session"]);
@@ -45,30 +73,17 @@ export function ConceptQuestionsIntroContent() {
 
       <div className={styles.middleContent}>
         <div className={styles.hero}>
-          <MascotSlot size="2XL" expression="excited" />
-          <TextBlock variant="L" showCaption={false} title="Concept Questions" />
+          <div className={styles.titleGroup}>
+            <div className={styles.exerciseLabel}>
+              <IconBadge size="M" color="3" icon={<Lightbulb01 />} />
+              <span className={styles.exerciseLabelText}>Concept Questions</span>
+            </div>
+            <TextBlock variant="L" showCaption={false} title={TITLE} />
+          </div>
         </div>
 
         <div className={styles.benefits}>
-          <div className={styles.benefitRow}>
-            <IconSlot size="300" icon={<Microphone01 />} />
-            <p className={styles.benefitLabel}>Explain concepts out loud</p>
-          </div>
-          <div className={styles.benefitRow}>
-            {/* Lightbulb01 is hardcoded blue (accent-3) to match Mode
-             * selection's blue IconBadge — overridden to the same neutral
-             * color as this row's siblings here instead of changing the
-             * shared component, since Mode selection still needs it blue. */}
-            <span className={styles.neutralIcon}>
-              <IconSlot size="300" icon={<Lightbulb01 />} />
-            </span>
-            <p className={styles.benefitLabel}>Stuck? Knowie gives you a hint</p>
-          </div>
-          <div className={styles.benefitRow}>
-            {/* TrendingUp01 is a hand-built placeholder — see component-gaps.md */}
-            <IconSlot size="300" icon={<TrendingUp01 />} />
-            <p className={styles.benefitLabel}>Active recall boosts retention by up to 20%</p>
-          </div>
+          <p className={styles.benefitLabel}>{TRANSPARENCY_LINE}</p>
         </div>
       </div>
 

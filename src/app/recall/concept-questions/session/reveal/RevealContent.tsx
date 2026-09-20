@@ -15,9 +15,9 @@ import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   CONCEPT_QUESTIONS_TERMS,
   XP_BY_OUTCOME,
-  PROGRESS_BY_TERM,
   getTermFromSearchParam,
   getSubjectFromSearchParam,
+  getProgressFromOutcomes,
   parseOutcomes,
 } from "../../terms";
 // Reuses Launched's own page.module.css — same screen, not a separate
@@ -50,11 +50,13 @@ import styles from "../page.module.css";
  * questions."
  *
  * The bubble still tells the student what tapping the mic here is for —
- * the answer text is followed by a fixed "Repeat the answer to go to the
- * next question." line. That copy is a slight simplification now (a
- * repeat can also land on another hint or a second reveal if it doesn't
- * go well, same as any other attempt) but stays accurate to the common
- * case and to the on-screen "Tap to repeat" label, so left as-is.
+ * a fixed "Repeat the answer to go to the next question." line, in its
+ * own chip below the answer text (`footerChipText`) rather than
+ * concatenated onto the end of it, per direct instruction. That copy is
+ * a slight simplification (a repeat can also land on another hint or a
+ * second reveal if it doesn't go well, same as any other attempt) but
+ * stays accurate to the common case and to the on-screen "Tap to repeat"
+ * label, so left as-is.
  */
 const REPEAT_PROMPT = "Repeat the answer to go to the next question.";
 
@@ -68,7 +70,8 @@ export function ConceptQuestionsRevealContent() {
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const currentTerm = CONCEPT_QUESTIONS_TERMS[term - 1];
 
-  const xpTotal = parseOutcomes(outcomesParam).reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
+  const outcomes = parseOutcomes(outcomesParam);
+  const xpTotal = outcomes.reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
   const [message, setMessage] = useState("");
 
   // Per direct instruction: repeating the answer is a genuine new attempt
@@ -99,13 +102,10 @@ export function ConceptQuestionsRevealContent() {
             <ProgressIndicator
               variant="Primary"
               thickness="24"
-              progress={PROGRESS_BY_TERM[term - 1]}
+              progress={getProgressFromOutcomes(outcomes)}
               aria-label={`Term ${term} of ${CONCEPT_QUESTIONS_TERMS.length}`}
             />
           </div>
-          <span className={styles.termCount} aria-hidden="true">
-            {term}/{CONCEPT_QUESTIONS_TERMS.length}
-          </span>
           <BadgeChip type="xp" label={String(xpTotal)} />
         </div>
       </AppBar>
@@ -114,7 +114,9 @@ export function ConceptQuestionsRevealContent() {
         <MascotBubble
           position="Left"
           expression="confused"
-          bodyText={`${currentTerm.revealAnswer} ${REPEAT_PROMPT}`}
+          overline={`Question ${term} of ${CONCEPT_QUESTIONS_TERMS.length}`}
+          bodyText={currentTerm.revealAnswer}
+          footerChipText={REPEAT_PROMPT}
           showChip={false}
           showButton={false}
         />

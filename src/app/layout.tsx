@@ -9,7 +9,7 @@ import "./globals.css";
 // design system's font and would silently misrepresent it.
 
 export const metadata: Metadata = {
-  title: "Knowunity — Voice recall",
+  title: "Knowunity: Voice recall",
   description: "Voice-based active-recall prototype.",
 };
 

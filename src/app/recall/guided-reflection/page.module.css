@@ -13,12 +13,24 @@
   gap: var(--spacing-200);
 }
 
+/* Centered vertically, then pushed further down past dead-center — per
+   direct instruction, confirmed measured as sitting at the exact
+   vertical midpoint before this (equal empty space above and below), and
+   still wanted lower than that. A bigger top padding than bottom does
+   this on a centered flex column: it doesn't move the content within its
+   own centered box, it just eats more of the *outer* empty space from
+   the top than the bottom, so more room accumulates above the block than
+   below it. Gap between the hero and the transparency paragraph below it
+   tightened (spacing-300, down from spacing-600) so the title and its
+   paragraph read as a closer pair, per direct instruction reversing an
+   earlier "leave this gap alone" note. */
 .middleContent {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   flex: 1;
-  gap: var(--spacing-600);
-  padding: var(--spacing-200) var(--spacing-400);
+  gap: var(--spacing-300);
+  padding: var(--spacing-1600) var(--spacing-400) var(--spacing-200);
   box-sizing: border-box;
 }
 
@@ -31,6 +43,36 @@
   gap: var(--spacing-400);
 }
 
+/* Spaced further still from the title below it (spacing-600, up from
+   spacing-400) — per direct instruction. This gap is specifically the
+   eyebrow-row-to-title one; the title-to-transparency-paragraph gap
+   below it is a separate one (.middleContent's own gap, between .hero
+   and .benefits) and is untouched. */
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-600);
+}
+
+/* The small IconBadge and the eyebrow text, horizontally aligned as one
+   row — per direct instruction, replacing the standalone hero-scale
+   IconBadge this used to sit under. */
+.exerciseLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+
+/* One step bigger than the component's own original size (body-s
+   instead of caption-m). */
+.exerciseLabelText {
+  color: var(--color-text-secondary);
+  font-family: var(--typography-scale-body-s-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-body-s-regular-font-weight);
+  font-size: var(--typography-scale-body-s-regular-font-size);
+  line-height: var(--typography-scale-body-s-regular-line-height);
+}
 
 .benefits {
   display: flex;
@@ -38,14 +80,11 @@
   gap: var(--spacing-400);
 }
 
-.benefitRow {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-300);
-}
-
+/* No leading icon (removed per direct instruction) and centered, not
+   left-aligned next to where that icon used to sit. */
 .benefitLabel {
   margin: 0;
+  text-align: center;
   color: var(--color-text-secondary);
   font-family: var(--typography-scale-body-m-regular-font-family), sans-serif;
   font-weight: var(--typography-scale-body-m-regular-font-weight);

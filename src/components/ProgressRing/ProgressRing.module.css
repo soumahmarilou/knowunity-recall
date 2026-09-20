@@ -25,8 +25,11 @@
    instead of just slowing down. No motion/timing tokens exist anywhere
    in tokens.json for either value — same known, disclosed gap as the
    spinner's own 0.6s. */
+/* Amplitude bumped from 1.04 to 1.1 and duration tightened from 2.4s to
+   2s, per direct instruction — the original read as too subtle to
+   register as "this is tappable" at a glance. */
 .pulse {
-  animation: progressring-pulse 2.4s ease-in-out infinite;
+  animation: progressring-pulse 2s ease-in-out infinite;
 }
 
 @keyframes progressring-pulse {
@@ -35,7 +38,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.04);
+    transform: scale(1.1);
   }
 }
 

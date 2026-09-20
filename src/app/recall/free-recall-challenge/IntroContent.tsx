@@ -3,11 +3,10 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Screen } from "@/components/Screen/Screen";
 import { AppBar } from "@/components/AppBar/AppBar";
-import { MascotSlot } from "@/components/MascotSlot/MascotSlot";
 import { TextBlock } from "@/components/TextBlock/TextBlock";
-import { IconSlot } from "@/components/IconSlot/IconSlot";
+import { IconBadge } from "@/components/IconBadge/IconBadge";
 import { Button } from "@/components/Button/Button";
-import { XClose, Timer01, Gauge01, TrendingUp01 } from "@/components/Icons/Icons";
+import { XClose, GraduationHat01 } from "@/components/Icons/Icons";
 import { getEntryFromSearchParam, studyPlanCloseUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import { getSubjectFromSearchParam } from "./frc";
@@ -25,7 +24,36 @@ import styles from "./page.module.css";
  * silently at this exact hop from Mode selection; interpolated into the
  * main loop's prompt (see frc.ts) and term 1's opening line in the
  * aspect-to-revise sub-flow.
+ *
+ * Revised per direct instruction, same treatment as Guided Reflection's
+ * and Concept Questions' own Intros (see Guided Reflection's file
+ * comment for the full reasoning): the explanatory benefit list is now
+ * folded into the title itself, with a small icon+name eyebrow above it
+ * using Mode selection's own icon for this card (GraduationHat01) — this
+ * screen previously used three different, unrelated icons (Timer01/
+ * Gauge01/TrendingUp01) and never this mode's own identity icon anywhere
+ * on it. The old benefit rows are replaced by a single "how does Knowie
+ * judge this" line (this build's disclosed proposal, not Figma-sourced).
+ *
+ * Revised again per direct instruction: the mascot is gone from this
+ * screen entirely, replaced by a large `IconBadge` (`size="L"`, see
+ * Guided Reflection's own Intro comment for the full reasoning) showing
+ * this same identity icon at hero scale — `color="4"`, matching Mode
+ * selection's own `iconColor` for this card.
+ *
+ * Revised a third time, same treatment as Guided Reflection's own Intro
+ * (see that file's comment): the eyebrow's own icon and the transparency
+ * line's leading icon are both gone, the eyebrow is one step bigger and
+ * spaced further from the title, and the transparency line is centered.
+ *
+ * Revised a fourth time, same treatment as Guided Reflection's own Intro
+ * (see that file's comment): the standalone hero-scale `IconBadge` is
+ * gone, replaced by a much smaller one (`size="M"`) sitting beside the
+ * eyebrow text again, horizontally aligned as one row. The gap to the
+ * title below grew again too (spacing-400).
  */
+const TITLE = "Say everything you remember before time's up";
+const TRANSPARENCY_LINE = "Knowie checks how many of the lesson's topics you actually mention.";
 export function FreeRecallChallengeIntroContent() {
   const router = useRouter();
   usePrefetchRoutes(["/recall/free-recall-challenge/session"]);
@@ -44,25 +72,17 @@ export function FreeRecallChallengeIntroContent() {
 
       <div className={styles.middleContent}>
         <div className={styles.hero}>
-          <MascotSlot size="2XL" expression="excited" />
-          <TextBlock variant="L" showCaption={false} title="Free Recall Challenge" />
+          <div className={styles.titleGroup}>
+            <div className={styles.exerciseLabel}>
+              <IconBadge size="M" color="4" icon={<GraduationHat01 />} />
+              <span className={styles.exerciseLabelText}>Free Recall Challenge</span>
+            </div>
+            <TextBlock variant="L" showCaption={false} title={TITLE} />
+          </div>
         </div>
 
         <div className={styles.benefits}>
-          <div className={styles.benefitRow}>
-            {/* Timer01 is a hand-built placeholder — see component-gaps.md */}
-            <IconSlot size="300" icon={<Timer01 />} />
-            <p className={styles.benefitLabel}>60 seconds to say everything you remember</p>
-          </div>
-          <div className={styles.benefitRow}>
-            {/* Gauge01 is a hand-built placeholder — see component-gaps.md */}
-            <IconSlot size="300" icon={<Gauge01 />} />
-            <p className={styles.benefitLabel}>Watch your coverage gauge fill up</p>
-          </div>
-          <div className={styles.benefitRow}>
-            <IconSlot size="300" icon={<TrendingUp01 />} />
-            <p className={styles.benefitLabel}>Active recall boosts retention by up to 20%</p>
-          </div>
+          <p className={styles.benefitLabel}>{TRANSPARENCY_LINE}</p>
         </div>
       </div>
 

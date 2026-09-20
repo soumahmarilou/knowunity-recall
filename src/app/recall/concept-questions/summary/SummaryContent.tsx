@@ -8,7 +8,14 @@ import { QuizResultRow } from "@/components/QuizResultRow/QuizResultRow";
 import { ButtonGroup } from "@/components/ButtonGroup/ButtonGroup";
 import { Button } from "@/components/Button/Button";
 import { XClose } from "@/components/Icons/Icons";
-import { CONCEPT_QUESTIONS_TERMS, XP_BY_OUTCOME, OUTCOME_CHIP, parseOutcomes } from "../terms";
+import {
+  CONCEPT_QUESTIONS_TERMS,
+  XP_BY_OUTCOME,
+  OUTCOME_CHIP,
+  getSubjectFromSearchParam,
+  getTermPrompt,
+  parseOutcomes,
+} from "../terms";
 import { getEntryFromSearchParam, studyPlanCloseUrl, studyPlanReturnUrl } from "@/lib/entryPoint";
 import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import styles from "./page.module.css";
@@ -26,6 +33,7 @@ export function ConceptQuestionsSummaryContent() {
   const searchParams = useSearchParams();
   const outcomes = parseOutcomes(searchParams.get("outcomes"));
   const correctCount = outcomes.filter((o) => o !== "revealed").length;
+  const subject = getSubjectFromSearchParam(searchParams.get("subject"));
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
 
   return (
@@ -40,11 +48,10 @@ export function ConceptQuestionsSummaryContent() {
       <div className={styles.middleContent}>
         <div className={styles.hero}>
           <MascotSlot size="2XL" expression="excited" animate />
-          <h1 className={styles.heading}>Nice work!</h1>
-          <p className={styles.subtitle}>
-            You got {correctCount} out of {CONCEPT_QUESTIONS_TERMS.length} correct. Here&apos;s how each
-            concept went.
-          </p>
+          <h1 className={styles.heading}>
+            {correctCount}/{CONCEPT_QUESTIONS_TERMS.length} right answer{correctCount === 1 ? "" : "s"}!
+          </h1>
+          <p className={styles.subtitle}>Here&apos;s how each concept went.</p>
         </div>
 
         <div className={styles.concepts}>
@@ -54,7 +61,7 @@ export function ConceptQuestionsSummaryContent() {
             return (
               <QuizResultRow
                 key={term.topic}
-                title={term.topic}
+                title={getTermPrompt(index + 1, subject)}
                 xpValue={`${XP_BY_OUTCOME[outcome]}  XP`}
                 chipText={chip.text}
                 chipColor={chip.color}

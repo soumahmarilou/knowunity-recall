@@ -43,7 +43,7 @@ const ACKNOWLEDGMENT_TEXT =
 // Shown after the term's main (step 1) answer, before Knowie's follow-up
 // question — deliberately shorter and non-conclusive, since the term
 // isn't done yet. Same non-judgmental rule as ACKNOWLEDGMENT_TEXT above.
-const FOLLOW_UP_TRANSITION_TEXT = "Good start — let's dig a little deeper.";
+const FOLLOW_UP_TRANSITION_TEXT = "Good start, let's dig a little deeper.";
 
 /**
  * Guided Reflection – Processing. SPEC.md screen 7c — explicitly marked

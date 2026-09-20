@@ -14,7 +14,10 @@ import styles from "./MascotBubble.module.css";
  * text. Keep Position on Left, that's the layout used on every real
  * recall-feedback screen. Turn Show chip on for a status label like
  * "Almost there," and Show button on when there's an answer to reveal.
- * Body text holds the feedback message itself.
+ * Body text holds the feedback message itself. Set `overline` for a
+ * small, thin position-in-sequence label above everything else in the
+ * card (e.g. "Question 1 of 3") — omit it entirely where there's nothing
+ * to count against.
  *
  * DON'T: Don't switch Position to Right without a real reason, it's a
  * mirrored layout with no actual use in the app yet. Don't turn on Show
@@ -76,6 +79,12 @@ export type MascotBubblePosition = "Left" | "Right";
 export interface MascotBubbleProps {
   position?: MascotBubblePosition;
   expression?: Expression;
+  /** Small, thin line above everything else in the card — e.g. "Question
+   * 1 of 3". Not a Figma property (added per direct instruction, same
+   * "extend the existing component" precedent as `chipColor` above,
+   * rather than a one-off hand-rolled element per screen) — omit for
+   * every bubble that doesn't need a position-in-sequence label. */
+  overline?: string;
   /** Figma property name: Show chip. */
   showChip?: boolean;
   /** Figma property name: Show button. */
@@ -99,6 +108,13 @@ export interface MascotBubbleProps {
    * whatever action actually follows on a given screen. */
   buttonText?: string;
   onRevealAnswer?: () => void;
+  /** A second chip, below the body text instead of above it — distinct
+   * slot from the status chip above (`showChip`/`chipText`), which stays
+   * exactly where it was. Added per direct instruction for Concept
+   * Questions' Reveal screen ("Repeat the answer to go to the next
+   * question"), which used to be plain text concatenated onto the end of
+   * `bodyText` — pulled out into its own chip instead of staying inline. */
+  footerChipText?: string;
 }
 
 function Tail() {
@@ -112,6 +128,7 @@ function Tail() {
 export function MascotBubble({
   position = "Left",
   expression = "approving",
+  overline,
   showChip = true,
   showButton = true,
   bodyText = "You’ve identified that we look for common terms, but the rule for how we can actually cancel them out is missing.",
@@ -119,6 +136,7 @@ export function MascotBubble({
   chipColor = "info",
   buttonText = "Reveal answer",
   onRevealAnswer,
+  footerChipText,
 }: MascotBubbleProps) {
   const isRight = position === "Right";
   const mascotSrc =
@@ -132,14 +150,33 @@ export function MascotBubble({
       <div className={styles.bubbleGroup}>
         <Tail />
         <div className={styles.card}>
-          <div key={`${chipText}|${bodyText}|${buttonText}`} className={styles.cardContentFade}>
-            {showChip && (
-              <span className={styles.chipWrap}>
-                <Chips text={chipText} color={chipColor} size="S" active="True" />
-              </span>
+          <div
+            key={`${chipText}|${bodyText}|${buttonText}|${footerChipText}`}
+            className={styles.cardContentFade}
+          >
+            {/* Status chip on the left, overline on the right, the two
+               sitting close together with a fixed 16px gap — per direct
+               instruction (reversed from an earlier version that put the
+               overline first and spread the two across the row). A lone
+               overline or a lone chip still renders fine on its own,
+               flush to the start of the row. */}
+            {(overline || showChip) && (
+              <div className={styles.overlineRow}>
+                {showChip && (
+                  <span className={styles.chipWrap}>
+                    <Chips text={chipText} color={chipColor} size="S" active="True" />
+                  </span>
+                )}
+                {overline && <p className={styles.overline}>{overline}</p>}
+              </div>
             )}
             <div className={styles.bodyGroup}>
               <p className={styles.bodyText}>{bodyText}</p>
+              {footerChipText && (
+                <span className={styles.chipWrap}>
+                  <Chips text={footerChipText} color="info" size="S" active="True" />
+                </span>
+              )}
               {showButton && (
                 <button type="button" className={styles.revealAnswer} onClick={onRevealAnswer}>
                   <Chips text={buttonText} color="Primary" size="S" active="True" />

@@ -33,8 +33,8 @@ import styles from "../recording/page.module.css";
 const THINKING_MS = 1200;
 const RESULT_BEAT_MS = 1000;
 const AFFIRMATIONS = ["Nice, that's it!", "Exactly right!", "Great explanation!"];
-const HINT_MESSAGES = ["Let's take it a bit further.", "So close — here's a nudge.", "Almost — one more angle."];
-const REVEAL_MESSAGES = ["That one's tricky — let's look at it together.", "Let's go through this one together."];
+const HINT_MESSAGES = ["Let's take it a bit further.", "So close, here's a nudge.", "Almost, one more angle."];
+const REVEAL_MESSAGES = ["That one's tricky, let's look at it together.", "Let's go through this one together."];
 
 /**
  * Free Recall Challenge – Aspect to revise – Processing. Same ladder

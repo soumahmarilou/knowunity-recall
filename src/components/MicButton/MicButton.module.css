@@ -25,6 +25,29 @@
   cursor: default;
 }
 
+/* Same amplitude/duration as ProgressRing's own pulse (see that
+   component) — a shared "this is available, tap it" feel across the app,
+   not two different breathing rates for the same kind of invitation. */
+.pulse {
+  animation: mic-button-pulse 2s ease-in-out infinite;
+}
+
+@keyframes mic-button-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+}
+
 .icon {
   display: inline-flex;
   align-items: var(--layout-align-center);

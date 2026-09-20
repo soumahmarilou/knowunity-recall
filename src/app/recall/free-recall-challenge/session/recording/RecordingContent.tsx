@@ -26,6 +26,7 @@ import {
   getXpFromSearchParam,
   getSubjectFromSearchParam,
   getFrcPrompt,
+  getFrcResultMessage,
   buildFrcQuery,
 } from "../../frc";
 import styles from "./page.module.css";
@@ -106,10 +107,14 @@ export function FreeRecallChallengeRecordingContent() {
       </AppBar>
 
       <div className={styles.middleContent}>
+        {/* Same persisting message as the Idle screen right before this
+           one (see that file's own comment) — tapping the mic to start a
+           later segment must not revert the framing back to "you have 1
+           minute," per direct instruction. */}
         <MascotBubble
           position="Left"
           expression="standby"
-          bodyText={getFrcPrompt(subject)}
+          bodyText={xp > 0 ? getFrcResultMessage(subject) : getFrcPrompt(subject)}
           showChip={false}
           showButton={false}
         />

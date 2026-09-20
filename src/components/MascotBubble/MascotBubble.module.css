@@ -81,6 +81,29 @@
   align-self: flex-start;
 }
 
+/* Status chip on the left, overline on the right — per direct
+   instruction (reversed from an earlier version), the two sitting close
+   together with a fixed 16px gap rather than spread across the row.
+   `justify-content: flex-start` (the flex default) keeps a lone chip or
+   a lone overline flush to the start, same as before. */
+.overlineRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+}
+
+/* Thin, but a step up from caption-s (9px) — per direct instruction, "a
+   bit bigger" than the original size. Still quiet next to the chip's own
+   bold caption-m and the bold headline-scale body text below it. */
+.overline {
+  margin: 0;
+  color: var(--color-text-tertiary);
+  font-family: var(--typography-scale-caption-m-regular-font-family), sans-serif;
+  font-weight: var(--typography-scale-caption-m-regular-font-weight);
+  font-size: var(--typography-scale-caption-m-regular-font-size);
+  line-height: var(--typography-scale-caption-m-regular-line-height);
+}
+
 /* Same fade treatment for the mascot image itself, so a change of
    expression reads as a smooth update too, not a hard image swap — same
    "as subtle as possible" reasoning as .cardContentFade above. */

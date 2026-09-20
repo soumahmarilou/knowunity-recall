@@ -13,7 +13,7 @@ import {
   ChevronRight,
   BlankPage01,
   StackSparkle01,
-  Microphone01,
+  Flask01,
   Check01,
   DotsVertical,
   MyaiChat,
@@ -203,19 +203,30 @@ export function StudyPlanContent() {
             </div>
 
             <div className={styles.stepsList}>
-              {lessonSteps.map((step) => {
+              {lessonSteps.map((step, index) => {
+                // Alternating horizontal offset — each step reads as its
+                // own stop on a winding path to complete, not a plain
+                // vertical list, per direct instruction.
+                const rowClassName = [styles.step, index % 2 === 1 && styles.stepOffset]
+                  .filter(Boolean)
+                  .join(" ");
+                const stepNumber = `Step ${index + 1}`;
+
                 if (step.state === "done") {
                   return (
-                    <div key={step.label} className={styles.step}>
+                    <div key={step.label} className={rowClassName}>
                       <ButtonIcon variant="Success" size="L" icon={<Check01 />} aria-label={`${step.label}, completed`} />
-                      <p className={styles.stepLabel}>{step.label}</p>
+                      <div className={styles.stepTextGroup}>
+                        <p className={styles.stepNumber}>{stepNumber}</p>
+                        <p className={styles.stepLabel}>{step.label}</p>
+                      </div>
                     </div>
                   );
                 }
 
                 if (step.state === "locked") {
                   return (
-                    <div key={step.label} className={styles.step}>
+                    <div key={step.label} className={rowClassName}>
                       <ButtonIcon
                         variant="Primary"
                         size="L"
@@ -223,7 +234,10 @@ export function StudyPlanContent() {
                         icon={<StackSparkle01 />}
                         aria-label={`${step.label}, locked`}
                       />
-                      <p className={styles.stepLabel}>{step.label}</p>
+                      <div className={styles.stepTextGroup}>
+                        <p className={styles.stepNumber}>{stepNumber}</p>
+                        <p className={styles.stepLabel}>{step.label}</p>
+                      </div>
                     </div>
                   );
                 }
@@ -233,7 +247,7 @@ export function StudyPlanContent() {
                   ? () => router.push(`/recall?subject=${encodeURIComponent(step.subject!)}&entry=study-plan`)
                   : undefined;
                 return (
-                  <div key={step.label} className={styles.step}>
+                  <div key={step.label} className={rowClassName}>
                     <div className={styles.currentIconWrap}>
                       <div className={styles.ringLayer}>
                         <ProgressRing progress={ringProgress} pulse />
@@ -241,7 +255,7 @@ export function StudyPlanContent() {
                       <ButtonIcon
                         variant="Primary"
                         size="L"
-                        icon={<Microphone01 />}
+                        icon={<Flask01 />}
                         aria-label={
                           step.subject
                             ? `${step.label}, continue, ${progress}% complete`
@@ -250,24 +264,27 @@ export function StudyPlanContent() {
                         onClick={goToRecall}
                       />
                     </div>
-                    {/* Same destination as the icon above, per direct
-                       instruction — a real <button>, not just the icon,
-                       so tapping the label doesn't land nowhere. Only
-                       for the current step with a real subject; without
-                       one (see getLessonSteps's own comment) there's
-                       still no destination to invent, so it stays plain
-                       text, matching the icon's own undefined onClick. */}
-                    {goToRecall ? (
-                      <button
-                        type="button"
-                        className={[styles.stepLabel, styles.stepLabelCurrent, styles.stepLabelButton].join(" ")}
-                        onClick={goToRecall}
-                      >
-                        {step.label}
-                      </button>
-                    ) : (
-                      <p className={[styles.stepLabel, styles.stepLabelCurrent].join(" ")}>{step.label}</p>
-                    )}
+                    <div className={styles.stepTextGroup}>
+                      <p className={styles.stepNumber}>{stepNumber}</p>
+                      {/* Same destination as the icon above, per direct
+                         instruction — a real <button>, not just the icon,
+                         so tapping the label doesn't land nowhere. Only
+                         for the current step with a real subject; without
+                         one (see getLessonSteps's own comment) there's
+                         still no destination to invent, so it stays plain
+                         text, matching the icon's own undefined onClick. */}
+                      {goToRecall ? (
+                        <button
+                          type="button"
+                          className={[styles.stepLabel, styles.stepLabelCurrent, styles.stepLabelButton].join(" ")}
+                          onClick={goToRecall}
+                        >
+                          {step.label}
+                        </button>
+                      ) : (
+                        <p className={[styles.stepLabel, styles.stepLabelCurrent].join(" ")}>{step.label}</p>
+                      )}
+                    </div>
                   </div>
                 );
               })}

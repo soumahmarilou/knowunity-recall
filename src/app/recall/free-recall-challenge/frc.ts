@@ -49,7 +49,9 @@ export const TOTAL_SECONDS = 60;
 // was: no number is specified anywhere in SPEC.md for FRC's per-segment XP.
 export const XP_PER_SEGMENT = 10;
 
-const COVERAGE_STEPS: CoverageValue[] = ["0", "25", "50", "75", "100"];
+// Matches ProgressIndicator's own 0/33/66/100 scale (revised from the
+// old 5-step 0/25/50/75/100 quarters) — 4 steps now, not 5.
+const COVERAGE_STEPS: CoverageValue[] = ["0", "33", "66", "100"];
 
 // Soft-weighted forward-step odds, keyed by current coverage's index in
 // COVERAGE_STEPS. Index 0 of each row is the chance of *no* advance at all
@@ -62,13 +64,15 @@ const COVERAGE_STEPS: CoverageValue[] = ["0", "25", "50", "75", "100"];
 // "first segment weighted lower" — but every row still gives a real,
 // non-zero chance to the largest remaining step, so a lucky first roll can
 // still land high. Per voice_recall_build_decisions.md: "soft-weighted, no
-// hard cap... a lucky roll could still land high."
+// hard cap... a lucky roll could still land high." Re-collapsed from 5
+// rows/steps down to 3 rows/4 steps when ProgressIndicator moved to
+// thirds — same declining-toward-the-smallest-step shape per row, just
+// fewer buckets to distribute across.
 const NO_ADVANCE_WEIGHT = 0.12;
 const FORWARD_STEP_WEIGHTS: Record<number, number[]> = {
-  0: [NO_ADVANCE_WEIGHT, 0.48, 0.22, 0.12, 0.06],
-  1: [NO_ADVANCE_WEIGHT, 0.4, 0.26, 0.22],
-  2: [NO_ADVANCE_WEIGHT, 0.35, 0.53],
-  3: [NO_ADVANCE_WEIGHT, 0.88],
+  0: [NO_ADVANCE_WEIGHT, 0.55, 0.22, 0.11],
+  1: [NO_ADVANCE_WEIGHT, 0.5, 0.38],
+  2: [NO_ADVANCE_WEIGHT, 0.88],
 };
 
 function weightedPick(weights: number[]): number {
@@ -124,13 +128,13 @@ export function getXpFromSearchParam(value: string | null): number {
  * from the final coverage scalar. Not sourced from any real per-topic
  * tracking (none exists in the main loop) — an invented, disclosed tiering
  * that keeps the mechanic honest to coverage without inventing granular
- * data the mocked recall never produced. Four tiers now (0-3), not three —
- * see FRC_ASPECTS below for why 3 is the real ceiling.
+ * data the mocked recall never produced. Four tiers (0-3), one per
+ * coverage step, matching FRC_ASPECTS' own 3-aspect ceiling.
  */
 export function deriveMissedAspectCount(coverage: CoverageValue): number {
   if (coverage === "100") return 0;
-  if (coverage === "75") return 1;
-  if (coverage === "50") return 2;
+  if (coverage === "66") return 1;
+  if (coverage === "33") return 2;
   return 3;
 }
 
@@ -180,11 +184,11 @@ export const FRC_ASPECTS: Aspect[] = [
     hints: [
       {
         chipText: "Almost there",
-        body: "You're on the right track talking about the numerator and denominator — try naming what you'd actually look for in each one first.",
+        body: "You're on the right track talking about the numerator and denominator. Try naming what you'd actually look for in each one first.",
       },
       {
         chipText: "One more try",
-        body: "Think about it as rewriting both the top and bottom as a product of smaller pieces — what do you call finding those pieces?",
+        body: "Think about it as rewriting both the top and bottom as a product of smaller pieces. What do you call finding those pieces?",
       },
     ],
     revealAnswer:
@@ -200,11 +204,11 @@ export const FRC_ASPECTS: Aspect[] = [
       },
       {
         chipText: "One more try",
-        body: "It comes down to multiplication versus addition — which one of those actually lets you cancel a piece from top and bottom?",
+        body: "It comes down to multiplication versus addition. Which one of those actually lets you cancel a piece from top and bottom?",
       },
     ],
     revealAnswer:
-      "You can only cancel a factor that multiplies the entire numerator and the entire denominator — never a term that's just added or subtracted, since cancelling those would change the value of the fraction.",
+      "You can only cancel a factor that multiplies the entire numerator and the entire denominator, never a term that's just added or subtracted, since cancelling those would change the value of the fraction.",
   },
   {
     topic: "Simplify",
@@ -212,15 +216,15 @@ export const FRC_ASPECTS: Aspect[] = [
     hints: [
       {
         chipText: "Almost there",
-        body: "You're close — think about what's left between the numerator and denominator once you've cancelled everything you can.",
+        body: "You're close. Think about what's left between the numerator and denominator once you've cancelled everything you can.",
       },
       {
         chipText: "One more try",
-        body: "It's about whether there's still something both the top and bottom share — if there is, you're not done yet.",
+        body: "It's about whether there's still something both the top and bottom share. If there is, you're not done yet.",
       },
     ],
     revealAnswer:
-      "A fraction is fully simplified once the numerator and denominator share no more common factors — at that point, further cancelling isn't possible without changing the fraction's value.",
+      "A fraction is fully simplified once the numerator and denominator share no more common factors. At that point, further cancelling isn't possible without changing the fraction's value.",
   },
 ];
 
@@ -257,15 +261,13 @@ export function getHintsFromSearchParam(value: string | null): number {
   return parsed;
 }
 
-// Uneven mapping onto ProgressIndicator's 5 fixed steps, same disclosed
-// precedent as Concept Questions' PROGRESS_BY_TERM.
+// Maps cleanly onto ProgressIndicator's 0/33/66/100 scale now — the old
+// 5-step (0/25/50/75/100) version needed an uneven, disclosed "3 things
+// onto 5 steps" approximation here; thirds fit a 3-aspect total exactly.
 const ASPECT_PROGRESS_BY_TOTAL: Record<number, ProgressIndicatorValue[]> = {
-  1: ["50"],
-  2: ["25", "75"],
-  // Same 0/25/75 mapping as Concept Questions' own PROGRESS_BY_TERM, for
-  // the same reason (3 items onto ProgressIndicator's 5 fixed steps,
-  // uneven since there's no exact "1 of 3" step).
-  3: ["0", "25", "75"],
+  1: ["33"],
+  2: ["33", "66"],
+  3: ["0", "33", "66"],
 };
 
 export function getAspectProgress(aspect: number, total: number): ProgressIndicatorValue {

@@ -63,11 +63,11 @@ export const CONCEPT_QUESTIONS_TERMS: ConceptQuestionsTerm[] = [
     hints: [
       {
         chipText: "Almost there",
-        body: "You're on the right track talking about the numerator and denominator — try naming what you'd actually look for in each one first.",
+        body: "You're on the right track talking about the numerator and denominator. Try naming what you'd actually look for in each one first.",
       },
       {
         chipText: "One more try",
-        body: "Think about it as rewriting both the top and bottom as a product of smaller pieces — what do you call finding those pieces?",
+        body: "Think about it as rewriting both the top and bottom as a product of smaller pieces. What do you call finding those pieces?",
       },
     ],
     revealAnswer:
@@ -83,11 +83,11 @@ export const CONCEPT_QUESTIONS_TERMS: ConceptQuestionsTerm[] = [
       },
       {
         chipText: "One more try",
-        body: "It comes down to multiplication versus addition — which one of those actually lets you cancel a piece from top and bottom?",
+        body: "It comes down to multiplication versus addition. Which one of those actually lets you cancel a piece from top and bottom?",
       },
     ],
     revealAnswer:
-      "You can only cancel a factor that multiplies the entire numerator and the entire denominator — never a term that's just added or subtracted, since cancelling those would change the value of the fraction.",
+      "You can only cancel a factor that multiplies the entire numerator and the entire denominator, never a term that's just added or subtracted, since cancelling those would change the value of the fraction.",
   },
   {
     topic: "Simplify",
@@ -96,30 +96,39 @@ export const CONCEPT_QUESTIONS_TERMS: ConceptQuestionsTerm[] = [
     hints: [
       {
         chipText: "Almost there",
-        body: "You're close — think about what's left between the numerator and denominator once you've cancelled everything you can.",
+        body: "You're close. Think about what's left between the numerator and denominator once you've cancelled everything you can.",
       },
       {
         chipText: "One more try",
-        body: "It's about whether there's still something both the top and bottom share — if there is, you're not done yet.",
+        body: "It's about whether there's still something both the top and bottom share. If there is, you're not done yet.",
       },
     ],
     revealAnswer:
-      "A fraction is fully simplified once the numerator and denominator share no more common factors — at that point, further cancelling isn't possible without changing the fraction's value.",
+      "A fraction is fully simplified once the numerator and denominator share no more common factors. At that point, further cancelling isn't possible without changing the fraction's value.",
   },
 ];
 
-// ProgressIndicator only supports 5 fixed steps (0/25/50/75/100), not a
-// free 0-100 value — exact thirds (33%/66%) for "term 1 of 3"/"term 2 of
-// 3" aren't representable. Evenly spaced across the available steps
-// instead (25/50/75) rather than the ["25","50","100"] this used to be —
-// that mapping showed the last term already at 100% before the student
-// had attempted it (reads "ahead" of actual progress) and paced unevenly
-// (a 25-point step, then a 50-point jump). 25/50/75 is a flat 25-point
-// climb throughout and never claims completion before Reveal/Summary
-// actually reach it. Centralized here (was duplicated identically in
-// SessionContent, ProcessingContent, and RevealContent) rather than left
-// as a 3rd drifting copy.
-export const PROGRESS_BY_TERM: ProgressIndicatorValue[] = ["25", "50", "75"];
+// ProgressIndicator's scale is now exact thirds (0/33/66/100), so this
+// maps 1:1 onto how many terms have actually concluded (0-3) — no
+// approximation needed anymore, unlike the old 5-step (0/25/50/75/100)
+// scale this used to have to round onto.
+const PASSED_PROGRESS: ProgressIndicatorValue[] = ["0", "33", "66", "100"];
+
+/**
+ * The bar fills only once a term has actually concluded — not before, and
+ * not merely for "being on" a later term — per direct instruction. A
+ * concluded term counts toward this regardless of which outcome it ended
+ * on (first-try, hinted, or a forced reveal): all three mean the student
+ * is done with that term and has moved on, which is what a *progress*
+ * bar tracks. (Outcome quality — whether it went well — is what the
+ * colored chip on each term already communicates separately, on Summary
+ * and via the hint ladder itself; conflating the two into this same bar
+ * would make it stall for a student who's genuinely finished the
+ * exercise but leaned on reveals, which reads as broken, not honest.)
+ */
+export function getProgressFromOutcomes(outcomes: TermOutcome[]): ProgressIndicatorValue {
+  return PASSED_PROGRESS[Math.min(outcomes.length, PASSED_PROGRESS.length - 1)];
+}
 
 export type TermOutcome = "first" | "hint" | "revealed";
 

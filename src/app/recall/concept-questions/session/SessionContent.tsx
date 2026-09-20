@@ -17,11 +17,11 @@ import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   CONCEPT_QUESTIONS_TERMS,
   XP_BY_OUTCOME,
-  PROGRESS_BY_TERM,
   getTermFromSearchParam,
   getHintsFromSearchParam,
   getSubjectFromSearchParam,
   getTermPrompt,
+  getProgressFromOutcomes,
   parseOutcomes,
   appendOutcome,
 } from "../terms";
@@ -59,7 +59,8 @@ export function ConceptQuestionsSessionContent() {
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const currentTerm = CONCEPT_QUESTIONS_TERMS[term - 1];
 
-  const xpTotal = parseOutcomes(outcomesParam).reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
+  const outcomes = parseOutcomes(outcomesParam);
+  const xpTotal = outcomes.reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
   const bodyText = hints === 0 ? getTermPrompt(term, subject) : currentTerm.hints[hints - 1].body;
   const chipText = hints === 0 ? undefined : currentTerm.hints[hints - 1].chipText;
 
@@ -108,13 +109,10 @@ export function ConceptQuestionsSessionContent() {
             <ProgressIndicator
               variant="Primary"
               thickness="24"
-              progress={PROGRESS_BY_TERM[term - 1]}
+              progress={getProgressFromOutcomes(outcomes)}
               aria-label={`Term ${term} of ${CONCEPT_QUESTIONS_TERMS.length}`}
             />
           </div>
-          <span className={styles.termCount} aria-hidden="true">
-            {term}/{CONCEPT_QUESTIONS_TERMS.length}
-          </span>
           <BadgeChip type="xp" label={String(xpTotal)} />
         </div>
       </AppBar>
@@ -123,6 +121,7 @@ export function ConceptQuestionsSessionContent() {
         <MascotBubble
           position="Left"
           expression="standby"
+          overline={`Question ${term} of ${CONCEPT_QUESTIONS_TERMS.length}`}
           bodyText={bodyText}
           showChip={hints > 0}
           chipText={chipText}

@@ -89,6 +89,40 @@ export const Thinking: Story = {
   },
 };
 
+// Concept Questions' position-in-sequence label, added directly above the
+// chip/body — small and thin, per direct instruction.
+export const WithOverline: Story = {
+  name: "overline=Question 1 of 3",
+  args: {
+    position: "Left",
+    overline: "Question 1 of 3",
+    showChip: false,
+  },
+};
+
+// Overline and the status chip share one row — chip on the left, overline
+// on the right, 16px apart, per direct instruction, not stacked as two
+// separate rows.
+export const OverlineWithChip: Story = {
+  name: "overline=Question 1 of 3, Show chip=true",
+  args: {
+    position: "Left",
+    overline: "Question 1 of 3",
+    showChip: true,
+  },
+};
+
+// Concept Questions' Reveal screen — a second chip below the body text
+// instead of plain text concatenated onto the end of it.
+export const WithFooterChip: Story = {
+  name: "footerChipText=Repeat the answer to go to the next question.",
+  args: {
+    position: "Left",
+    showChip: false,
+    footerChipText: "Repeat the answer to go to the next question.",
+  },
+};
+
 // Guided Reflection's acknowledgment beat — same button, a custom label
 // instead of the default "Reveal answer" (see the buttonText prop).
 export const CustomButtonText: Story = {

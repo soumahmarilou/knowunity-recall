@@ -16,10 +16,10 @@ import { usePrefetchRoutes } from "@/lib/prefetchRoutes";
 import {
   CONCEPT_QUESTIONS_TERMS,
   XP_BY_OUTCOME,
-  PROGRESS_BY_TERM,
   getTermFromSearchParam,
   getHintsFromSearchParam,
   getSubjectFromSearchParam,
+  getProgressFromOutcomes,
   parseOutcomes,
   appendOutcome,
 } from "../../terms";
@@ -43,11 +43,11 @@ const AFFIRMATIONS = ["Nice, that's it!", "Exactly right!", "Great explanation!"
 // Shown briefly (expression="determined") before routing to the next hint
 // — per direct instruction, distinct from a full pass or the forced-reveal
 // case below.
-const HINT_MESSAGES = ["Let's take it a bit further.", "So close — here's a nudge.", "Almost — one more angle."];
+const HINT_MESSAGES = ["Let's take it a bit further.", "So close, here's a nudge.", "Almost, one more angle."];
 // Shown briefly (expression="confused") before the forced reveal at
 // attempt 3 — per direct instruction, this is the "got it totally wrong"
 // case, distinct from a mid-ladder hint.
-const REVEAL_MESSAGES = ["That one's tricky — let's look at it together.", "Let's go through this one together."];
+const REVEAL_MESSAGES = ["That one's tricky, let's look at it together.", "Let's go through this one together."];
 
 /**
  * Concept Questions – Processing. SPEC.md screen 8c — "Same as 7c, but on
@@ -70,7 +70,9 @@ export function ConceptQuestionsProcessingContent() {
   const entry = getEntryFromSearchParam(searchParams.get("entry"));
   const sentViaText = searchParams.get("via") === "text";
   const attempt = hints + 1;
-  const xpTotal = parseOutcomes(outcomesParam).reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
+  const outcomes = parseOutcomes(outcomesParam);
+  const xpTotal = outcomes.reduce((sum, o) => sum + XP_BY_OUTCOME[o], 0);
+  const questionLabel = `Question ${term} of ${CONCEPT_QUESTIONS_TERMS.length}`;
 
   // Rolled once per mount, not re-rolled on re-render.
   const [passed] = useState<boolean>(() => {
@@ -155,13 +157,10 @@ export function ConceptQuestionsProcessingContent() {
             <ProgressIndicator
               variant="Primary"
               thickness="24"
-              progress={PROGRESS_BY_TERM[term - 1]}
+              progress={getProgressFromOutcomes(outcomes)}
               aria-label={`Term ${term} of ${CONCEPT_QUESTIONS_TERMS.length}`}
             />
           </div>
-          <span className={styles.termCount} aria-hidden="true">
-            {term}/{CONCEPT_QUESTIONS_TERMS.length}
-          </span>
           <BadgeChip type="xp" label={String(xpTotal)} />
         </div>
       </AppBar>
@@ -171,6 +170,7 @@ export function ConceptQuestionsProcessingContent() {
           <MascotBubble
             position="Left"
             expression="thinking"
+            overline={questionLabel}
             bodyText="Thinking…"
             showChip={false}
             showButton={false}
@@ -180,6 +180,7 @@ export function ConceptQuestionsProcessingContent() {
           <MascotBubble
             position="Left"
             expression="approving"
+            overline={questionLabel}
             bodyText={affirmation}
             showChip={false}
             showButton={false}
@@ -189,6 +190,7 @@ export function ConceptQuestionsProcessingContent() {
           <MascotBubble
             position="Left"
             expression="determined"
+            overline={questionLabel}
             bodyText={hintMessage}
             showChip={false}
             showButton={false}
@@ -198,6 +200,7 @@ export function ConceptQuestionsProcessingContent() {
           <MascotBubble
             position="Left"
             expression="confused"
+            overline={questionLabel}
             bodyText={revealMessage}
             showChip={false}
             showButton={false}

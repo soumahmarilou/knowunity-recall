@@ -53,6 +53,12 @@ export function MicButton({
 
   const className = [
     styles.button,
+    // Gentle breathing scale on idle only — invites a tap the same way
+    // Study plan's ProgressRing pulse does, per direct instruction. Never
+    // on disabled (there's nothing to invite a tap toward) or any other
+    // state (recording/processing/sent are all already-in-motion or
+    // settled, not "available, go ahead").
+    state === "idle" && styles.pulse,
     // No onClick wired — see Button.tsx's own comment on `notWired`.
     !onClick && !isDisabled && !isProcessing && styles.notWired,
   ]
