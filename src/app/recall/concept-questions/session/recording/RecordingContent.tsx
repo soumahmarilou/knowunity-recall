@@ -29,6 +29,12 @@ import {
 } from "../../terms";
 import styles from "./page.module.css";
 
+// Matches Reveal's own REPEAT_PROMPT (RevealContent.tsx) — a repeat
+// attempt navigates here for the actual recording, so the same "why
+// you're recording" chip has to carry over onto this screen too, not
+// just live on Reveal and vanish the moment the mic is tapped.
+const REPEAT_PROMPT = "Repeat the answer to continue";
+
 /**
  * Concept Questions – Recording. SPEC.md screen 8b — "mirrors Guided
  * Reflection's Recording 1:1." No dedicated Figma frame for this specific
@@ -105,6 +111,7 @@ export function ConceptQuestionsRecordingContent() {
           bodyText={bodyText}
           showChip={!isRepeat && hints > 0}
           chipText={chipText}
+          footerChipText={isRepeat ? REPEAT_PROMPT : undefined}
           showButton={false}
         />
       </div>
